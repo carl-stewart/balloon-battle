@@ -1,0 +1,23 @@
+Enemies start with a pink balloon. If it's popped and they reach the ground, they will inflate a green 
+one. If done again, a yellow one. Popping each color and taking out the enemies at different colors give 
+different points.
+
+flying -> popped -> inflates -> changes color -> flying
+
+| Color  | Popped | Beaten in the air | Beaten on-ground |
+| ------ | ------ | ----------------- | ---------------- |
+| Pink   |   500  |        1000       |        500       |
+| Green  |   750  |        1500       |       1000       |
+| Yellow |  1000  |        2000       |       2000       |
+
+--------------------
+
+- Fish seems to appear randomly when there's someone below.
+- The player doesn't maintain the acceleration after button is released.
+- A: one flap. B: constant flap.
+- The player doesn't move when left or right is pressed in the air, unless he's flapping.
+- The player has three sets of two balloons.
+- Clouds emit sparks after some time. There are no more than two at the same time, and they disappear 
+after a while.
+- Sparks bounce off the top and off the platforms.
+- Hitting a spark pops both balloons.
