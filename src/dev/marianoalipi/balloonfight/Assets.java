@@ -8,12 +8,13 @@ import java.awt.image.BufferedImage;
  */
 public class Assets {
 
-	public static BufferedImage background, title;
+	public static BufferedImage background, title, github;
 
     public static void init() {
     	
         background = ImageLoader.loadImage("assets/images/background.png");
         title = ImageLoader.loadImage("assets/images/title_pixel.png");
+        github = ImageLoader.loadImage("assets/images/github.png");
 
     }
 }

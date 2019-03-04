@@ -1,7 +1,9 @@
 package dev.marianoalipi.balloonfight;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 
@@ -88,6 +90,13 @@ public class Game implements Runnable {
             g.fillRect(0, 0, width, height);
 
             g.drawImage(Assets.title, 100, 20, 600, 250, null);
+            g.drawImage(Assets.github, 179, height - 50, 443, 31, null);
+            
+            /* This draws an image with 50% alpha. Will be useful later.
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            g2d.drawImage(Assets.title, 200, 450, 100, 50, null);
+            */
             
             // Prevents stutter on Linux.
             Toolkit.getDefaultToolkit().sync();
