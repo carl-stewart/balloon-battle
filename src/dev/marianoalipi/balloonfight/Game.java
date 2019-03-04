@@ -28,6 +28,7 @@ public class Game implements Runnable {
     private Thread thread;
     private boolean running;        // sets up the game
     private boolean splashScreenDisplayed; // whether the splash screen has been displayed
+    private boolean showSplash = true;	// whether or not to show the splash screen
     private boolean paused;         // to pause the game
     private Menu menu;				// to set the current menu or no menu
     private KeyManager keyManager;	// keyboard input
@@ -44,6 +45,10 @@ public class Game implements Runnable {
         splashScreenDisplayed = false;
         setPaused(false);
         keyManager = new KeyManager();
+        if (!showSplash) {
+        	splashScreenDisplayed = true;
+        	setMenu(new MainMenu(this, getKeyManager()));
+        }
     }
     
     private void init() {
