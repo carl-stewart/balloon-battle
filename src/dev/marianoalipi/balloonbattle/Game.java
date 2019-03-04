@@ -1,4 +1,4 @@
-package dev.marianoalipi.balloonfight;
+package dev.marianoalipi.balloonbattle;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -7,8 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 
-import dev.marianoalipi.balloonfight.menu.MainMenu;
-import dev.marianoalipi.balloonfight.menu.Menu;
+import dev.marianoalipi.balloonbattle.menu.MainMenu;
+import dev.marianoalipi.balloonbattle.menu.Menu;
 
 /**
  * 

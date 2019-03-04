@@ -1,11 +1,11 @@
-package dev.marianoalipi.balloonfight;
+package dev.marianoalipi.balloonbattle;
 
 /**
  * 
  * @author MarianoAlipi
  *
  */
-public class BallonFight {
+public class BalloonBattle {
 
 	private final static String title = "Ballon Fight";
 	// Aspect ratio: 4:3

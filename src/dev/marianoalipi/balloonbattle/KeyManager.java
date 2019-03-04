@@ -1,4 +1,4 @@
-package dev.marianoalipi.balloonfight;
+package dev.marianoalipi.balloonbattle;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

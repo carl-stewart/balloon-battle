@@ -1,12 +1,12 @@
-package dev.marianoalipi.balloonfight.menu;
+package dev.marianoalipi.balloonbattle.menu;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import dev.marianoalipi.balloonfight.Assets;
-import dev.marianoalipi.balloonfight.Game;
-import dev.marianoalipi.balloonfight.KeyManager;
+import dev.marianoalipi.balloonbattle.Assets;
+import dev.marianoalipi.balloonbattle.Game;
+import dev.marianoalipi.balloonbattle.KeyManager;
 
 public class MainMenu extends Menu {
 

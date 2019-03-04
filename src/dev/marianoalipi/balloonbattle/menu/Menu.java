@@ -1,9 +1,9 @@
-package dev.marianoalipi.balloonfight.menu;
+package dev.marianoalipi.balloonbattle.menu;
 
 import java.awt.Graphics;
 
-import dev.marianoalipi.balloonfight.Game;
-import dev.marianoalipi.balloonfight.KeyManager;
+import dev.marianoalipi.balloonbattle.Game;
+import dev.marianoalipi.balloonbattle.KeyManager;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package dev.marianoalipi.balloonfight;
+package dev.marianoalipi.balloonbattle;
 
 import java.awt.Canvas;
 import javax.swing.JFrame;
