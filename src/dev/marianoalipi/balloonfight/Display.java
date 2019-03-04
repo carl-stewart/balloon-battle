@@ -38,7 +38,7 @@ public class Display {
 	     canvas.setMaximumSize(new Dimension(width, height));
 	     canvas.setFocusable(false); //ignore display while keyboard input from jFrame
 	     jframe.add(canvas);
-	     jframe.pack();
+	     jframe.pack();	     
      }
      
      /**
