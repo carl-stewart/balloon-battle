@@ -7,6 +7,9 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 
+import dev.marianoalipi.balloonfight.menu.MainMenu;
+import dev.marianoalipi.balloonfight.menu.Menu;
+
 /**
  * 
  * @author MarianoAlipi
@@ -26,6 +29,7 @@ public class Game implements Runnable {
     private boolean running;        // sets up the game
     private boolean splashScreenDisplayed; // whether the splash screen has been displayed
     private boolean paused;         // to pause the game
+    private Menu menu;				// to set the current menu or no menu
     private KeyManager keyManager;	// keyboard input
 	
     // Specialized single-use variables
@@ -78,7 +82,11 @@ public class Game implements Runnable {
     private void tick() {
 
         // Get keyboard input
-        keyManager.tick();
+        // keyManager.tick();
+        
+        if (getMenu() != null) {
+        	getMenu().tick();
+        }
 
     }
 
@@ -103,6 +111,7 @@ public class Game implements Runnable {
             	g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         		g2d.fillRect(0, 0, width, height);
             	
+        		// Using one counter for two things:
         		// First count from -1 to -120 to keep the splash screen at 100% alpha. Then set the counter to 0 and count up to splashFrames.
         		if (splashFramesCounter < 0) {
         			g2d.drawImage(Assets.splash, 179, height / 3, 443, 143, null);
@@ -122,22 +131,22 @@ public class Game implements Runnable {
 	            		splashScreenDisplayed = true;
 	            		g.setColor(Color.black);
 	            		g.fillRect(0, 0, width, height);
+	            		setMenu(new MainMenu(this, getKeyManager()));
 	            	}
         		}
             	
         	} else {
-	            //g.drawImage(Assets.background, 0, 0, width, height, null);
-	            g.setColor(Color.black);
-	            g.fillRect(0, 0, width, height);
-	
-	            g.drawImage(Assets.title, 100, 20, 600, 250, null);
-	            g.drawImage(Assets.github, 179, height - 50, 443, 31, null);
+	            
 	            
 	            /* This draws an image with 50% alpha. Will be useful later.
 	            Graphics2D g2d = (Graphics2D) g;
 	            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 	            g2d.drawImage(Assets.title, 200, 450, 100, 50, null);
 	            */
+        	}
+        	
+        	if (getMenu() != null) {
+        		getMenu().render(g);
         	}
 	        // Prevents stutter on Linux.
 	        Toolkit.getDefaultToolkit().sync();
@@ -158,7 +167,7 @@ public class Game implements Runnable {
         if (running) {
             running = false;
             try {
-                //waits till thread dieas
+                //waits till thread dies
                 thread.join();
             } catch (InterruptedException ie) {
                 ie.printStackTrace();
@@ -188,6 +197,20 @@ public class Game implements Runnable {
 		return running;
 	}
 
+
+	/**
+	 * @return the menu
+	 */
+	public Menu getMenu() {
+		return menu;
+	}
+
+	/**
+	 * @param menu the menu to set
+	 */
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
 
 	/**
 	 * @param paused the paused to set
