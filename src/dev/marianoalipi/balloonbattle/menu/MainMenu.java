@@ -12,7 +12,7 @@ public class MainMenu extends Menu {
 
 	private ArrayList<String> options;
 	private int selected = 0;
-	private int inputInterval = 8;	// the number of frames between inputs
+	private int inputInterval = 12;	// the number of frames between inputs
 	private int intervalCounter = 0;
 	
 	public MainMenu(Game game, KeyManager keyManager) {
@@ -30,6 +30,13 @@ public class MainMenu extends Menu {
 			keyManager.tick();
 		} else {
 			intervalCounter++;
+		}
+		
+		if ( (keyManager.enter || keyManager.z) && selected == 0) {
+			System.out.println("Game start");
+			keyManager.enter = false;
+			keyManager.z = false;
+			intervalCounter = 0;
 		}
 		
 		if (keyManager.up) {
@@ -60,11 +67,12 @@ public class MainMenu extends Menu {
         
         g.setColor(Color.white);
         for (int i = 0; i < options.size(); i++) {
-        	g.drawString(options.get(i), 350, 350 + i * 20);
+        	//g.drawString(options.get(i), 350, 350 + i * 20);
+        	g.drawImage(Assets.mainMenuOptions[i], 350, 320 + i * Assets.mainMenuOptions[i].getHeight() + i * 15, null);
         }
         
         // Draw a balloon to indicate the cursor
-        g.drawImage(Assets.balloon, 325, 350 + selected * 20 - 12, 16, 16, null);
+        g.drawImage(Assets.balloon, 300, 320 + selected * Assets.mainMenuOptionsImg.getHeight() / 2 + selected * 15 - 5, 32, 32, null);
 	}
 
 }
