@@ -10,7 +10,10 @@ import dev.marianoalipi.balloonbattle.KeyManager;
 
 public class MainMenu extends Menu {
 
-	private ArrayList<String> options; 
+	private ArrayList<String> options;
+	private int selected = 0;
+	private int inputInterval = 8;	// the number of frames between inputs
+	private int intervalCounter = 0;
 	
 	public MainMenu(Game game, KeyManager keyManager) {
 		super(game, keyManager);
@@ -22,7 +25,28 @@ public class MainMenu extends Menu {
 	
 	@Override
 	public void tick() {
-		keyManager.tick();
+		
+		if (intervalCounter >= inputInterval) {
+			keyManager.tick();
+		} else {
+			intervalCounter++;
+		}
+		
+		if (keyManager.up) {
+			selected--;
+			keyManager.up = false;
+			intervalCounter = 0;
+		}
+		if (keyManager.down) {
+			selected++;
+			keyManager.down = false;
+			intervalCounter = 0;
+		}
+		
+		if (selected < 0)
+			selected = options.size() - 1;
+		else if (selected  >= options.size())
+			selected = 0;
 
 	}
 	
@@ -38,6 +62,9 @@ public class MainMenu extends Menu {
         for (int i = 0; i < options.size(); i++) {
         	g.drawString(options.get(i), 350, 350 + i * 20);
         }
+        
+        // Draw a balloon to indicate the cursor
+        g.drawImage(Assets.balloon, 325, 350 + selected * 20 - 12, 16, 16, null);
 	}
 
 }

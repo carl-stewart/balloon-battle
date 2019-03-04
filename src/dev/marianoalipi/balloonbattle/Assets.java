@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
  */
 public class Assets {
 
-	public static BufferedImage background, splash, title, github;
+	public static BufferedImage background, splash, title, github, balloon;
 
     public static void init() {
     	
@@ -16,6 +16,7 @@ public class Assets {
         splash = ImageLoader.loadImage("assets/images/splash.png");
         title = ImageLoader.loadImage("assets/images/title_pixel.png");
         github = ImageLoader.loadImage("assets/images/github.png");
+        balloon = ImageLoader.loadImage("assets/images/balloon.png");
 
     }
 }
