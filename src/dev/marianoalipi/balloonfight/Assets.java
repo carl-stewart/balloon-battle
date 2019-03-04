@@ -8,11 +8,12 @@ import java.awt.image.BufferedImage;
  */
 public class Assets {
 
-	public static BufferedImage background;
+	public static BufferedImage background, title;
 
     public static void init() {
     	
         background = ImageLoader.loadImage("assets/images/background.png");
+        title = ImageLoader.loadImage("assets/images/title_pixel.png");
 
     }
 }

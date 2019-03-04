@@ -1,5 +1,6 @@
 package dev.marianoalipi.balloonfight;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
@@ -82,9 +83,12 @@ public class Game implements Runnable {
         } else {
             g = bs.getDrawGraphics();
             
-            
-            g.drawImage(Assets.background, 0, 0, width, height, null);
+            //g.drawImage(Assets.background, 0, 0, width, height, null);
+            g.setColor(Color.black);
+            g.fillRect(0, 0, width, height);
 
+            g.drawImage(Assets.title, 100, 20, 600, 250, null);
+            
             // Prevents stutter on Linux.
             Toolkit.getDefaultToolkit().sync();
             bs.show();
