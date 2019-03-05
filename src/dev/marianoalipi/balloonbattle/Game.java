@@ -24,19 +24,19 @@ public class Game implements Runnable {
     String title;
     private int width;
     private int height;
-    private int splashFrames = 70; // the duration of the splash screen fade out
+    private int splashFrames = 70; // the duration of the splash screen fade effect
     private Thread thread;
     private boolean running;        // sets up the game
     private boolean splashScreenDisplayed; // whether the splash screen has been displayed
-    private boolean showSplash = false;	// whether or not to show the splash screen
+    private boolean showSplash = true;	// whether or not to show the splash screen
     private boolean paused;         // to pause the game
     private Menu menu;				// to set the current menu or no menu
-    private KeyManager keyManager;	// keyboard input
 	private InputHandler inputHandler;
     
     // Specialized single-use variables
-    private int splashFramesCounter = -1;
-    private float alpha = 1f; // the transparency of the rendered images
+	private int splashCounter = 0; // for splash effects
+	private byte splashStage = -1; // 0 fade-in, 1 stay, 2 fade-out
+    private float alpha = 0f; // the transparency of the rendered images
 
     public Game(String title, int width, int height) {
         this.title = title;
@@ -45,7 +45,6 @@ public class Game implements Runnable {
         setRunning(false);
         splashScreenDisplayed = false;
         setPaused(false);
-        keyManager = new KeyManager();
         inputHandler = new InputHandler();
         if (!showSplash) {
         	splashScreenDisplayed = true;
@@ -58,7 +57,6 @@ public class Game implements Runnable {
         Assets.init();
 
         //starts to listen the keyboard input
-        //display.getJframe().addKeyListener(keyManager);
         display.getJframe().addKeyListener(inputHandler);
     }
 
@@ -90,7 +88,6 @@ public class Game implements Runnable {
     private void tick() {
 
         // Get keyboard input
-        // keyManager.tick();
     	inputHandler.tick();
         
         if (getMenu() != null) {
@@ -120,32 +117,55 @@ public class Game implements Runnable {
             	g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         		g2d.fillRect(0, 0, width, height);
             	
-        		// Using one counter for two things:
-        		// First count from -1 to -120 to keep the splash screen at 100% alpha. Then set the counter to 0 and count up to splashFrames.
-        		if (splashFramesCounter < 0) {
-        			g2d.drawImage(Assets.splash, 179, height / 3, 443, 143, null);
-	            	if (splashFramesCounter < 0 && splashFramesCounter > -120) {
-	            		splashFramesCounter--;
-	            	} else {
-	            		splashFramesCounter = 0;
-	            	}
-        		} else {
-	            	if (splashFramesCounter >= 0 && splashFramesCounter <= splashFrames) {
-	            		
-	            		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-	                	g2d.drawImage(Assets.splash, 179, height / 3, 443, 143, null);
-	                	alpha = (alpha - 0.01f < 0f) ? 0f : alpha - 0.02f;
-	                	splashFramesCounter++;
-	            	} else {
-	            		splashScreenDisplayed = true;
-	            		g.setColor(Color.black);
-	            		g.fillRect(0, 0, width, height);
-	            		setMenu(new MainMenu(this, getInputHandler()));
-	            	}
+        		if (splashStage == -1) { // Initial delay
+        			if (splashCounter <= 40) {
+        				splashCounter++;
+        			} else {
+        				splashCounter = 0;
+        				splashStage++;
+        			}
+        		} else if (splashStage == 0) { // Fade-in
+        			if (splashCounter < splashFrames) {
+        				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+        				g2d.drawImage(Assets.splash, 179, height / 3, 443, 143, null);
+        				alpha = (alpha + 0.02f >= 1f) ? 1f : alpha + 0.02f;
+        				splashCounter++;
+        			} else {
+        				alpha = 1f;
+        				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+        				g2d.drawImage(Assets.splash, 179, height / 3, 443, 143, null);
+        				splashCounter = 0;
+        				splashStage++;
+        			}
+        		} else if (splashStage == 1) { // Stay
+        			if (splashCounter <= 120) {
+        				g2d.drawImage(Assets.splash, 179, height / 3, 443, 143, null);
+        				splashCounter++;
+        			} else {
+        				g2d.drawImage(Assets.splash, 179, height / 3, 443, 143, null);
+        				splashCounter = 0;
+        				splashStage++;
+        			}
+        		} else if (splashStage == 2) { // Fade-out
+        			if (splashCounter < splashFrames) {
+        				g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+        				g2d.drawImage(Assets.splash, 179, height / 3, 443, 143, null);
+        				alpha = (alpha - 0.02f <= 0f) ? 0f : alpha - 0.02f;
+        				splashCounter++;
+        			} else {
+        				alpha = 1f;
+        				splashCounter = 0;
+        				splashStage++;
+        				
+        				g.setColor(Color.black);
+        				g.fillRect(0, 0, width, height);
+        				
+        				splashScreenDisplayed = true;
+        				setMenu(new MainMenu(this, getInputHandler()));
+        			}
         		}
             	
         	} else {
-	            
 	            
 	            /* This draws an image with 50% alpha. Will be useful later.
 	            Graphics2D g2d = (Graphics2D) g;
@@ -242,9 +262,5 @@ public class Game implements Runnable {
 	public void setRunning(boolean running) {
 		this.running = running;
 	}
-
-	public KeyManager getKeyManager() {
-        return keyManager;
-    }
     
 }
