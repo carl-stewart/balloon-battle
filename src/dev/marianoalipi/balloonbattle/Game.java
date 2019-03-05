@@ -32,7 +32,8 @@ public class Game implements Runnable {
     private boolean paused;         // to pause the game
     private Menu menu;				// to set the current menu or no menu
     private KeyManager keyManager;	// keyboard input
-	
+	private InputHandler inputHandler;
+    
     // Specialized single-use variables
     private int splashFramesCounter = -1;
     private float alpha = 1f; // the transparency of the rendered images
@@ -45,9 +46,10 @@ public class Game implements Runnable {
         splashScreenDisplayed = false;
         setPaused(false);
         keyManager = new KeyManager();
+        inputHandler = new InputHandler();
         if (!showSplash) {
         	splashScreenDisplayed = true;
-        	setMenu(new MainMenu(this, getKeyManager()));
+        	setMenu(new MainMenu(this, getInputHandler()));
         }
     }
     
@@ -56,7 +58,8 @@ public class Game implements Runnable {
         Assets.init();
 
         //starts to listen the keyboard input
-        display.getJframe().addKeyListener(keyManager);
+        //display.getJframe().addKeyListener(keyManager);
+        display.getJframe().addKeyListener(inputHandler);
     }
 
     @Override
@@ -88,6 +91,7 @@ public class Game implements Runnable {
 
         // Get keyboard input
         // keyManager.tick();
+    	inputHandler.tick();
         
         if (getMenu() != null) {
         	getMenu().tick();
@@ -136,7 +140,7 @@ public class Game implements Runnable {
 	            		splashScreenDisplayed = true;
 	            		g.setColor(Color.black);
 	            		g.fillRect(0, 0, width, height);
-	            		setMenu(new MainMenu(this, getKeyManager()));
+	            		setMenu(new MainMenu(this, getInputHandler()));
 	            	}
         		}
             	
@@ -208,6 +212,14 @@ public class Game implements Runnable {
 	 */
 	public Menu getMenu() {
 		return menu;
+	}
+
+	public InputHandler getInputHandler() {
+		return inputHandler;
+	}
+
+	public void setInputHandler(InputHandler inputHandler) {
+		this.inputHandler = inputHandler;
 	}
 
 	/**

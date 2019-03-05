@@ -3,7 +3,7 @@ package dev.marianoalipi.balloonbattle.menu;
 import java.awt.Graphics;
 
 import dev.marianoalipi.balloonbattle.Game;
-import dev.marianoalipi.balloonbattle.KeyManager;
+import dev.marianoalipi.balloonbattle.InputHandler;
 
 /**
  * 
@@ -14,11 +14,11 @@ import dev.marianoalipi.balloonbattle.KeyManager;
 public class Menu {
 
 	protected Game game;
-	protected KeyManager keyManager;
+	protected InputHandler inputHandler;
 	
-	public Menu (Game game, KeyManager keyManager) {
+	public Menu (Game game, InputHandler inputHandler) {
 		this.game = game;
-		this.keyManager = keyManager;
+		this.inputHandler = inputHandler;
 	}
 	
 	public void tick() {

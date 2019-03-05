@@ -6,17 +6,15 @@ import java.util.ArrayList;
 
 import dev.marianoalipi.balloonbattle.Assets;
 import dev.marianoalipi.balloonbattle.Game;
-import dev.marianoalipi.balloonbattle.KeyManager;
+import dev.marianoalipi.balloonbattle.InputHandler;
 
 public class MainMenu extends Menu {
 
 	private ArrayList<String> options;
 	private int selected = 0;
-	private int inputInterval = 12;	// the number of frames between inputs
-	private int intervalCounter = 0;
 	
-	public MainMenu(Game game, KeyManager keyManager) {
-		super(game, keyManager);
+	public MainMenu(Game game, InputHandler inputHandler) {
+		super(game, inputHandler);
 		
 		options = new ArrayList<String>();
 		options.add("PLAY");
@@ -26,28 +24,30 @@ public class MainMenu extends Menu {
 	@Override
 	public void tick() {
 		
-		if (intervalCounter >= inputInterval) {
-			keyManager.tick();
-		} else {
-			intervalCounter++;
+		if (inputHandler.enter.clicked || inputHandler.z.clicked) {
+			//inputHandler.enter.clicked = false;
+			//inputHandler.z.clicked = false;
+			switch (selected) {
+				case 0:
+					System.out.println("Game start");
+					break;
+				case 1:					
+					game.setMenu(new CreditsMenu(game, game.getInputHandler()));
+					break;
+				default:
+					break;
+			}
 		}
 		
-		if ( (keyManager.enter || keyManager.z) && selected == 0) {
-			System.out.println("Game start");
-			keyManager.enter = false;
-			keyManager.z = false;
-			intervalCounter = 0;
-		}
-		
-		if (keyManager.up) {
+		if (inputHandler.up.clicked) {
 			selected--;
-			keyManager.up = false;
-			intervalCounter = 0;
+			//inputHandler.up.clicked = false;
+			//intervalCounter = 0;
 		}
-		if (keyManager.down) {
+		if (inputHandler.down.clicked) {
 			selected++;
-			keyManager.down = false;
-			intervalCounter = 0;
+			//inputHandler.down.clicked = false;
+			//intervalCounter = 0;
 		}
 		
 		if (selected < 0)
