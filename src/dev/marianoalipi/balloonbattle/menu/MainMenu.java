@@ -29,7 +29,9 @@ public class MainMenu extends Menu {
 			//inputHandler.z.clicked = false;
 			switch (selected) {
 				case 0:
-					System.out.println("Game start");
+					game.setGameState(Game.GameState.GAME);
+					game.getPlayer().setVisible(true);
+					game.setMenu(null);
 					break;
 				case 1:					
 					game.setMenu(new CreditsMenu(game, game.getInputHandler()));

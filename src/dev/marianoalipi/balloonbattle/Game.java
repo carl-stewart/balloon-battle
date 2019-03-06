@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 
+import dev.marianoalipi.balloonbattle.entities.Player;
 import dev.marianoalipi.balloonbattle.menu.MainMenu;
 import dev.marianoalipi.balloonbattle.menu.Menu;
 
@@ -24,14 +25,19 @@ public class Game implements Runnable {
     String title;
     private int width;
     private int height;
-    private int splashFrames = 70; // the duration of the splash screen fade effect
+    private int splashFrames = 70; 			// the duration of the splash screen fade effect
     private Thread thread;
-    private boolean running;        // sets up the game
-    private boolean splashScreenDisplayed; // whether the splash screen has been displayed
-    private boolean showSplash = true;	// whether or not to show the splash screen
-    private boolean paused;         // to pause the game
-    private Menu menu;				// to set the current menu or no menu
+    private boolean running;        		// sets up the game
+    private boolean splashScreenDisplayed;  // whether the splash screen has been displayed
+    private boolean showSplash = true;		// whether or not to show the splash screen
+    private boolean paused;         		// to pause the game
+    private Menu menu;						// to set the current menu or no menu
+    public enum GameState {MENU, GAME, WON, LOST};
+    private GameState gameState;
 	private InputHandler inputHandler;
+	
+	// Game entities
+	private Player player;
     
     // Specialized single-use variables
 	private int splashCounter = 0; // for splash effects
@@ -45,16 +51,22 @@ public class Game implements Runnable {
         setRunning(false);
         splashScreenDisplayed = false;
         setPaused(false);
+        setGameState(GameState.MENU);
         inputHandler = new InputHandler();
         if (!showSplash) {
         	splashScreenDisplayed = true;
         	setMenu(new MainMenu(this, getInputHandler()));
+        	setGameState(GameState.MENU);
         }
     }
     
     private void init() {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
+        
+        player = new Player(getWidth() / 2 - 20, getHeight() / 2 - 20, 40, 40, this, getInputHandler());
+        player.setVisible(false);
+        player.setSprite(Assets.balloon);
 
         //starts to listen the keyboard input
         display.getJframe().addKeyListener(inputHandler);
@@ -90,6 +102,15 @@ public class Game implements Runnable {
         // Get keyboard input
     	inputHandler.tick();
         
+    	switch (getGameState()) {
+    		case GAME:
+    			player.tick();
+    			break;
+    		default:
+    			break;
+    	}
+    
+    	
         if (getMenu() != null) {
         	getMenu().tick();
         }
@@ -166,18 +187,27 @@ public class Game implements Runnable {
         		}
             	
         	} else {
-	            
-	            /* This draws an image with 50% alpha. Will be useful later.
-	            Graphics2D g2d = (Graphics2D) g;
-	            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-	            g2d.drawImage(Assets.title, 200, 450, 100, 50, null);
-	            */
+    			// Splash screen already displayed
+        		switch (getGameState()) {
+        			case GAME:
+        			
+        				g.setColor(Color.black);
+        				g.fillRect(0, 0, getWidth(), getHeight());
+        				
+        				player.render(g);
+        				
+        				break;
+    				
+        			default:
+    					break;
+        		}
         	}
         	
         	if (getMenu() != null) {
         		getMenu().render(g);
         	}
-	        // Prevents stutter on Linux.
+        	
+	        // Fixes stutter on Linux.
 	        Toolkit.getDefaultToolkit().sync();
 	        bs.show();
 	        g.dispose();
@@ -226,7 +256,6 @@ public class Game implements Runnable {
 		return running;
 	}
 
-
 	/**
 	 * @return the menu
 	 */
@@ -238,6 +267,22 @@ public class Game implements Runnable {
 		return inputHandler;
 	}
 
+	/**
+	 * 
+	 * @return gameState
+	 */
+	public GameState getGameState() {
+		return gameState;
+	}
+	
+	/**
+	 * 
+	 * @return player
+	 */
+	public Player getPlayer() {
+		return player;
+	}
+	
 	public void setInputHandler(InputHandler inputHandler) {
 		this.inputHandler = inputHandler;
 	}
@@ -261,6 +306,14 @@ public class Game implements Runnable {
 	 */
 	public void setRunning(boolean running) {
 		this.running = running;
+	}
+	
+	/**
+	 * 
+	 * @param gameState the gameState to set
+	 */
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
 	}
     
 }
