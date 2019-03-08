@@ -38,10 +38,13 @@ public class CreditsMenu extends Menu {
         
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.PLAIN, 25));
-        g.drawString("Go back", 350, game.getHeight() - 80);
+        //g.drawString("Go back", 350, game.getHeight() - 80);
+        
+        int index = 2;
+        g.drawImage(Assets.mainMenuOptions[index], 350, game.getHeight() - 80 - Assets.textScale * Assets.mainMenuOptions[index].getHeight(), Assets.textScale * Assets.mainMenuOptions[index].getWidth(), Assets.textScale * Assets.mainMenuOptions[index].getHeight(),  null);
         
         // Draw a balloon to indicate the cursor
-        g.drawImage(Assets.balloon, 310, game.getHeight() - 80 - 30, 32, 32, null);
+        g.drawImage(Assets.balloon, 300, game.getHeight() - 80 - 32, 32, 32, null);
 	}
 	
 	

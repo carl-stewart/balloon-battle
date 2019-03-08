@@ -67,14 +67,18 @@ public class MainMenu extends Menu {
         g.drawImage(Assets.title, 100, 20, 600, 250, null);
         g.drawImage(Assets.github, 179, game.getHeight() - 50, 443, 31, null);
         
+        // Draw the menu options
         g.setColor(Color.white);
         for (int i = 0; i < options.size(); i++) {
         	//g.drawString(options.get(i), 350, 350 + i * 20);
-        	g.drawImage(Assets.mainMenuOptions[i], 350, 320 + i * Assets.mainMenuOptions[i].getHeight() + i * 15, null);
+        	g.drawImage(Assets.mainMenuOptions[i], 350, 320 + i * 10 + i * Assets.textScale * Assets.mainMenuOptions[i].getHeight(), Assets.textScale * Assets.mainMenuOptions[i].getWidth(), Assets.textScale * Assets.mainMenuOptions[i].getHeight(),  null);
         }
         
+        
         // Draw a balloon to indicate the cursor
-        g.drawImage(Assets.balloon, 300, 320 + selected * Assets.mainMenuOptionsImg.getHeight() / 2 + selected * 15 - 5, 32, 32, null);
+        g.drawImage(Assets.balloon, 300, 320 + selected * 10 + selected * Assets.textScale * Assets.mainMenuOptions[selected].getHeight(), 32, 32, null);
+        // Draw balloon's outline (debugging)
+        //g.drawRect(300, 320 + selected * 10 + selected * Assets.textScale * Assets.mainMenuOptions[selected].getHeight(), 32, 32);
 	}
 
 }
