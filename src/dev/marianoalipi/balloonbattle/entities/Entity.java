@@ -8,12 +8,12 @@ import dev.marianoalipi.balloonbattle.Game;
 
 public abstract class Entity {
 
-	private int x, y, width, height, speed;
-	private BufferedImage sprite;
-	private Rectangle hitbox;
-	@SuppressWarnings("unused")
-	private Game game;
-	private boolean visible, spawned;
+	protected int x, y, width, height, speed, xSpeed, ySpeed;
+	protected BufferedImage sprite;
+	protected Rectangle hitbox;
+	protected Game game;
+	protected static final int GRAVITY = 1, MAX_SPEED = 4;
+	protected boolean visible, spawned;
 	
 	public Entity() {
 		this.x = 0;
@@ -21,6 +21,8 @@ public abstract class Entity {
 		this.width = 1;
 		this.height = 1;
 		this.speed = 0;
+		this.xSpeed = 0;
+		this.ySpeed = 0;
 		this.sprite = null;
 		this.hitbox = new Rectangle(x, y, width, height);
 	}
@@ -59,6 +61,14 @@ public abstract class Entity {
 		return speed;
 	}
 	
+	public int getxSpeed() {
+		return xSpeed;
+	}
+	
+	public int getySpeed() {
+		return ySpeed;
+	}
+	
 	public BufferedImage getSprite() {
 		return sprite;
 	}
@@ -92,7 +102,15 @@ public abstract class Entity {
 	}
 	
 	public void setSpeed(int speed) {
-		this.speed = speed;
+		this.speed = (speed > MAX_SPEED) ? MAX_SPEED : speed;
+	}
+	
+	public void setxSpeed(int xSpeed) {
+		this.xSpeed = (xSpeed > MAX_SPEED) ? MAX_SPEED : xSpeed;
+	}
+	
+	public void setySpeed(int ySpeed) {
+		this.ySpeed = (ySpeed > MAX_SPEED) ? MAX_SPEED : ySpeed;
 	}
 	
 	public void setSprite(BufferedImage sprite) {

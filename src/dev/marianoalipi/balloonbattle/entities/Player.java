@@ -20,20 +20,46 @@ public class Player extends Entity {
 
 	@Override
 	public void tick() {
+		
+		// Gravity pull
+		setySpeed(getySpeed() - GRAVITY);
+		
 		if (inputHandler.up.down) {
-			setY(getY() - 3);
+			setySpeed(4);
 		}
 		
 		if (inputHandler.down.down) {
-			setY(getY() + 3);
+			//setySpeed(getySpeed() - 3);
 		}
 		
 		if (inputHandler.left.down) {
-			setX(getX() - 3);
+			setxSpeed(-3);
 		}
 		
 		if (inputHandler.right.down) {
-			setX(getX() + 3);
+			setxSpeed(3);
+		}
+		
+		if (!inputHandler.left.down && !inputHandler.right.down) {
+			setxSpeed(0);
+		}
+		
+		// Move the player
+		setX(getX() + getxSpeed());
+		setY(getY() - getySpeed());
+		
+		// Go to the other side if the limit is crossed
+		if (getX() <= -1 * getWidth() / 2) {
+			setX(game.getWidth() - getWidth() / 2 - 1);
+		} else if (getX() >= game.getWidth() - getWidth() / 2) {
+			setX(-1 * getWidth() / 2 + 1);
+		}
+		
+		// Prevent the player from going above or below the screen
+		if (getY() < -1 * getHeight() / 2) {
+			setY(-1 * getHeight() / 2);
+		} else if (getY() > game.getHeight() - getHeight()) {
+			setY(game.getHeight() - getHeight());
 		}
 	}
 	
