@@ -12,9 +12,9 @@ public abstract class Entity {
 	protected BufferedImage sprite;
 	protected Rectangle hitbox;
 	protected Game game;
-	protected static final int GRAVITY = 1, MAX_SPEED = 4;
-	protected boolean visible, spawned;
-	
+	protected static final int GRAVITY = 1, MAX_SPEED = 7;
+	protected boolean grounded, visible, spawned;
+
 	public Entity() {
 		this.x = 0;
 		this.y = 0;
@@ -77,6 +77,11 @@ public abstract class Entity {
 		return hitbox;
 	}
 
+	public boolean isGrounded() {
+		return grounded;
+	}
+
+	
 	public boolean isVisible() {
 		return visible;
 	}
@@ -102,15 +107,18 @@ public abstract class Entity {
 	}
 	
 	public void setSpeed(int speed) {
-		this.speed = (speed > MAX_SPEED) ? MAX_SPEED : speed;
+		this.speed = (Math.abs(speed) > MAX_SPEED) ? (speed >= 0) ? MAX_SPEED : -1 * MAX_SPEED : speed;
+		//this.speed = speed;
 	}
 	
 	public void setxSpeed(int xSpeed) {
-		this.xSpeed = (xSpeed > MAX_SPEED) ? MAX_SPEED : xSpeed;
+		this.xSpeed = (Math.abs(xSpeed) > MAX_SPEED) ? (xSpeed >= 0) ? MAX_SPEED : -1 * MAX_SPEED : xSpeed;
+		//this.xSpeed = xSpeed;
 	}
 	
 	public void setySpeed(int ySpeed) {
-		this.ySpeed = (ySpeed > MAX_SPEED) ? MAX_SPEED : ySpeed;
+		this.ySpeed = (Math.abs(ySpeed) > MAX_SPEED) ? (ySpeed >= 0) ? MAX_SPEED : -1 * MAX_SPEED : ySpeed;
+		//this.ySpeed = ySpeed;
 	}
 	
 	public void setSprite(BufferedImage sprite) {
@@ -119,6 +127,10 @@ public abstract class Entity {
 
 	public void setHitbox(Rectangle hitbox) {
 		this.hitbox = hitbox;
+	}
+
+	public void setGrounded(boolean grounded) {
+		this.grounded = grounded;
 	}
 	
 	public void setVisible(boolean visible) {

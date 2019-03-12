@@ -23,16 +23,13 @@ public class Player extends Entity {
 	@Override
 	public void tick() {
 		
-		// Gravity pull
-		setySpeed(getySpeed() - GRAVITY);
-		
 		if (inputHandler.up.down) {
-			setySpeed(4);
+			setySpeed(getySpeed() + 6);
 		}
 		
 		// Check for a single flap (Z key = A button)
 		if (inputHandler.z.down && isFlapKeyReleased()) {
-			setySpeed(4);
+			setySpeed(getySpeed() + 6);
 			setFlapKeyReleased(false);
 		}
 		
@@ -42,7 +39,7 @@ public class Player extends Entity {
 		
 		// Check for constant flapping (X key = B button)
 		if (inputHandler.x.down) {
-			setySpeed(4);
+			setySpeed(getySpeed() + 6);
 		}
 		
 		if (inputHandler.down.down) {
@@ -50,20 +47,28 @@ public class Player extends Entity {
 		}
 		
 		if (inputHandler.left.down) {
-			setxSpeed(-3);
+			setxSpeed(-4);
 		}
 		
 		if (inputHandler.right.down) {
-			setxSpeed(3);
+			setxSpeed(4);
 		}
 		
 		if (!inputHandler.left.down && !inputHandler.right.down) {
 			setxSpeed(0);
 		}
 		
+		// Gravity pull
+		if (!isGrounded())
+			setySpeed(getySpeed() - GRAVITY);
+		else
+			setySpeed(0);
+		
 		// Move the player
 		setX(getX() + getxSpeed());
 		setY(getY() - getySpeed());
+		
+		System.out.println(getySpeed());
 		
 		// Go to the other side if the limit is crossed
 		if (getX() <= -1 * getWidth() / 2) {
@@ -76,7 +81,11 @@ public class Player extends Entity {
 		if (getY() < -1 * getHeight() / 3) {
 			setY(-1 * getHeight() / 3);
 		} else if (getY() > game.getHeight() - getHeight()) {
+			if (getY() >= game.getHeight() - getHeight())
+				setGrounded(true);
 			setY(game.getHeight() - getHeight());
+		} else {
+			setGrounded(false);
 		}
 	}
 	
