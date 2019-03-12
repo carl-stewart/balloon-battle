@@ -73,8 +73,8 @@ public class Player extends Entity {
 		}
 		
 		// Prevent the player from going above or below the screen
-		if (getY() < -1 * getHeight() / 2) {
-			setY(-1 * getHeight() / 2);
+		if (getY() < -1 * getHeight() / 3) {
+			setY(-1 * getHeight() / 3);
 		} else if (getY() > game.getHeight() - getHeight()) {
 			setY(game.getHeight() - getHeight());
 		}
