@@ -9,6 +9,7 @@ public class Player extends Entity {
 
 	private InputHandler inputHandler;
 	private boolean flapKeyReleased;
+	private int framesBetweenFlaps = 8, framesCounter = 8;
 	
 	public Player() {
 		super();
@@ -18,6 +19,7 @@ public class Player extends Entity {
 		super(x, y, width, height, game);
 		this.inputHandler = inputHandler;
 		this.flapKeyReleased = true;
+		this.framesCounter = 0;
 	}
 
 	@Override
@@ -38,8 +40,12 @@ public class Player extends Entity {
 		}
 		
 		// Check for constant flapping (X key = B button)
+		framesCounter++;
 		if (inputHandler.x.down) {
-			setySpeed(getySpeed() + 5);
+			if (framesCounter > framesBetweenFlaps) {
+				setySpeed(getySpeed() + 5);
+				framesCounter = 0;
+			}
 		}
 		
 		if (inputHandler.down.down) {
@@ -61,10 +67,6 @@ public class Player extends Entity {
 		// Gravity pull
 		if (!isGrounded())
 			setySpeed(getySpeed() - GRAVITY);
-		else {
-			// If on the floor
-			setySpeed(0);
-		}
 		
 		// Move the player
 		setX((int)Math.floor(getX() + getxSpeed()));
@@ -81,13 +83,22 @@ public class Player extends Entity {
 		
 		// Prevent the player from going above or below the screen
 		if (getY() < -1 * getHeight() / 3) {
+			// Ceiling
 			setY(-1 * getHeight() / 3);
+			setySpeed(getySpeed() * -0.3);
 		} else if (getY() > game.getHeight() - getHeight()) {
-			if (getY() >= game.getHeight() - getHeight())
-				setGrounded(true);
+			// Ground
 			setY(game.getHeight() - getHeight());
+			setySpeed(0);
 		} else {
+			// Mid-air
 			setGrounded(false);
+			
+			// If the player is just above the ground limit, mark it as grounded and set ySpeed = 0.
+			if (getY() >= game.getHeight() - getHeight()) {
+				setGrounded(true);
+				setySpeed(0);
+			}
 		}
 	}
 	
