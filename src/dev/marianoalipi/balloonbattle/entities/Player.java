@@ -24,12 +24,12 @@ public class Player extends Entity {
 	public void tick() {
 		
 		if (inputHandler.up.down) {
-			setySpeed(getySpeed() + 6);
+			setySpeed(getySpeed() + 5);
 		}
 		
 		// Check for a single flap (Z key = A button)
 		if (inputHandler.z.down && isFlapKeyReleased()) {
-			setySpeed(getySpeed() + 6);
+			setySpeed(getySpeed() + 5);
 			setFlapKeyReleased(false);
 		}
 		
@@ -39,7 +39,7 @@ public class Player extends Entity {
 		
 		// Check for constant flapping (X key = B button)
 		if (inputHandler.x.down) {
-			setySpeed(getySpeed() + 6);
+			setySpeed(getySpeed() + 5);
 		}
 		
 		if (inputHandler.down.down) {
@@ -61,12 +61,14 @@ public class Player extends Entity {
 		// Gravity pull
 		if (!isGrounded())
 			setySpeed(getySpeed() - GRAVITY);
-		else
+		else {
+			// If on the floor
 			setySpeed(0);
+		}
 		
 		// Move the player
-		setX(getX() + getxSpeed());
-		setY(getY() - getySpeed());
+		setX((int)Math.floor(getX() + getxSpeed()));
+		setY((int)Math.floor(getY() - getySpeed()));
 		
 		System.out.println(getySpeed());
 		

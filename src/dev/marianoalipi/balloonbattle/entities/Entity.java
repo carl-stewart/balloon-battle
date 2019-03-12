@@ -8,11 +8,13 @@ import dev.marianoalipi.balloonbattle.Game;
 
 public abstract class Entity {
 
-	protected int x, y, width, height, speed, xSpeed, ySpeed;
+	protected int x, y, width, height;
+	protected double speed, xSpeed, ySpeed;
 	protected BufferedImage sprite;
 	protected Rectangle hitbox;
 	protected Game game;
-	protected static final int GRAVITY = 1, MAX_SPEED = 7;
+	//protected static final int abc;
+	protected static final double GRAVITY = 0.3, MAX_SPEED = 7;
 	protected boolean grounded, visible, spawned;
 
 	public Entity() {
@@ -57,15 +59,15 @@ public abstract class Entity {
 		return height;
 	}
 	
-	public int getSpeed() {
+	public double getSpeed() {
 		return speed;
 	}
 	
-	public int getxSpeed() {
+	public double getxSpeed() {
 		return xSpeed;
 	}
 	
-	public int getySpeed() {
+	public double getySpeed() {
 		return ySpeed;
 	}
 	
@@ -106,17 +108,17 @@ public abstract class Entity {
 		this.height = height;
 	}
 	
-	public void setSpeed(int speed) {
+	public void setSpeed(double speed) {
 		this.speed = (Math.abs(speed) > MAX_SPEED) ? (speed >= 0) ? MAX_SPEED : -1 * MAX_SPEED : speed;
 		//this.speed = speed;
 	}
 	
-	public void setxSpeed(int xSpeed) {
+	public void setxSpeed(double xSpeed) {
 		this.xSpeed = (Math.abs(xSpeed) > MAX_SPEED) ? (xSpeed >= 0) ? MAX_SPEED : -1 * MAX_SPEED : xSpeed;
 		//this.xSpeed = xSpeed;
 	}
 	
-	public void setySpeed(int ySpeed) {
+	public void setySpeed(double ySpeed) {
 		this.ySpeed = (Math.abs(ySpeed) > MAX_SPEED) ? (ySpeed >= 0) ? MAX_SPEED : -1 * MAX_SPEED : ySpeed;
 		//this.ySpeed = ySpeed;
 	}
