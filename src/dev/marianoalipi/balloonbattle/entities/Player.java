@@ -8,6 +8,7 @@ import dev.marianoalipi.balloonbattle.InputHandler;
 public class Player extends Entity {
 
 	private InputHandler inputHandler;
+	private boolean flapKeyReleased;
 	
 	public Player() {
 		super();
@@ -16,6 +17,7 @@ public class Player extends Entity {
 	public Player(int x, int y, int width, int height, Game game, InputHandler inputHandler) {
 		super(x, y, width, height, game);
 		this.inputHandler = inputHandler;
+		this.flapKeyReleased = true;
 	}
 
 	@Override
@@ -25,6 +27,21 @@ public class Player extends Entity {
 		setySpeed(getySpeed() - GRAVITY);
 		
 		if (inputHandler.up.down) {
+			setySpeed(4);
+		}
+		
+		// Check for a single flap (Z key = A button)
+		if (inputHandler.z.down && isFlapKeyReleased()) {
+			setySpeed(4);
+			setFlapKeyReleased(false);
+		}
+		
+		if (!inputHandler.z.down) {
+			setFlapKeyReleased(true);
+		}
+		
+		// Check for constant flapping (X key = B button)
+		if (inputHandler.x.down) {
 			setySpeed(4);
 		}
 		
@@ -67,6 +84,20 @@ public class Player extends Entity {
 	public void render(Graphics g) {
 		if (isVisible())
 			g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
+	}
+
+	/**
+	 * @return the flapKeyReleased
+	 */
+	public boolean isFlapKeyReleased() {
+		return flapKeyReleased;
+	}
+
+	/**
+	 * @param flapKeyReleased the flapKeyReleased to set
+	 */
+	public void setFlapKeyReleased(boolean flapKeyReleased) {
+		this.flapKeyReleased = flapKeyReleased;
 	}
 	
 }

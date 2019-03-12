@@ -43,8 +43,8 @@ public class InputHandler implements KeyListener {
 	public Key down = new Key(); 
 	public Key left = new Key();
 	public Key right = new Key();
-	public Key z = new Key();
-	public Key x = new Key();	
+	public Key z = new Key();	// Z = A; one flap
+	public Key x = new Key();	// X = B; keep flapping
 	public Key enter = new Key();
 
 	
