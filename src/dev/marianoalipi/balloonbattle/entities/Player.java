@@ -25,16 +25,18 @@ public class Player extends Entity {
 	@Override
 	public void tick() {
 		
-		if (inputHandler.up.down) {
-			setySpeed(getySpeed() + 5);
-		}
-		
 		// Check for a single flap (Z key = A button)
 		if (inputHandler.z.down && isFlapKeyReleased()) {
 			setySpeed(getySpeed() + 5);
 			setFlapKeyReleased(false);
+			
+			if (inputHandler.left.down)
+				setxSpeed(getxSpeed() - 3);
+			if (inputHandler.right.down)
+				setxSpeed(getxSpeed() + 3);
 		}
 		
+		// To check if Z key has been released.
 		if (!inputHandler.z.down) {
 			setFlapKeyReleased(true);
 		}
@@ -45,34 +47,43 @@ public class Player extends Entity {
 			if (framesCounter > framesBetweenFlaps) {
 				setySpeed(getySpeed() + 5);
 				framesCounter = 0;
+				
+				if (inputHandler.left.down)
+					setxSpeed(getxSpeed() - 3);
+				if (inputHandler.right.down)
+					setxSpeed(getxSpeed() + 3);
 			}
 		}
 		
-		if (inputHandler.down.down) {
-			//setySpeed(getySpeed() - 3);
-		}
-		
 		if (inputHandler.left.down) {
-			setxSpeed(-4);
+			if (isGrounded())
+				setxSpeed(-4);
 		}
 		
 		if (inputHandler.right.down) {
-			setxSpeed(4);
+			if (isGrounded())
+				setxSpeed(4);
 		}
-		
-		if (!inputHandler.left.down && !inputHandler.right.down) {
-			setxSpeed(0);
-		}
-		
-		// Gravity pull
-		if (!isGrounded())
+				
+		// Gravity pull and friction.
+		if (!isGrounded()) {
 			setySpeed(getySpeed() - GRAVITY);
+			if (getxSpeed() > 0.3 || getxSpeed() < -0.3)
+				setxSpeed((getxSpeed() > 0 ? 1 : -1) * (Math.abs(getxSpeed()) - 0.0025));
+			else
+				setxSpeed(0);
+		} else {
+			if (getxSpeed() > 0.3 || getxSpeed() < -0.3)
+				setxSpeed((getxSpeed() > 0 ? 1 : -1) * (Math.abs(getxSpeed()) - 0.1));
+			else
+				setxSpeed(0);
+		}
 		
 		// Move the player
 		setX((int)Math.floor(getX() + getxSpeed()));
 		setY((int)Math.floor(getY() - getySpeed()));
 		
-		System.out.println(getySpeed());
+		System.out.println("xSpeed = " + getxSpeed() + ", ySpeed = " + getySpeed());
 		
 		// Go to the other side if the limit is crossed
 		if (getX() <= -1 * getWidth() / 2) {
