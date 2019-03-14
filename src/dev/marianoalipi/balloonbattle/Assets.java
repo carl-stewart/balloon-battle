@@ -8,9 +8,11 @@ import java.awt.image.BufferedImage;
  */
 public class Assets {
 
-	public static BufferedImage background, splash, title, github, balloon, mainMenuOptionsImg;
+	public static BufferedImage background, splash, title, github, balloon;
 	private static SpriteSheet mainMenuOptionsSS;
 	public static BufferedImage[] mainMenuOptions;
+	private static SpriteSheet balloonsSS, playerFlySS;
+	public static BufferedImage[] balloonsTwo, balloonsOne, playerFly;
 	
 	public static int textScale = 4;
 
@@ -21,13 +23,35 @@ public class Assets {
         title = ImageLoader.loadImage("assets/images/title_pixel.png");
         github = ImageLoader.loadImage("assets/images/github.png");
         balloon = ImageLoader.loadImage("assets/images/balloon.png");
-        mainMenuOptionsImg = ImageLoader.loadImage("assets/images/menu_options.png");
         
-        mainMenuOptionsSS = new SpriteSheet(mainMenuOptionsImg);
+        // Main menu options
+        mainMenuOptionsSS = new SpriteSheet(ImageLoader.loadImage("assets/images/menu_options.png"));
         mainMenuOptions = new BufferedImage[3];
         
         for (int i = 0; i < mainMenuOptions.length; i++)
-        	mainMenuOptions[i] = mainMenuOptionsSS.crop(0, i * 7, mainMenuOptionsImg.getWidth(), 7);
+        	mainMenuOptions[i] = mainMenuOptionsSS.crop(0, i * 7, mainMenuOptionsSS.getSheet().getWidth(), 7);
+        
+        balloonsSS = new SpriteSheet(ImageLoader.loadImage("assets/images/balloons.png"));
+        balloonsTwo = new BufferedImage[6];
+        balloonsOne = new BufferedImage[2];
+        
+        // Two balloons sprites
+        for (int i = 0; i < 4; i++)
+        	balloonsTwo[i] = balloonsSS.crop(i * 16, 0, 16, 12);
+        // Repeat two frames to create a looping animation.
+        balloonsTwo[4] = balloonsTwo[1];
+        balloonsTwo[5] = balloonsTwo[2];
+        
+        // Single balloon sprites
+        for (int i = 0; i < 2; i++)
+        	balloonsOne[i] = balloonsSS.crop(i * 16, 12, 16, 12);
+        
+        // Player flying animation
+        playerFlySS = new SpriteSheet(ImageLoader.loadImage("assets/images/playerFly.png"));
+        playerFly = new BufferedImage[2];
+        for (int i = 0; i < 2; i++)
+        	playerFly[i] = playerFlySS.crop(i * 16, 0, 16, 12);
+        		
 
     }
 }

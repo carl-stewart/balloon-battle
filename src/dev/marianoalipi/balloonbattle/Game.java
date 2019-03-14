@@ -25,6 +25,7 @@ public class Game implements Runnable {
     String title;
     private int width;
     private int height;
+    public final double SCALE = 2.5;		// the resizing scale to multiply the values
     private int splashFrames = 70; 			// the duration of the splash screen fade effect
     private Thread thread;
     private boolean running;        		// sets up the game
@@ -64,7 +65,7 @@ public class Game implements Runnable {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
         
-        player = new Player(getWidth() / 2 - 20, getHeight() / 2 - 20, 40, 40, this, getInputHandler());
+        player = new Player(getWidth() / 2 - 20, getHeight() / 2 - 20, (int)(SCALE * 16), (int)(SCALE * 12), this, getInputHandler());
         player.setVisible(false);
         player.setSprite(Assets.balloon);
 

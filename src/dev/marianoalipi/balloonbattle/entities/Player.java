@@ -1,7 +1,8 @@
 package dev.marianoalipi.balloonbattle.entities;
 
 import java.awt.Graphics;
-
+import dev.marianoalipi.balloonbattle.Animation;
+import dev.marianoalipi.balloonbattle.Assets;
 import dev.marianoalipi.balloonbattle.Game;
 import dev.marianoalipi.balloonbattle.InputHandler;
 
@@ -10,6 +11,7 @@ public class Player extends Entity {
 	private InputHandler inputHandler;
 	private boolean flapKeyReleased;
 	private int framesBetweenFlaps = 8, framesCounter = 8;
+	private Animation animation;
 	
 	public Player() {
 		super();
@@ -20,6 +22,8 @@ public class Player extends Entity {
 		this.inputHandler = inputHandler;
 		this.flapKeyReleased = true;
 		this.framesCounter = 0;
+		this.setAnimation(new Animation(Assets.balloonsTwo, 500));
+		this.sprite = Assets.playerFly[0];
 	}
 
 	@Override
@@ -29,6 +33,7 @@ public class Player extends Entity {
 		if (inputHandler.z.down && isFlapKeyReleased()) {
 			setySpeed(getySpeed() + 5);
 			setFlapKeyReleased(false);
+			setSprite(Assets.playerFly[1]);
 			
 			if (inputHandler.left.down)
 				setxSpeed(getxSpeed() - 3);
@@ -39,6 +44,7 @@ public class Player extends Entity {
 		// To check if Z key has been released.
 		if (!inputHandler.z.down) {
 			setFlapKeyReleased(true);
+			setSprite(Assets.playerFly[0]);
 		}
 		
 		// Check for constant flapping (X key = B button)
@@ -47,12 +53,14 @@ public class Player extends Entity {
 			if (framesCounter > framesBetweenFlaps) {
 				setySpeed(getySpeed() + 5);
 				framesCounter = 0;
+				setSprite(Assets.playerFly[1]);
 				
 				if (inputHandler.left.down)
 					setxSpeed(getxSpeed() - 3);
 				if (inputHandler.right.down)
 					setxSpeed(getxSpeed() + 3);
-			}
+			} else
+				setSprite(Assets.playerFly[0]);
 		}
 		
 		if (inputHandler.left.down) {
@@ -115,8 +123,14 @@ public class Player extends Entity {
 	
 	@Override
 	public void render(Graphics g) {
-		if (isVisible())
+		if (isVisible()) {
+			getAnimation().tick();
 			g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
+
+			// Draw hitbox (for debugging)
+			// g.setColor(Color.red);
+			// g.drawRect(getX(), getY(), getWidth(), getHeight());
+		}
 	}
 
 	/**
@@ -131,6 +145,20 @@ public class Player extends Entity {
 	 */
 	public void setFlapKeyReleased(boolean flapKeyReleased) {
 		this.flapKeyReleased = flapKeyReleased;
+	}
+
+	/**
+	 * @return the animation
+	 */
+	public Animation getAnimation() {
+		return animation;
+	}
+
+	/**
+	 * @param animation the animation to set
+	 */
+	public void setAnimation(Animation animation) {
+		this.animation = animation;
 	}
 	
 }
