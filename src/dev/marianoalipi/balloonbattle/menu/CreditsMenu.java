@@ -44,7 +44,7 @@ public class CreditsMenu extends Menu {
         g.drawImage(Assets.mainMenuOptions[index], 350, game.getHeight() - 80 - Assets.textScale * Assets.mainMenuOptions[index].getHeight(), Assets.textScale * Assets.mainMenuOptions[index].getWidth(), Assets.textScale * Assets.mainMenuOptions[index].getHeight(),  null);
         
         // Draw a balloon to indicate the cursor
-        g.drawImage(Assets.balloon, 300, game.getHeight() - 80 - 32, 32, 32, null);
+        g.drawImage(Assets.balloonsOne[0], 300, game.getHeight() - 80 - 32, (int)(game.SCALE * 16), (int)(game.SCALE * 12), null);
 	}
 	
 	
