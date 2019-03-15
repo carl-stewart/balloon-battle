@@ -27,12 +27,17 @@ public class Balloon extends Entity {
 	@Override
 	public void tick() {
 		
-		// Adjust a little offset for when the player is facing right
+		// Adjust a little horizontal offset for when the player is facing right
 		if (player.getDirection() == Direction.RIGHT)
 			setX(player.getX() + 2);
 		else
 			setX(player.getX());
-		setY(player.getY() - getHeight());
+		// Adjust a little vertical offset for when the player is walking
+		if (player.getAnimation() == player.walkLeftAnim || player.getAnimation() == player.walkRightAnim)
+			setY(player.getY() - getHeight() + 3);
+		else
+			setY(player.getY() - getHeight());
+		
 		
 		getHitbox().setLocation(getX(), getY());
 		
@@ -44,6 +49,10 @@ public class Balloon extends Entity {
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
+		
+		// Draw hitbox (for debugging)
+		//g.setColor(Color.red);
+		//g.drawRect((int)hitbox.getX(), (int)hitbox.getY(), (int)hitbox.getWidth(), (int)hitbox.getHeight());
 	}
 
 	/**

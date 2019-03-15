@@ -12,6 +12,7 @@ public class Player extends Entity {
 	private boolean flapKeyReleased;
 	private int framesBetweenFlaps = 8, framesCounter = 8;
 	private Balloon balloons;
+	protected Animation walkLeftAnim, walkRightAnim;
 	
 	private enum State {IDLE, FLY, WALK};
 	
@@ -29,6 +30,8 @@ public class Player extends Entity {
 		this.direction = Direction.LEFT;
 		
 		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), game, this);
+		this.walkLeftAnim = new Animation(Assets.playerWalkLeft, 100);
+		this.walkRightAnim = new Animation(Assets.playerWalkRight, 100);
 	}
 
 	@Override
@@ -38,6 +41,7 @@ public class Player extends Entity {
 		if (inputHandler.z.down && isFlapKeyReleased()) {
 			setySpeed(getySpeed() + 5);
 			setFlapKeyReleased(false);
+			setAnimation(null);
 			setSpriteAuto(State.FLY, true);
 			
 			if (inputHandler.left.down)
@@ -59,6 +63,7 @@ public class Player extends Entity {
 			if (framesCounter > framesBetweenFlaps) {
 				setySpeed(getySpeed() + 5);
 				framesCounter = 0;
+				setAnimation(null);
 				setSpriteAuto(State.FLY, true);
 				
 				if (inputHandler.left.down)
@@ -73,18 +78,27 @@ public class Player extends Entity {
 			setDirection(Direction.LEFT);
 			if (isGrounded()) {
 				setxSpeed(-4);
-				setSpriteAuto(State.WALK, false);
-			}
+				//setSpriteAuto(State.WALK, false);
+				setAnimation(walkLeftAnim);
+			} else
+				setAnimation(null);
 		}
 		
 		if (inputHandler.right.down) {
 			setDirection(Direction.RIGHT);
 			if (isGrounded()) {
 				setxSpeed(4);
-				setSpriteAuto(State.WALK, false);
-			}
+				//setSpriteAuto(State.WALK, false);
+				setAnimation(walkRightAnim);
+			} else
+				setAnimation(null);
 		}
-				
+		
+		if (getAnimation() == walkLeftAnim || getAnimation() == walkRightAnim) {
+			getAnimation().tick();
+			setSprite(getAnimation().getCurrentFrame());
+		}
+		
 		// Gravity pull and friction.
 		if (!isGrounded()) {
 			setySpeed(getySpeed() - GRAVITY);
@@ -101,8 +115,10 @@ public class Player extends Entity {
 		}
 		
 		// Idle animation
-		if (isGrounded() && getxSpeed() == 0 && getySpeed() == 0)
+		if (isGrounded() && getxSpeed() == 0 && getySpeed() == 0) {
 			setSpriteAuto(State.IDLE, false);
+			setAnimation(null);
+		}
 		
 		// Move the player
 		setX((int)Math.floor(getX() + getxSpeed()));
@@ -137,6 +153,9 @@ public class Player extends Entity {
 			}			
 		}
 		
+		// Relocate hitbox
+		getHitbox().setLocation(getX(), getY());
+		
 		// Tick balloons
 		balloons.tick();
 	}
@@ -144,15 +163,14 @@ public class Player extends Entity {
 	@Override
 	public void render(Graphics g) {
 		if (isVisible()) {
-			getAnimation().tick();
 			g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
 
 			// Render balloons
 			balloons.render(g);
 			
 			// Draw hitbox (for debugging)
-			// g.setColor(Color.red);
-			// g.drawRect(getX(), getY(), getWidth(), getHeight());
+			//g.setColor(Color.red);
+			//g.drawRect((int)hitbox.getX(), (int)hitbox.getY(), (int)hitbox.getWidth(), (int)hitbox.getHeight());
 		}
 	}
 
