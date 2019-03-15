@@ -48,8 +48,8 @@ public class Assets {
         
         // Player flying animation
         playerFlySS = new SpriteSheet(ImageLoader.loadImage("assets/images/playerFly.png"));
-        playerFly = new BufferedImage[2];
-        for (int i = 0; i < 2; i++)
+        playerFly = new BufferedImage[4];
+        for (int i = 0; i < playerFly.length; i++)
         	playerFly[i] = playerFlySS.crop(i * 16, 0, 16, 12);
         		
 

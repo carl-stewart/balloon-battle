@@ -24,6 +24,7 @@ public class Player extends Entity {
 		this.framesCounter = 0;
 		this.setAnimation(new Animation(Assets.balloonsTwo, 500));
 		this.sprite = Assets.playerFly[0];
+		this.direction = Direction.LEFT;
 	}
 
 	@Override
@@ -33,18 +34,18 @@ public class Player extends Entity {
 		if (inputHandler.z.down && isFlapKeyReleased()) {
 			setySpeed(getySpeed() + 5);
 			setFlapKeyReleased(false);
-			setSprite(Assets.playerFly[1]);
+			setFlySprite(true);
 			
 			if (inputHandler.left.down)
-				setxSpeed(getxSpeed() - 3);
+				setxSpeed(getxSpeed() - 2);
 			if (inputHandler.right.down)
-				setxSpeed(getxSpeed() + 3);
+				setxSpeed(getxSpeed() + 2);
 		}
 		
 		// To check if Z key has been released.
 		if (!inputHandler.z.down) {
 			setFlapKeyReleased(true);
-			setSprite(Assets.playerFly[0]);
+			setFlySprite(false);
 		}
 		
 		// Check for constant flapping (X key = B button)
@@ -53,22 +54,24 @@ public class Player extends Entity {
 			if (framesCounter > framesBetweenFlaps) {
 				setySpeed(getySpeed() + 5);
 				framesCounter = 0;
-				setSprite(Assets.playerFly[1]);
+				setFlySprite(true);
 				
 				if (inputHandler.left.down)
 					setxSpeed(getxSpeed() - 3);
 				if (inputHandler.right.down)
 					setxSpeed(getxSpeed() + 3);
 			} else
-				setSprite(Assets.playerFly[0]);
+				setFlySprite(false);
 		}
 		
 		if (inputHandler.left.down) {
+			setDirection(Direction.LEFT);
 			if (isGrounded())
 				setxSpeed(-4);
 		}
 		
 		if (inputHandler.right.down) {
+			setDirection(Direction.RIGHT);
 			if (isGrounded())
 				setxSpeed(4);
 		}
@@ -159,6 +162,28 @@ public class Player extends Entity {
 	 */
 	public void setAnimation(Animation animation) {
 		this.animation = animation;
+	}
+	
+	/**
+	 * This method sets the sprite of the player when it's flying. It detects if it's facing left or right and sets its sprite to not-flapping or flapping, depending on the <code>flap</code> parameter.
+	 */
+	private void setFlySprite(boolean flap) {
+		switch (getDirection()) {
+			case LEFT:
+				if (flap)
+					setSprite(Assets.playerFly[1]);
+				else
+					setSprite(Assets.playerFly[0]);
+				break;
+			case RIGHT:
+				if (flap)
+					setSprite(Assets.playerFly[3]);
+				else
+					setSprite(Assets.playerFly[2]);
+				break;
+			default:
+				break;
+		}
 	}
 	
 }

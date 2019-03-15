@@ -16,6 +16,9 @@ public abstract class Entity {
 	//protected static final int abc;
 	protected static final double GRAVITY = 0.3, MAX_SPEED = 7;
 	protected boolean grounded, visible, spawned;
+	
+	public enum Direction {LEFT, RIGHT};
+	protected Direction direction;
 
 	public Entity() {
 		this.x = 0;
@@ -92,6 +95,10 @@ public abstract class Entity {
 		return spawned;
 	}
 	
+	public Direction getDirection() {
+		return direction;
+	}
+	
 	public void setX(int x) {
 		this.x = x;
 	}
@@ -141,6 +148,10 @@ public abstract class Entity {
 	
 	public void setSpawned(boolean spawned) {
 		this.spawned = spawned;
+	}
+	
+	public void setDirection(Direction direction) {
+		this.direction = direction;
 	}
 
 }
