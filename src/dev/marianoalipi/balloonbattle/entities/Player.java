@@ -11,7 +11,7 @@ public class Player extends Entity {
 	private InputHandler inputHandler;
 	private boolean flapKeyReleased;
 	private int framesBetweenFlaps = 8, framesCounter = 8;
-	private Animation animation;
+	private Balloon balloons;
 	
 	private enum State {IDLE, FLY, WALK};
 	
@@ -27,6 +27,8 @@ public class Player extends Entity {
 		this.setAnimation(new Animation(Assets.balloonsTwo, 500));
 		this.sprite = Assets.playerFly[0];
 		this.direction = Direction.LEFT;
+		
+		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), game, this);
 	}
 
 	@Override
@@ -132,8 +134,11 @@ public class Player extends Entity {
 			if (getY() >= game.getHeight() - getHeight()) {
 				setGrounded(true);
 				setySpeed(0);
-			}
+			}			
 		}
+		
+		// Tick balloons
+		balloons.tick();
 	}
 	
 	@Override
@@ -142,6 +147,9 @@ public class Player extends Entity {
 			getAnimation().tick();
 			g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
 
+			// Render balloons
+			balloons.render(g);
+			
 			// Draw hitbox (for debugging)
 			// g.setColor(Color.red);
 			// g.drawRect(getX(), getY(), getWidth(), getHeight());
@@ -160,20 +168,6 @@ public class Player extends Entity {
 	 */
 	public void setFlapKeyReleased(boolean flapKeyReleased) {
 		this.flapKeyReleased = flapKeyReleased;
-	}
-
-	/**
-	 * @return the animation
-	 */
-	public Animation getAnimation() {
-		return animation;
-	}
-
-	/**
-	 * @param animation the animation to set
-	 */
-	public void setAnimation(Animation animation) {
-		this.animation = animation;
 	}
 	
 	/**

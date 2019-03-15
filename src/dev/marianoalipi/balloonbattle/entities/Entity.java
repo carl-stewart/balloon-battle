@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import dev.marianoalipi.balloonbattle.Animation;
 import dev.marianoalipi.balloonbattle.Game;
 
 public abstract class Entity {
@@ -12,6 +13,7 @@ public abstract class Entity {
 	protected double speed, xSpeed, ySpeed;
 	protected BufferedImage sprite;
 	protected Rectangle hitbox;
+	protected Animation animation;
 	protected Game game;
 	//protected static final int abc;
 	protected static final double GRAVITY = 0.3, MAX_SPEED = 7;
@@ -99,6 +101,20 @@ public abstract class Entity {
 		return direction;
 	}
 	
+	/**
+	 * @return the animation
+	 */
+	public Animation getAnimation() {
+		return animation;
+	}
+
+	/**
+	 * @param animation the animation to set
+	 */
+	public void setAnimation(Animation animation) {
+		this.animation = animation;
+	}
+
 	public void setX(int x) {
 		this.x = x;
 	}
