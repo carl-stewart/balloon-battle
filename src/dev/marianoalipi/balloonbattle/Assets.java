@@ -11,8 +11,8 @@ public class Assets {
 	public static BufferedImage background, splash, title, github, balloon;
 	private static SpriteSheet mainMenuOptionsSS;
 	public static BufferedImage[] mainMenuOptions;
-	private static SpriteSheet balloonsSS, playerFlySS;
-	public static BufferedImage[] balloonsTwo, balloonsOne, playerFly;
+	private static SpriteSheet balloonsSS, playerFlySS, playerIdleSS;
+	public static BufferedImage[] balloonsTwo, balloonsOne, playerFly, playerIdle;
 	
 	public static int textScale = 4;
 
@@ -51,6 +51,12 @@ public class Assets {
         playerFly = new BufferedImage[4];
         for (int i = 0; i < playerFly.length; i++)
         	playerFly[i] = playerFlySS.crop(i * 16, 0, 16, 12);
+        
+        // Player idle sprite
+        playerIdleSS = new SpriteSheet(ImageLoader.loadImage("assets/images/playerIdle.png"));
+        playerIdle = new BufferedImage[2];
+        for (int i = 0; i < playerIdle.length; i++)
+        	playerIdle[i] = playerIdleSS.crop(i * 16, 0, 16, 12);
         		
 
     }

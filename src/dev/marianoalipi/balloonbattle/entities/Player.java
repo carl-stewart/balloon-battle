@@ -13,6 +13,8 @@ public class Player extends Entity {
 	private int framesBetweenFlaps = 8, framesCounter = 8;
 	private Animation animation;
 	
+	private enum State {IDLE, FLY, WALK};
+	
 	public Player() {
 		super();
 	}
@@ -34,7 +36,7 @@ public class Player extends Entity {
 		if (inputHandler.z.down && isFlapKeyReleased()) {
 			setySpeed(getySpeed() + 5);
 			setFlapKeyReleased(false);
-			setFlySprite(true);
+			setSpriteAuto(State.FLY, true);
 			
 			if (inputHandler.left.down)
 				setxSpeed(getxSpeed() - 2);
@@ -45,7 +47,8 @@ public class Player extends Entity {
 		// To check if Z key has been released.
 		if (!inputHandler.z.down) {
 			setFlapKeyReleased(true);
-			setFlySprite(false);
+			if (!isGrounded())
+				setSpriteAuto(State.FLY, false);
 		}
 		
 		// Check for constant flapping (X key = B button)
@@ -54,26 +57,30 @@ public class Player extends Entity {
 			if (framesCounter > framesBetweenFlaps) {
 				setySpeed(getySpeed() + 5);
 				framesCounter = 0;
-				setFlySprite(true);
+				setSpriteAuto(State.FLY, true);
 				
 				if (inputHandler.left.down)
 					setxSpeed(getxSpeed() - 3);
 				if (inputHandler.right.down)
 					setxSpeed(getxSpeed() + 3);
 			} else
-				setFlySprite(false);
+				setSpriteAuto(State.FLY, false);
 		}
 		
 		if (inputHandler.left.down) {
 			setDirection(Direction.LEFT);
-			if (isGrounded())
+			if (isGrounded()) {
 				setxSpeed(-4);
+				setSpriteAuto(State.WALK, false);
+			}
 		}
 		
 		if (inputHandler.right.down) {
 			setDirection(Direction.RIGHT);
-			if (isGrounded())
+			if (isGrounded()) {
 				setxSpeed(4);
+				setSpriteAuto(State.WALK, false);
+			}
 		}
 				
 		// Gravity pull and friction.
@@ -86,9 +93,14 @@ public class Player extends Entity {
 		} else {
 			if (getxSpeed() > 0.3 || getxSpeed() < -0.3)
 				setxSpeed((getxSpeed() > 0 ? 1 : -1) * (Math.abs(getxSpeed()) - 0.1));
-			else
+			else {
 				setxSpeed(0);
+			}
 		}
+		
+		// Idle animation
+		if (isGrounded() && getxSpeed() == 0 && getySpeed() == 0)
+			setSpriteAuto(State.IDLE, false);
 		
 		// Move the player
 		setX((int)Math.floor(getX() + getxSpeed()));
@@ -165,24 +177,46 @@ public class Player extends Entity {
 	}
 	
 	/**
-	 * This method sets the sprite of the player when it's flying. It detects if it's facing left or right and sets its sprite to not-flapping or flapping, depending on the <code>flap</code> parameter.
+	 * This method sets the sprite of the player according to its state (flying, idle, walking). It detects if it's facing left or right and sets its sprite to not-flapping or flapping, depending on the <code>flap</code> parameter.
 	 */
-	private void setFlySprite(boolean flap) {
+	private void setSpriteAuto(State state, boolean flap) {
 		switch (getDirection()) {
 			case LEFT:
-				if (flap)
-					setSprite(Assets.playerFly[1]);
-				else
-					setSprite(Assets.playerFly[0]);
-				break;
+				switch (state) {
+					case FLY:
+						if (flap)
+							setSprite(Assets.playerFly[1]);
+						else
+							setSprite(Assets.playerFly[0]);
+						break;
+					case IDLE:
+						setSprite(Assets.playerIdle[0]);
+						break;
+					case WALK:
+						setSprite(Assets.playerIdle[0]);
+						break;
+					default:
+						break;
+				}
+			break;
+			
 			case RIGHT:
-				if (flap)
-					setSprite(Assets.playerFly[3]);
-				else
-					setSprite(Assets.playerFly[2]);
-				break;
-			default:
-				break;
+				switch (state) {
+					case FLY:
+						if (flap)
+							setSprite(Assets.playerFly[3]);
+						else
+							setSprite(Assets.playerFly[2]);
+						break;
+					case IDLE:
+						setSprite(Assets.playerIdle[1]);
+						break;
+					case WALK:
+						setSprite(Assets.playerIdle[1]);
+						break;
+					default:
+						break;
+				}
 		}
 	}
 	
