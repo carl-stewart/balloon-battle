@@ -168,7 +168,7 @@ public class Player extends Entity {
 			g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
 
 			// Render balloons
-			//balloons.render(g);
+			balloons.render(g);
 			
 			// Draw hitbox (for debugging)
 			//g.setColor(Color.red);
