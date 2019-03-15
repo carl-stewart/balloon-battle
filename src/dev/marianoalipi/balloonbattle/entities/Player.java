@@ -12,7 +12,7 @@ public class Player extends Entity {
 	private boolean flapKeyReleased;
 	private int framesBetweenFlaps = 8, framesCounter = 8;
 	private Balloon balloons;
-	protected Animation walkLeftAnim, walkRightAnim;
+	protected Animation walkLeftAnim, walkRightAnim, fallingAnim;
 	
 	private enum State {IDLE, FLY, WALK};
 	
@@ -32,6 +32,7 @@ public class Player extends Entity {
 		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), game, this);
 		this.walkLeftAnim = new Animation(Assets.playerWalkLeft, 100);
 		this.walkRightAnim = new Animation(Assets.playerWalkRight, 100);
+		this.fallingAnim = new Animation(Assets.playerFalling, 50);
 	}
 
 	@Override
@@ -94,7 +95,8 @@ public class Player extends Entity {
 				setAnimation(null);
 		}
 		
-		if (getAnimation() == walkLeftAnim || getAnimation() == walkRightAnim) {
+		// Tick and set walking animation.
+		if (getAnimation() == walkLeftAnim || getAnimation() == walkRightAnim || getAnimation() == fallingAnim) {
 			getAnimation().tick();
 			setSprite(getAnimation().getCurrentFrame());
 		}
@@ -166,7 +168,7 @@ public class Player extends Entity {
 			g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
 
 			// Render balloons
-			balloons.render(g);
+			//balloons.render(g);
 			
 			// Draw hitbox (for debugging)
 			//g.setColor(Color.red);

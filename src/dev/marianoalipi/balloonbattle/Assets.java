@@ -11,8 +11,8 @@ public class Assets {
 	public static BufferedImage background, splash, title, github, balloon;
 	private static SpriteSheet mainMenuOptionsSS;
 	public static BufferedImage[] mainMenuOptions;
-	private static SpriteSheet balloonsSS, playerFlySS, playerIdleSS, playerWalkSS;
-	public static BufferedImage[] balloonsTwo, balloonsOne, playerFly, playerIdle, playerWalkLeft, playerWalkRight;
+	private static SpriteSheet balloonsSS, playerFlySS, playerIdleSS, playerWalkSS, playerFallingSS;
+	public static BufferedImage[] balloonsTwo, balloonsOne, playerFly, playerIdle, playerWalkLeft, playerWalkRight, playerFalling;
 	
 	public static int textScale = 4;
 
@@ -66,6 +66,12 @@ public class Assets {
         for (int i = 0; i < playerWalkLeft.length; i++) {
         	playerWalkLeft[i] = playerWalkSS.crop(i * 16, 0, 16, 12);
         	playerWalkRight[i] = playerWalkSS.crop(i * 16, 12, 16, 12);
-    	}        
+    	} 
+        
+        // Player falling animation
+        playerFallingSS = new SpriteSheet(ImageLoader.loadImage("assets/images/playerFalling.png"));
+        playerFalling = new BufferedImage[4];
+        for (int i = 0; i < playerFalling.length; i++)
+        	playerFalling[i] = playerFallingSS.crop(i * 16, 0, 16, 12);
     }
 }

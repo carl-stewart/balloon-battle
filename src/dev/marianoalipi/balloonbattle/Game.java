@@ -25,7 +25,7 @@ public class Game implements Runnable {
     String title;
     private int width;
     private int height;
-    public final static double SCALE = 2.5;		// the resizing scale to multiply the values
+    public final static double SCALE = 3;		// the resizing scale to multiply the values
     private int splashFrames = 70; 			// the duration of the splash screen fade effect
     private Thread thread;
     private boolean running;        		// sets up the game
