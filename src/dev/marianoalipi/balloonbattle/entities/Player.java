@@ -12,7 +12,7 @@ public class Player extends Entity {
 	private boolean flapKeyReleased;
 	private int framesBetweenFlaps = 8, framesCounter = 8;
 	private Balloon balloons;
-	protected Animation walkLeftAnim, walkRightAnim, fallingAnim;
+	protected Animation walkLeftAnim, walkRightAnim, fallingAnim, flapLeftAnim, flapRightAnim;
 	
 	private enum State {IDLE, FLY, WALK};
 	
@@ -33,6 +33,8 @@ public class Player extends Entity {
 		this.walkLeftAnim = new Animation(Assets.playerWalkLeft, 100);
 		this.walkRightAnim = new Animation(Assets.playerWalkRight, 100);
 		this.fallingAnim = new Animation(Assets.playerFalling, 50);
+		this.flapLeftAnim = new Animation(Assets.playerFlapLeft, 80);
+		this.flapRightAnim = new Animation(Assets.playerFlapRight, 80);
 	}
 
 	@Override
@@ -55,17 +57,18 @@ public class Player extends Entity {
 		if (!inputHandler.z.down) {
 			setFlapKeyReleased(true);
 			if (!isGrounded())
+				setAnimation(null);
 				setSpriteAuto(State.FLY, false);
 		}
 		
 		// Check for constant flapping (X key = B button)
 		framesCounter++;
 		if (inputHandler.x.down) {
+			setAnimation(getDirection() == Direction.LEFT ? flapLeftAnim : flapRightAnim);
 			if (framesCounter > framesBetweenFlaps) {
 				setySpeed(getySpeed() + 5);
 				framesCounter = 0;
-				setAnimation(null);
-				setSpriteAuto(State.FLY, true);
+				//setSpriteAuto(State.FLY, true);
 				
 				if (inputHandler.left.down)
 					setxSpeed(getxSpeed() - 3);
@@ -79,24 +82,20 @@ public class Player extends Entity {
 			setDirection(Direction.LEFT);
 			if (isGrounded()) {
 				setxSpeed(-4);
-				//setSpriteAuto(State.WALK, false);
 				setAnimation(walkLeftAnim);
-			} else
-				setAnimation(null);
+			}
 		}
 		
 		if (inputHandler.right.down) {
 			setDirection(Direction.RIGHT);
 			if (isGrounded()) {
 				setxSpeed(4);
-				//setSpriteAuto(State.WALK, false);
 				setAnimation(walkRightAnim);
-			} else
-				setAnimation(null);
+			}
 		}
 		
-		// Tick and set walking animation.
-		if (getAnimation() == walkLeftAnim || getAnimation() == walkRightAnim || getAnimation() == fallingAnim) {
+		// Tick animation and get sprite to render.
+		if (getAnimation() != null) {
 			getAnimation().tick();
 			setSprite(getAnimation().getCurrentFrame());
 		}

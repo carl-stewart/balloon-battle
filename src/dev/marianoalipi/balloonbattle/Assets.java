@@ -1,6 +1,7 @@
 package dev.marianoalipi.balloonbattle;
 
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 /**
  *
@@ -12,7 +13,7 @@ public class Assets {
 	private static SpriteSheet mainMenuOptionsSS;
 	public static BufferedImage[] mainMenuOptions;
 	private static SpriteSheet balloonsSS, playerFlySS, playerIdleSS, playerWalkSS, playerFallingSS;
-	public static BufferedImage[] balloonsTwo, balloonsOne, playerFly, playerIdle, playerWalkLeft, playerWalkRight, playerFalling;
+	public static BufferedImage[] balloonsTwo, balloonsOne, playerFly, playerFlapLeft, playerFlapRight, playerIdle, playerWalkLeft, playerWalkRight, playerFalling;
 	
 	public static int textScale = 4;
 
@@ -51,6 +52,8 @@ public class Assets {
         playerFly = new BufferedImage[4];
         for (int i = 0; i < playerFly.length; i++)
         	playerFly[i] = playerFlySS.crop(i * 16, 0, 16, 12);
+        playerFlapLeft = Arrays.copyOfRange(playerFly, 0, 2);
+        playerFlapRight = Arrays.copyOfRange(playerFly, 2, 4);
         
         // Player idle sprite
         playerIdleSS = new SpriteSheet(ImageLoader.loadImage("assets/images/playerIdle.png"));
