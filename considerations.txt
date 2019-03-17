@@ -6,9 +6,9 @@ flying -> popped -> inflates -> changes color -> flying
 
 | Color  | Popped | Beaten in the air | Beaten on-ground |
 | ------ | ------ | ----------------- | ---------------- |
-| Pink   |   500  |        1000       |        500       |
+| Pink   |   500  |        1000       |        750       |
 | Green  |   750  |        1500       |       1000       |
-| Yellow |  1000  |        2000       |       2000       |
+| Yellow |  1000  |        2000       |       1500       |
 
 --------------------
 
@@ -21,3 +21,4 @@ flying -> popped -> inflates -> changes color -> flying
 after a while.
 - Sparks bounce off the top and off the platforms.
 - Hitting a spark pops both balloons.
+- Every time an enemy is beaten, either by breaking their parachute, or by kicking them off the ground, a bubble rises out of the water. It gives 500 points
