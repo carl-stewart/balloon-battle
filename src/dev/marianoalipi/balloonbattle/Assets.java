@@ -12,8 +12,11 @@ public class Assets {
 	public static BufferedImage background, splash, title, github, balloon;
 	private static SpriteSheet mainMenuOptionsSS;
 	public static BufferedImage[] mainMenuOptions;
-	private static SpriteSheet balloonsSS, playerFlySS, playerIdleSS, playerWalkSS, playerFallingSS;
-	public static BufferedImage[] balloonsTwo, balloonsOne, playerFly, playerFlapLeft, playerFlapRight, playerIdle, playerWalkLeft, playerWalkRight, playerFalling;
+	private static SpriteSheet balloonsSS, playerFlySS, playerIdleSS, playerWalkSS, playerFallingSS, enemyFlySS;
+	public static BufferedImage[] balloonsTwo, balloonsOne,
+								  playerFly, playerFlapLeft, playerFlapRight,
+								  playerIdle, playerWalkLeft, playerWalkRight, playerFalling,
+								  enemyFly, enemyFlapLeft, enemyFlapRight;
 	
 	public static int textScale = 4;
 
@@ -76,5 +79,13 @@ public class Assets {
         playerFalling = new BufferedImage[4];
         for (int i = 0; i < playerFalling.length; i++)
         	playerFalling[i] = playerFallingSS.crop(i * 16, 0, 16, 12);
+        
+        // Enemy flying animation
+        enemyFlySS = new SpriteSheet(ImageLoader.loadImage("assets/images/enemyFly.png"));
+        enemyFly = new BufferedImage[4];
+        for (int i = 0; i < enemyFly.length; i++)
+        	enemyFly[i] = enemyFlySS.crop(i * 16, 0, 16, 12);
+        enemyFlapLeft = Arrays.copyOfRange(enemyFly, 0, 2);
+        enemyFlapRight = Arrays.copyOfRange(enemyFly, 2, 4);
     }
 }

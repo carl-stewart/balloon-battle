@@ -6,7 +6,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 
+import dev.marianoalipi.balloonbattle.entities.Enemy;
 import dev.marianoalipi.balloonbattle.entities.Player;
 import dev.marianoalipi.balloonbattle.menu.MainMenu;
 import dev.marianoalipi.balloonbattle.menu.Menu;
@@ -25,7 +27,7 @@ public class Game implements Runnable {
     String title;
     private int width;
     private int height;
-    public final static double SCALE = 3;		// the resizing scale to multiply the values
+    public final static double SCALE = 3;	// the resizing scale to multiply the values
     private int splashFrames = 70; 			// the duration of the splash screen fade effect
     private Thread thread;
     private boolean running;        		// sets up the game
@@ -39,6 +41,7 @@ public class Game implements Runnable {
 	
 	// Game entities
 	private Player player;
+	private ArrayList<Enemy> enemies;
     
     // Specialized single-use variables
 	private int splashCounter = 0; // for splash effects
@@ -68,6 +71,9 @@ public class Game implements Runnable {
         player = new Player(getWidth() / 2 - 20, getHeight() / 2 - 20, (int)(SCALE * 16), (int)(SCALE * 12), this, getInputHandler());
         player.setVisible(false);
         player.setSprite(Assets.balloon);
+        
+        enemies = new ArrayList<Enemy>();
+        enemies.add(new Enemy((int)(getWidth() * 0.8), getHeight() / 2, (int)(SCALE * 16), (int)(SCALE *12), this, Enemy.EnemyColor.PINK));
 
         //starts to listen the keyboard input
         display.getJframe().addKeyListener(inputHandler);
@@ -106,6 +112,9 @@ public class Game implements Runnable {
     	switch (getGameState()) {
     		case GAME:
     			player.tick();
+    			for (Enemy enemy : enemies) {
+    				enemy.tick();
+    			}
     			break;
     		default:
     			break;
@@ -196,6 +205,10 @@ public class Game implements Runnable {
         				g.fillRect(0, 0, getWidth(), getHeight());
         				
         				player.render(g);
+        				
+        				for (Enemy enemy : enemies) {
+        					enemy.render(g);
+        				}
         				
         				break;
     				

@@ -32,6 +32,9 @@ public abstract class Entity {
 		this.ySpeed = 0;
 		this.sprite = null;
 		this.hitbox = new Rectangle(x, y, width, height);
+		this.direction = null;
+		this.grounded = false;
+		this.visible = false;
 	}
 	
 	public Entity(int x, int y, int width, int height, Game game) {
@@ -43,6 +46,9 @@ public abstract class Entity {
 		this.sprite = null;
 		this.game = game;
 		this.hitbox = new Rectangle(x, y, width, height);
+		this.direction = Direction.LEFT;
+		this.grounded = false;
+		this.visible = true;
 	}
 
 	public abstract void tick();
