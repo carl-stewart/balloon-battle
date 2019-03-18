@@ -12,11 +12,12 @@ public class Assets {
 	public static BufferedImage background, splash, title, github, balloon;
 	private static SpriteSheet mainMenuOptionsSS;
 	public static BufferedImage[] mainMenuOptions;
-	private static SpriteSheet balloonsSS, playerFlySS, playerIdleSS, playerWalkSS, playerFallingSS, enemyFlySS;
+	private static SpriteSheet balloonsSS, playerFlySS, playerIdleSS, playerWalkSS, playerFallingSS, enemyFlySS, enemyIdleSS;
 	public static BufferedImage[] balloonsTwo, balloonsOne,
 								  playerFly, playerFlapLeft, playerFlapRight,
 								  playerIdle, playerWalkLeft, playerWalkRight, playerFalling,
-								  enemyFly, enemyFlapLeft, enemyFlapRight;
+								  enemyFly, enemyFlapLeft, enemyFlapRight,
+								  enemyIdle;
 	
 	public static int textScale = 4;
 
@@ -87,5 +88,12 @@ public class Assets {
         	enemyFly[i] = enemyFlySS.crop(i * 16, 0, 16, 12);
         enemyFlapLeft = Arrays.copyOfRange(enemyFly, 0, 2);
         enemyFlapRight = Arrays.copyOfRange(enemyFly, 2, 4);
+        
+        // Enemy idle
+        enemyIdleSS = new SpriteSheet(ImageLoader.loadImage("assets/images/enemyIdle.png"));
+        enemyIdle = new BufferedImage[2];
+        for (int i = 0; i < enemyIdle.length; i++) {
+        	enemyIdle[i] = enemyIdleSS.crop(i * 16, 0, 16, 12);
+        }
     }
 }

@@ -82,8 +82,6 @@ public class Enemy extends Entity {
 			}			
 		}
 		
-		System.out.println(getDirection().toString());
-		
 		// Tick the animation and get the current sprite.
 		if (getAnimation() != null) {
 			getAnimation().tick();
