@@ -1,5 +1,7 @@
 package dev.marianoalipi.balloonbattle;
 
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
@@ -9,11 +11,13 @@ import java.util.Arrays;
  */
 public class Assets {
 
+	public static Font gameFont, gameFont25, gameFont25B, gameFont35, gameFont35B;
+	
 	public static BufferedImage background, splash, title, github, balloon;
-	private static SpriteSheet mainMenuOptionsSS;
-	public static BufferedImage[] mainMenuOptions;
-	private static SpriteSheet balloonsSS, playerFlySS, playerIdleSS, playerWalkSS, playerFallingSS, enemyFlySS, enemyIdleSS;
-	public static BufferedImage[] balloonsTwo, balloonsOne,
+	
+	private static SpriteSheet mainMenuOptionsSS, balloonsSS, playerFlySS, playerIdleSS, playerWalkSS, playerFallingSS, enemyFlySS, enemyIdleSS;
+	public static BufferedImage[] mainMenuOptions,
+								  balloonsTwo, balloonsOne,
 								  playerFly, playerFlapLeft, playerFlapRight,
 								  playerIdle, playerWalkLeft, playerWalkRight, playerFalling,
 								  enemyFly, enemyFlapLeft, enemyFlapRight,
@@ -22,6 +26,27 @@ public class Assets {
 	public static int textScale = 4;
 
     public static void init() {
+    	
+    	// Custom fonts
+    	// "Roses Are FF0000"
+    	try {
+    	     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, Assets.class.getClassLoader().getResourceAsStream("dev/marianoalipi/balloonbattle/assets/fonts/RosesAreFF0000.ttf")));
+    	     
+    	     gameFont = new Font("Roses Are FF0000", Font.PLAIN, 25);
+    	     gameFont25 = gameFont.deriveFont(Font.PLAIN, 25);
+    	     gameFont25B = gameFont.deriveFont(Font.BOLD, 25);
+    	     gameFont35 = gameFont.deriveFont(Font.PLAIN, 35);
+    	     gameFont35B = gameFont.deriveFont(Font.BOLD, 35);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		System.out.println("Using Arial font instead.");
+    		gameFont = new Font("Arial", Font.PLAIN, 25);
+			gameFont25 = gameFont.deriveFont(Font.PLAIN, 25);
+			gameFont25B = gameFont.deriveFont(Font.BOLD, 25);
+			gameFont35 = gameFont.deriveFont(Font.PLAIN, 35);
+			gameFont35B = gameFont.deriveFont(Font.BOLD, 35);
+    	}
     	
         background = ImageLoader.loadImage("assets/images/background.png");
         splash = ImageLoader.loadImage("assets/images/splash.png");
