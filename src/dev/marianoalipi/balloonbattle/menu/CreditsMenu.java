@@ -37,8 +37,11 @@ public class CreditsMenu extends Menu {
         g.drawImage(Assets.github, 179, game.getHeight() - 50, 443, 31, null);
         
         g.setColor(Color.white);
-        g.setFont(new Font("Arial", Font.PLAIN, 25));
-        //g.drawString("Go back", 350, game.getHeight() - 80);
+        g.setFont(new Font("Roses Are FF0000", Font.BOLD, 25));
+        g.drawString("Fonts:", 130, game.getHeight() / 8);
+        g.setFont(new Font("Roses Are FF0000", Font.PLAIN, 25));
+        g.drawString("\"Roses Are FF0000\" by AJ Paglia", 130, game.getHeight() / 7 + 30);
+        g.drawString("www.ajpaglia.com", 130, game.getHeight() / 7 + 60);
         
         int index = 2;
         g.drawImage(Assets.mainMenuOptions[index], 350, game.getHeight() - 80 - Assets.textScale * Assets.mainMenuOptions[index].getHeight(), Assets.textScale * Assets.mainMenuOptions[index].getWidth(), Assets.textScale * Assets.mainMenuOptions[index].getHeight(),  null);
