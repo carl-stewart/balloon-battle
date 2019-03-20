@@ -10,18 +10,26 @@ public class Balloon extends Entity {
 
 	private Entity owner;
 	private int balloonsAmount;
+	public enum BalloonColor {RED, PINK, GREEN, YELLOW};
+	private BalloonColor balloonColor;
+	private Animation balloonsTwoAnim, balloonsOneAnim, balloonsZeroAnim;
 	
 	public Balloon () {
 		super();
 	}
 	
-	public Balloon (int x, int y, int width, int height, Game game, Entity owner) {
+	public Balloon (int x, int y, int width, int height, int balloonsAmount, BalloonColor balloonColor, Game game, Entity owner) {
 		super(x, y, width, height, game);
 		this.owner = owner;
 		this.sprite = Assets.balloonsTwo[0];
-		this.animation = new Animation(Assets.balloonsTwo, 400);
+		this.setBalloonColor(balloonColor);
+		this.balloonsTwoAnim = new Animation(Assets.balloonsTwo, 400);
+		this.balloonsOneAnim = new Animation(Assets.balloonsOne, 400);
+		// Placeholder images
+		this.balloonsZeroAnim = new Animation(Assets.balloonsTwo, 400);
+		this.animation = balloonsTwoAnim;
 		this.direction = Direction.LEFT;
-		this.balloonsAmount = 2;
+		this.balloonsAmount = balloonsAmount;
 	}
 	
 	@Override
@@ -48,11 +56,14 @@ public class Balloon extends Entity {
 			setY(owner.getY() - getHeight() + 3);
 		}
 		
+		// Relocate hitbox
 		getHitbox().setLocation(getX(), getY());
 		
+		// Tick animation and update sprite
 		getAnimation().tick();
 		setSprite(getAnimation().getCurrentFrame());
 		
+		setAnimation(getBalloonsAmount() == 2 ? balloonsTwoAnim : (getBalloonsAmount() == 1 ? balloonsOneAnim : balloonsZeroAnim));
 	}
 
 	@Override
@@ -76,6 +87,20 @@ public class Balloon extends Entity {
 	 */
 	public void setBalloonsAmount(int balloonsAmount) {
 		this.balloonsAmount = balloonsAmount;
+	}
+
+	/**
+	 * @return the balloonColor
+	 */
+	public BalloonColor getBalloonColor() {
+		return balloonColor;
+	}
+
+	/**
+	 * @param balloonColor the balloonColor to set
+	 */
+	public void setBalloonColor(BalloonColor balloonColor) {
+		this.balloonColor = balloonColor;
 	}
 
 }

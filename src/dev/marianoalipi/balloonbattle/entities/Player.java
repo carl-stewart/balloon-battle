@@ -29,7 +29,7 @@ public class Player extends Entity {
 		this.sprite = Assets.playerFly[0];
 		this.direction = Direction.LEFT;
 		
-		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), game, this);
+		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), 2, Balloon.BalloonColor.RED, game, this);
 		walkLeftAnim = new Animation(Assets.playerWalkLeft, 100);
 		walkRightAnim = new Animation(Assets.playerWalkRight, 100);
 		fallingAnim = new Animation(Assets.playerFalling, 50);

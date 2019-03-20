@@ -21,7 +21,7 @@ public class Enemy extends Entity {
 		super(x, y, width, height, game);
 		this.color = color;
 		
-		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), game, this);
+		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), 1, Balloon.BalloonColor.PINK, game, this);
 		flapLeftAnim = new Animation(Assets.enemyFlapLeft, 80);
 		flapRightAnim = new Animation(Assets.enemyFlapRight, 80);
 	}
