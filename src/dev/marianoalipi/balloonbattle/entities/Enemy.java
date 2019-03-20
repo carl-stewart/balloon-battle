@@ -10,7 +10,8 @@ public class Enemy extends Entity {
 
 	public static enum EnemyColor {PINK, GREEN, YELLOW};
 	private EnemyColor color;
-	Animation flapLeftAnim, flapRightAnim;
+	private Balloon balloons;
+	protected static Animation flapLeftAnim, flapRightAnim;
 	
 	public Enemy() {
 		super();
@@ -19,8 +20,10 @@ public class Enemy extends Entity {
 	public Enemy(int x, int y, int width, int height, Game game, EnemyColor color) {
 		super(x, y, width, height, game);
 		this.color = color;
-		this.flapLeftAnim = new Animation(Assets.enemyFlapLeft, 80);
-		this.flapRightAnim = new Animation(Assets.enemyFlapRight, 80);
+		
+		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), game, this);
+		flapLeftAnim = new Animation(Assets.enemyFlapLeft, 80);
+		flapRightAnim = new Animation(Assets.enemyFlapRight, 80);
 	}
 	
 	@Override
@@ -90,11 +93,22 @@ public class Enemy extends Entity {
 
 		// Relocate hitbox
 		getHitbox().setLocation(getX(), getY());
+		
+		// Tick balloons
+		balloons.tick();
 	}
 
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
+		
+		// Render balloons
+		balloons.render(g);
+		
+		// Draw hitbox (for debugging)
+		//g.setColor(Color.red);
+		//g.drawRect((int)hitbox.getX(), (int)hitbox.getY(), (int)hitbox.getWidth(), (int)hitbox.getHeight());
+
 	}
 
 	/**

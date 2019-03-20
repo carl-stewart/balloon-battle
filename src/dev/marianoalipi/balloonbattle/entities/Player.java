@@ -12,7 +12,7 @@ public class Player extends Entity {
 	private boolean flapKeyReleased;
 	private int framesBetweenFlaps = 8, framesCounter = 8;
 	private Balloon balloons;
-	protected Animation walkLeftAnim, walkRightAnim, fallingAnim, flapLeftAnim, flapRightAnim;
+	protected static Animation walkLeftAnim, walkRightAnim, fallingAnim, flapLeftAnim, flapRightAnim;
 	
 	private enum State {IDLE, FLY, WALK};
 	
@@ -30,11 +30,11 @@ public class Player extends Entity {
 		this.direction = Direction.LEFT;
 		
 		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), game, this);
-		this.walkLeftAnim = new Animation(Assets.playerWalkLeft, 100);
-		this.walkRightAnim = new Animation(Assets.playerWalkRight, 100);
-		this.fallingAnim = new Animation(Assets.playerFalling, 50);
-		this.flapLeftAnim = new Animation(Assets.playerFlapLeft, 80);
-		this.flapRightAnim = new Animation(Assets.playerFlapRight, 80);
+		walkLeftAnim = new Animation(Assets.playerWalkLeft, 100);
+		walkRightAnim = new Animation(Assets.playerWalkRight, 100);
+		fallingAnim = new Animation(Assets.playerFalling, 50);
+		flapLeftAnim = new Animation(Assets.playerFlapLeft, 80);
+		flapRightAnim = new Animation(Assets.playerFlapRight, 80);
 	}
 
 	@Override

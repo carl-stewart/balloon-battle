@@ -32,7 +32,7 @@ public class Game implements Runnable {
     private Thread thread;
     private boolean running;        		// sets up the game
     private boolean splashScreenDisplayed;  // whether the splash screen has been displayed
-    private boolean showSplash = true;		// whether or not to show the splash screen
+    private boolean showSplash = false;		// whether or not to show the splash screen
     private boolean paused;         		// to pause the game
     private Menu menu;						// to set the current menu or no menu
     public enum GameState {MENU, GAME, WON, LOST};

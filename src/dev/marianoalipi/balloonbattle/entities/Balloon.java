@@ -8,16 +8,16 @@ import dev.marianoalipi.balloonbattle.Game;
 
 public class Balloon extends Entity {
 
-	private Player player;
+	private Entity owner;
 	private int balloonsAmount;
 	
 	public Balloon () {
 		super();
 	}
 	
-	public Balloon (int x, int y, int width, int height, Game game, Player player) {
+	public Balloon (int x, int y, int width, int height, Game game, Entity owner) {
 		super(x, y, width, height, game);
-		this.player = player;
+		this.owner = owner;
 		this.sprite = Assets.balloonsTwo[0];
 		this.animation = new Animation(Assets.balloonsTwo, 400);
 		this.direction = Direction.LEFT;
@@ -27,17 +27,26 @@ public class Balloon extends Entity {
 	@Override
 	public void tick() {
 		
-		// Adjust a little horizontal offset for when the player is facing right
-		if (player.getDirection() == Direction.RIGHT)
-			setX(player.getX() + 2);
-		else
-			setX(player.getX());
-		// Adjust a little vertical offset for when the player is walking
-		if (player.getAnimation() == player.walkLeftAnim || player.getAnimation() == player.walkRightAnim)
-			setY(player.getY() - getHeight() + 3);
-		else
-			setY(player.getY() - getHeight());
-		
+		if (owner instanceof Player) {
+			// Adjust a little horizontal offset for when the player is facing right
+			if (owner.getDirection() == Direction.RIGHT)
+				setX(owner.getX() + 2);
+			else
+				setX(owner.getX());
+			// Adjust a little vertical offset for when the player is walking
+			if (owner.getAnimation() == Player.walkLeftAnim || owner.getAnimation() == Player.walkRightAnim)
+				setY(owner.getY() - getHeight() + 3);
+			else
+				setY(owner.getY() - getHeight());
+		} else if (owner instanceof Enemy) {
+			// Adjust a little horizontal offset for when the enemy is facing right
+			if (owner.getDirection() == Direction.RIGHT)
+				setX(owner.getX() + 2);
+			else
+				setX(owner.getX());
+			
+			setY(owner.getY() - getHeight() + 3);
+		}
 		
 		getHitbox().setLocation(getX(), getY());
 		
