@@ -13,7 +13,7 @@ flying -> popped -> inflates -> changes color -> flying
 --------------------
 
 - Fish seems to appear randomly when there's someone below.
-- The player doesn't maintain the acceleration after button is released.
+- The player doesn't maintain the acceleration after the button is released.
 - A: one flap. B: constant flap.
 - The player doesn't move when left or right is pressed in the air, unless he's flapping.
 - The player has three sets of two balloons.
