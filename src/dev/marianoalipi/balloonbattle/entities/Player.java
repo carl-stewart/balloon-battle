@@ -74,8 +74,7 @@ public class Player extends Entity {
 					setxSpeed(getxSpeed() - 3);
 				if (inputHandler.right.down)
 					setxSpeed(getxSpeed() + 3);
-			} else
-				setSpriteAuto(State.FLY, false);
+			}
 		}
 		
 		if (inputHandler.left.down) {
