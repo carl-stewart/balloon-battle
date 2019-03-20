@@ -25,7 +25,6 @@ public class Player extends Entity {
 		this.inputHandler = inputHandler;
 		this.flapKeyReleased = true;
 		this.framesCounter = 0;
-		this.setAnimation(new Animation(Assets.balloonsTwo, 500));
 		this.sprite = Assets.playerFly[0];
 		this.direction = Direction.LEFT;
 		

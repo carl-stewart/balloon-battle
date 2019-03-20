@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  *
@@ -17,11 +18,12 @@ public class Assets {
 	
 	private static SpriteSheet mainMenuOptionsSS, balloonsSS, playerFlySS, playerIdleSS, playerWalkSS, playerFallingSS, enemyFlySS, enemyIdleSS;
 	public static BufferedImage[] mainMenuOptions,
-								  balloonsTwo, balloonsOne,
 								  playerFly, playerFlapLeft, playerFlapRight,
 								  playerIdle, playerWalkLeft, playerWalkRight, playerFalling,
 								  enemyFly, enemyFlapLeft, enemyFlapRight,
 								  enemyIdle;
+	// Hashmap with the different color balloons' sprites for one and two balloons.
+	public static HashMap<String, BufferedImage[]> balloonsTwo, balloonsOne;
 	
 	public static int textScale = 4;
 
@@ -61,20 +63,30 @@ public class Assets {
         for (int i = 0; i < mainMenuOptions.length; i++)
         	mainMenuOptions[i] = mainMenuOptionsSS.crop(0, i * 7, mainMenuOptionsSS.getSheet().getWidth(), 7);
         
-        balloonsSS = new SpriteSheet(ImageLoader.loadImage("assets/images/balloons.png"));
-        balloonsTwo = new BufferedImage[6];
-        balloonsOne = new BufferedImage[2];
+        balloonsSS = new SpriteSheet(ImageLoader.loadImage("assets/images/balloons_colors.png"));
         
-        // Two balloons sprites
-        for (int i = 0; i < 4; i++)
-        	balloonsTwo[i] = balloonsSS.crop(i * 16, 0, 16, 12);
-        // Repeat two frames to create a looping animation.
-        balloonsTwo[4] = balloonsTwo[1];
-        balloonsTwo[5] = balloonsTwo[2];
+        String[] colors = {"RED", "PINK", "GREEN", "YELLOW"};
+        balloonsTwo = new HashMap<String, BufferedImage[]>();
+        balloonsOne = new HashMap<String, BufferedImage[]>();
         
-        // Single balloon sprites
-        for (int i = 0; i < 2; i++)
-        	balloonsOne[i] = balloonsSS.crop(i * 16, 12, 16, 12);
+        int verticalOffset = 0;
+        for (String color : colors) {
+        	// Two balloons sprites
+        	balloonsTwo.put(color, new BufferedImage[6]);
+        	for (int i = 0; i < 4; i++)
+        		balloonsTwo.get(color)[i] = balloonsSS.crop(i * 16, verticalOffset, 16, 12);
+        	// Repeat two frames to create a looping animation.
+        	balloonsTwo.get(color)[4] = balloonsTwo.get(color)[1];
+        	balloonsTwo.get(color)[5] = balloonsTwo.get(color)[2];        	
+        	
+        	// Single balloon sprites
+        	balloonsOne.put(color, new BufferedImage[2]);
+        	for (int i = 0; i < 2; i++)
+        		balloonsOne.get(color)[i] = balloonsSS.crop((4 * 16) + i * 16, verticalOffset, 16, 12);
+        	
+        	verticalOffset += 12;
+        }
+        
         
         // Player flying animation
         playerFlySS = new SpriteSheet(ImageLoader.loadImage("assets/images/playerFly.png"));

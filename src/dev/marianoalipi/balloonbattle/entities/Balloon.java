@@ -21,12 +21,12 @@ public class Balloon extends Entity {
 	public Balloon (int x, int y, int width, int height, int balloonsAmount, BalloonColor balloonColor, Game game, Entity owner) {
 		super(x, y, width, height, game);
 		this.owner = owner;
-		this.sprite = Assets.balloonsTwo[0];
+		this.sprite = Assets.balloon;
 		this.setBalloonColor(balloonColor);
-		this.balloonsTwoAnim = new Animation(Assets.balloonsTwo, 400);
-		this.balloonsOneAnim = new Animation(Assets.balloonsOne, 400);
+		this.balloonsTwoAnim = new Animation(Assets.balloonsTwo.get(getBalloonColor().toString()), 400);
+		this.balloonsOneAnim = new Animation(Assets.balloonsOne.get(getBalloonColor().toString()), 400);
 		// Placeholder images
-		this.balloonsZeroAnim = new Animation(Assets.balloonsTwo, 400);
+		this.balloonsZeroAnim = new Animation(Assets.balloonsTwo.get(getBalloonColor().toString()), 400);
 		this.animation = balloonsTwoAnim;
 		this.direction = Direction.LEFT;
 		this.balloonsAmount = balloonsAmount;
