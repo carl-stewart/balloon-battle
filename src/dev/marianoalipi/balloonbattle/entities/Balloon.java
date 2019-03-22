@@ -12,7 +12,7 @@ public class Balloon extends Entity {
 	private int balloonsAmount;
 	public enum BalloonColor {RED, PINK, GREEN, YELLOW};
 	private BalloonColor balloonColor;
-	private Animation balloonsTwoAnim, balloonsOneAnim, balloonsZeroAnim;
+	private Animation balloonsTwoAnim, balloonsOneAnim;
 	
 	public Balloon () {
 		super();
@@ -25,8 +25,6 @@ public class Balloon extends Entity {
 		this.setBalloonColor(balloonColor);
 		this.balloonsTwoAnim = new Animation(Assets.balloonsTwo.get(getBalloonColor().toString()), 400);
 		this.balloonsOneAnim = new Animation(Assets.balloonsOne.get(getBalloonColor().toString()), 400);
-		// Placeholder images
-		this.balloonsZeroAnim = new Animation(Assets.balloonsTwo.get(getBalloonColor().toString()), 400);
 		this.animation = balloonsTwoAnim;
 		this.direction = Direction.LEFT;
 		this.balloonsAmount = balloonsAmount;
@@ -36,6 +34,7 @@ public class Balloon extends Entity {
 	public void tick() {
 		
 		if (owner instanceof Player) {
+			
 			// Adjust a little horizontal offset for when the player is facing right
 			if (owner.getDirection() == Direction.RIGHT)
 				setX(owner.getX() + 4);
@@ -47,6 +46,20 @@ public class Balloon extends Entity {
 			else
 				setY(owner.getY() - getHeight());
 		} else if (owner instanceof Enemy) {
+			
+			// Check for collision with player
+			Player player = game.getPlayer(); 
+			if (getHitbox().intersects(player.getHitbox())) {
+				// Remove one balloon
+				setBalloonsAmount(getBalloonsAmount() - 1);
+				// Make the player bounce a little
+				player.setxSpeed(player.getxSpeed() * -1);
+				/* WRONG PLACE: this is when the player's balloon is popped.
+				// Remove one balloon
+				pBalloons.setBalloonsAmount(pBalloons.getBalloonsAmount() - 1);				
+				*/
+			}
+			
 			// Adjust a little horizontal offset for when the enemy is facing right
 			if (owner.getDirection() == Direction.RIGHT)
 				setX(owner.getX() + 2);
@@ -56,18 +69,34 @@ public class Balloon extends Entity {
 			setY(owner.getY() - getHeight() + 3);
 		}
 		
-		// Relocate hitbox
-		getHitbox().setLocation(getX(), getY());
+		// Relocate hitbox and adjust size
+		if (getBalloonsAmount() == 2) {
+			getHitbox().setLocation(getX(), getY());
+			getHitbox().setSize((int)(Game.SCALE * 16), (int)(Game.SCALE * 12));
+		} else if (getBalloonsAmount() == 1) {
+			getHitbox().setLocation(getX() + (int)(Game.SCALE * 4), getY());
+			getHitbox().setSize((int)(Game.SCALE * 8), (int)(Game.SCALE * 12));
+		} else {
+			getHitbox().setLocation(owner.getX() + (int)(owner.getWidth() / 2), owner.getY() + (int)(owner.getHeight() / 2));
+			getHitbox().setSize(0, 0);
+		}
 		
 		// Tick animation and update sprite
 		if (owner.isGrounded()) {
-			getAnimation().tick();
-			setSprite(getAnimation().getCurrentFrame());
+			if (getAnimation() != null) {
+				getAnimation().tick();
+				setSprite(getAnimation().getCurrentFrame());
+			} else {
+				setSprite(null);
+			}
 		} else {
-			setSprite(getAnimation().getFrames()[0]);
+			if (getAnimation() != null)
+				setSprite(getAnimation().getFrames()[0]);
+			else
+				setSprite(null);
 		}
 		
-		setAnimation(getBalloonsAmount() == 2 ? balloonsTwoAnim : (getBalloonsAmount() == 1 ? balloonsOneAnim : balloonsZeroAnim));
+		setAnimation(getBalloonsAmount() == 2 ? balloonsTwoAnim : (getBalloonsAmount() == 1 ? balloonsOneAnim : null));
 	}
 
 	@Override
