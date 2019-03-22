@@ -81,7 +81,7 @@ public class Player extends Entity {
 		if (inputHandler.left.down) {
 			setDirection(Direction.LEFT);
 			if (isGrounded()) {
-				setxSpeed(-4);
+				setxSpeed(getxSpeed() - 1);
 				setAnimation(walkLeftAnim);
 			}
 		}
@@ -89,7 +89,7 @@ public class Player extends Entity {
 		if (inputHandler.right.down) {
 			setDirection(Direction.RIGHT);
 			if (isGrounded()) {
-				setxSpeed(4);
+				setxSpeed(getxSpeed() + 1);
 				setAnimation(walkRightAnim);
 			}
 		}
@@ -109,7 +109,7 @@ public class Player extends Entity {
 				setxSpeed(0);
 		} else {
 			if (getxSpeed() > 0.3 || getxSpeed() < -0.3)
-				setxSpeed((getxSpeed() > 0 ? 1 : -1) * (Math.abs(getxSpeed()) - 0.1));
+				setxSpeed((getxSpeed() > 0 ? 1 : -1) * (Math.abs(getxSpeed()) - 0.25));
 			else {
 				setxSpeed(0);
 			}
