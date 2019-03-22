@@ -63,7 +63,7 @@ public class Balloon extends Entity {
 					player.setxSpeed(Math.abs(player.getxSpeed()));
 				
 				if (player.getY() + player.getHitbox().getHeight() >= getHitbox().getY())
-					player.setySpeed(Math.abs(player.getySpeed()));
+					player.setySpeed(0.5 * Math.abs(player.getySpeed()));
 				
 				/* WRONG PLACE: this is when the player's balloon is popped.
 				// Remove one balloon
