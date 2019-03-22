@@ -60,8 +60,12 @@ public class Balloon extends Entity {
 		getHitbox().setLocation(getX(), getY());
 		
 		// Tick animation and update sprite
-		getAnimation().tick();
-		setSprite(getAnimation().getCurrentFrame());
+		if (owner.isGrounded()) {
+			getAnimation().tick();
+			setSprite(getAnimation().getCurrentFrame());
+		} else {
+			setSprite(getAnimation().getFrames()[0]);
+		}
 		
 		setAnimation(getBalloonsAmount() == 2 ? balloonsTwoAnim : (getBalloonsAmount() == 1 ? balloonsOneAnim : balloonsZeroAnim));
 	}
