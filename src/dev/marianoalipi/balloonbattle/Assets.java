@@ -16,12 +16,12 @@ public class Assets {
 	
 	public static BufferedImage background, splash, title, github, balloon;
 	
-	private static SpriteSheet mainMenuOptionsSS, balloonsSS, playerFlySS, playerIdleSS, playerWalkSS, playerFallingSS, enemyFlySS, enemyIdleSS;
+	private static SpriteSheet mainMenuOptionsSS, balloonsSS, playerFlySS, playerIdleSS, playerWalkSS, playerFallingSS, enemyFlySS, enemyIdleSS, enemyFallingSS;
 	public static BufferedImage[] mainMenuOptions,
 								  playerFly, playerFlapLeft, playerFlapRight,
 								  playerIdle, playerWalkLeft, playerWalkRight, playerFalling,
 								  enemyFly, enemyFlapLeft, enemyFlapRight,
-								  enemyIdle;
+								  enemyIdle, enemyFalling;
 	// Hashmap with the different color balloons' sprites for one and two balloons.
 	public static HashMap<String, BufferedImage[]> balloonsTwo, balloonsOne;
 	
@@ -129,8 +129,13 @@ public class Assets {
         // Enemy idle
         enemyIdleSS = new SpriteSheet(ImageLoader.loadImage("assets/images/enemyIdle.png"));
         enemyIdle = new BufferedImage[2];
-        for (int i = 0; i < enemyIdle.length; i++) {
+        for (int i = 0; i < enemyIdle.length; i++)
         	enemyIdle[i] = enemyIdleSS.crop(i * 16, 0, 16, 12);
-        }
+        
+        // Enemy falling animation
+        enemyFallingSS = new SpriteSheet(ImageLoader.loadImage("assets/images/enemyFalling.png"));
+        enemyFalling = new BufferedImage[4];
+        for (int i = 0; i < enemyFalling.length; i++)
+        	enemyFalling[i] = enemyFallingSS.crop(i * 16, 0, 16, 12);
     }
 }
