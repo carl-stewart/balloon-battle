@@ -45,6 +45,7 @@ public class Balloon extends Entity {
 				setY(owner.getY() - getHeight() + 3);
 			else
 				setY(owner.getY() - getHeight());
+			
 		} else if (owner instanceof Enemy) {
 			
 			// Check for collision with player
@@ -52,8 +53,18 @@ public class Balloon extends Entity {
 			if (getHitbox().intersects(player.getHitbox())) {
 				// Remove one balloon
 				setBalloonsAmount(getBalloonsAmount() - 1);
+				
 				// Make the player bounce a little
-				player.setxSpeed(player.getxSpeed() * -1);
+				double hitboxCenterX = getHitbox().getX() + getHitbox().getWidth() / 2,
+					   playerCenterX = player.getX() + player.getHitbox().getWidth() / 2;
+				if (playerCenterX <= hitboxCenterX)
+					player.setxSpeed(Math.abs(player.getxSpeed()) * -1);
+				else
+					player.setxSpeed(Math.abs(player.getxSpeed()));
+				
+				if (player.getY() + player.getHitbox().getHeight() >= getHitbox().getY())
+					player.setySpeed(Math.abs(player.getySpeed()));
+				
 				/* WRONG PLACE: this is when the player's balloon is popped.
 				// Remove one balloon
 				pBalloons.setBalloonsAmount(pBalloons.getBalloonsAmount() - 1);				
