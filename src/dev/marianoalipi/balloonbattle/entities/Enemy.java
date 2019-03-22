@@ -11,7 +11,7 @@ public class Enemy extends Entity {
 	public static enum EnemyColor {PINK, GREEN, YELLOW};
 	private EnemyColor color;
 	private Balloon balloons;
-	protected static Animation flapLeftAnim, flapRightAnim;
+	protected static Animation flapLeftAnim, flapRightAnim, fallingAnim;
 	
 	public Enemy() {
 		super();
@@ -24,19 +24,32 @@ public class Enemy extends Entity {
 		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), 1, Balloon.BalloonColor.PINK, game, this);
 		flapLeftAnim = new Animation(Assets.enemyFlapLeft, 80);
 		flapRightAnim = new Animation(Assets.enemyFlapRight, 80);
+		fallingAnim = new Animation(Assets.enemyFalling, 50);
 	}
 	
 	@Override
 	public void tick() {
 		
-		// Make the enemy flap towards the middle of the screen.
-		if (getY() > game.getHeight() * 0.4) {
-			setySpeed(getySpeed() + 5);
-			setAnimation( getDirection() == Direction.LEFT ? flapLeftAnim : flapRightAnim );
-		} else if (getY() < game.getHeight() * 0.33) {
-			setSprite(getDirection() == Direction.LEFT ? Assets.enemyFlapLeft[0] : Assets.enemyFlapRight[0]);
+		if (balloons.getBalloonsAmount() > 0) {
+			// Make the enemy flap towards the middle of the screen.
+			if (getY() > game.getHeight() * 0.4) {
+				setySpeed(getySpeed() + 5);
+				setAnimation( getDirection() == Direction.LEFT ? flapLeftAnim : flapRightAnim );
+			} else if (getY() < game.getHeight() * 0.33) {
+				setSprite(getDirection() == Direction.LEFT ? Assets.enemyFlapLeft[0] : Assets.enemyFlapRight[0]);
+			} else {
+				setSprite(getDirection() == Direction.LEFT ? Assets.enemyFlapLeft[0] : Assets.enemyFlapRight[0]);
+			}
 		} else {
-			setSprite(getDirection() == Direction.LEFT ? Assets.enemyFlapLeft[0] : Assets.enemyFlapRight[0]);
+			
+			if (!isGrounded()) {
+				// No balloons: enemy is falling.
+				setAnimation(fallingAnim);
+				setxSpeed(0);
+			} else {
+				setAnimation(null);
+				setSprite(Assets.enemyIdle[getDirection() == Direction.LEFT ? 0 : 1]);
+			}
 		}
 		
 		// Gravity pull and friction.
@@ -53,10 +66,6 @@ public class Enemy extends Entity {
 				setxSpeed(0);
 			}
 		}
-		
-		// Move the player
-		setX((int)Math.floor(getX() + getxSpeed()));
-		setY((int)Math.floor(getY() - getySpeed()));
 		
 		// Go to the other side if the limit is crossed
 		if (getX() <= -1 * getWidth() / 2) {
@@ -85,17 +94,22 @@ public class Enemy extends Entity {
 			}			
 		}
 		
-		// Tick the animation and get the current sprite.
-		if (getAnimation() != null) {
-			getAnimation().tick();
-			setSprite(getAnimation().getCurrentFrame());
-		}		
-
+		// Move the enemies
+		setX((int)Math.floor(getX() + getxSpeed()));
+		setY((int)Math.floor(getY() - getySpeed()));
+	
 		// Relocate hitbox
 		getHitbox().setLocation(getX(), getY());
 		
 		// Tick balloons
 		balloons.tick();
+		
+		// Tick the animation and get the current sprite.
+		if (getAnimation() != null) {
+			getAnimation().tick();
+			setSprite(getAnimation().getCurrentFrame());
+		}
+		
 	}
 
 	@Override
