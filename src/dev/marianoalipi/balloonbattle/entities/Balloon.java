@@ -37,7 +37,10 @@ public class Balloon extends Entity {
 			
 			// Adjust a little horizontal offset for when the player is facing right
 			if (owner.getDirection() == Direction.RIGHT)
-				setX(owner.getX() + 4);
+				if (owner.isGrounded())
+					setX(owner.getX());
+				else
+					setX(owner.getX() + 4);
 			else
 				setX(owner.getX());
 			// Adjust a little vertical offset for when the player is walking

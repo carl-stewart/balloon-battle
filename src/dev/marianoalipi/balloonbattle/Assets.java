@@ -75,9 +75,9 @@ public class Assets {
         	balloonsTwo.put(color, new BufferedImage[6]);
         	for (int i = 0; i < 4; i++)
         		balloonsTwo.get(color)[i] = balloonsSS.crop(i * 16, verticalOffset, 16, 12);
-        	// Repeat two frames to create a looping animation.
+        	// Repeat some frames to create a looping animation.
         	balloonsTwo.get(color)[4] = balloonsTwo.get(color)[1];
-        	balloonsTwo.get(color)[5] = balloonsTwo.get(color)[2];        	
+        	balloonsTwo.get(color)[5] = balloonsTwo.get(color)[2];
         	
         	// Single balloon sprites
         	balloonsOne.put(color, new BufferedImage[2]);
