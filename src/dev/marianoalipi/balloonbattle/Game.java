@@ -205,11 +205,11 @@ public class Game implements Runnable {
         				g.setColor(Color.black);
         				g.fillRect(0, 0, getWidth(), getHeight());
         				
-        				player.render(g);
-        				
         				for (Enemy enemy : enemies) {
         					enemy.render(g);
         				}
+
+        				player.render(g);
         				
         				break;
     				
