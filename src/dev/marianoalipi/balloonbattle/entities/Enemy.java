@@ -1,6 +1,7 @@
 package dev.marianoalipi.balloonbattle.entities;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import dev.marianoalipi.balloonbattle.Animation;
 import dev.marianoalipi.balloonbattle.Assets;
@@ -20,6 +21,7 @@ public class Enemy extends Entity {
 	public Enemy(int x, int y, int width, int height, Game game, EnemyColor color) {
 		super(x, y, width, height, game);
 		this.color = color;
+		this.hitbox = new Rectangle(x, y, (int)(getWidth() * 0.9), getHeight());
 		
 		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), 1, Balloon.BalloonColor.PINK, game, this);
 		flapLeftAnim = new Animation(Assets.enemyFlapLeft, 80);
@@ -31,6 +33,33 @@ public class Enemy extends Entity {
 	public void tick() {
 		
 		if (balloons.getBalloonsAmount() > 0) {
+			
+			Balloon pBalloons = game.getPlayer().getBalloons();
+			// Check for collision with player's balloons
+			if (getHitbox().intersects(pBalloons.getHitbox())) {
+				// Remove one balloon
+				if (!pBalloons.isInvincible())
+					pBalloons.setBalloonsAmount(pBalloons.getBalloonsAmount() - 1);
+				
+				// Make the enemy bounce a little
+				double hitboxCenterX = getHitbox().getX() + getHitbox().getWidth() / 2,
+						pBalloonsCenter = pBalloons.getHitbox().getX() + pBalloons.getHitbox().getWidth() / 2;
+				if (pBalloonsCenter <= hitboxCenterX) {
+					setxSpeed(Math.abs(getxSpeed()) * -1);
+					if (!pBalloons.isInvincible())
+						game.getPlayer().setxSpeed(Math.abs(game.getPlayer().getxSpeed()));
+				}
+				else {
+					setxSpeed(Math.abs(getxSpeed()));
+					if (!pBalloons.isInvincible())
+						game.getPlayer().setxSpeed(-1 * Math.abs(game.getPlayer().getxSpeed()));
+				}
+				
+				setySpeed(0.5 * Math.abs(getySpeed()));
+				game.getPlayer().setySpeed(-5);
+				pBalloons.setInvincible(true);
+			}
+			
 			// Make the enemy flap towards the middle of the screen.
 			if (getY() > game.getHeight() * 0.4) {
 				setySpeed(getySpeed() + 5);
@@ -41,7 +70,6 @@ public class Enemy extends Entity {
 				setSprite(getDirection() == Direction.LEFT ? Assets.enemyFlapLeft[0] : Assets.enemyFlapRight[0]);
 			}
 		} else {
-			
 			if (!isGrounded()) {
 				// No balloons: enemy is falling.
 				setAnimation(fallingAnim);

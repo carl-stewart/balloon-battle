@@ -1,6 +1,8 @@
 package dev.marianoalipi.balloonbattle.entities;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
+
 import dev.marianoalipi.balloonbattle.Animation;
 import dev.marianoalipi.balloonbattle.Assets;
 import dev.marianoalipi.balloonbattle.Game;
@@ -27,6 +29,7 @@ public class Player extends Entity {
 		this.framesCounter = 0;
 		this.sprite = Assets.playerFly[0];
 		this.direction = Direction.LEFT;
+		this.hitbox = new Rectangle(x, y, (int)(getWidth() * 0.8), getHeight());
 
 		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), 2, Balloon.BalloonColor.RED, game, this);
 		walkLeftAnim = new Animation(Assets.playerWalkLeft, 100);
@@ -75,6 +78,15 @@ public class Player extends Entity {
 					if (inputHandler.right.down)
 						setxSpeed(getxSpeed() + 3);
 				}
+			}
+		} else {
+			if (!isGrounded()) {
+				// No balloons: player is falling.
+				setAnimation(fallingAnim);
+				setxSpeed(0);
+			} else {
+				setAnimation(null);
+				setSprite(Assets.playerIdle[getDirection() == Direction.LEFT ? 0 : 1]);
 			}
 		}
 
@@ -155,7 +167,7 @@ public class Player extends Entity {
 		}
 
 		// Relocate hitbox
-		getHitbox().setLocation(getX(), getY());
+		getHitbox().setLocation(getX() + (int)(Game.SCALE * 3), getY());
 
 		// Tick balloons
 		balloons.tick();

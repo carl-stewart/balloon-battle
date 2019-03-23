@@ -13,6 +13,8 @@ public class Balloon extends Entity {
 	public enum BalloonColor {RED, PINK, GREEN, YELLOW};
 	private BalloonColor balloonColor;
 	private Animation balloonsTwoAnim, balloonsOneAnim;
+	private boolean invincible;
+	private byte invincibleFrames;
 	
 	public Balloon () {
 		super();
@@ -28,6 +30,8 @@ public class Balloon extends Entity {
 		this.animation = balloonsTwoAnim;
 		this.direction = Direction.LEFT;
 		this.balloonsAmount = balloonsAmount;
+		this.invincible = false;
+		this.invincibleFrames = 30;
 	}
 	
 	@Override
@@ -49,6 +53,13 @@ public class Balloon extends Entity {
 			else
 				setY(owner.getY() - getHeight());
 			
+			// Remove invincibility frames
+			if (isInvincible())
+				if (--invincibleFrames <= 0) {
+					setInvincible(false);
+					invincibleFrames = 30;
+				}
+			
 		} else if (owner instanceof Enemy) {
 			
 			// Check for collision with player
@@ -59,7 +70,7 @@ public class Balloon extends Entity {
 				
 				// Make the player bounce a little
 				double hitboxCenterX = getHitbox().getX() + getHitbox().getWidth() / 2,
-					   playerCenterX = player.getX() + player.getHitbox().getWidth() / 2;
+					   playerCenterX = player.getHitbox().getX() + player.getHitbox().getWidth() / 2;
 				if (playerCenterX <= hitboxCenterX)
 					player.setxSpeed(Math.abs(player.getxSpeed()) * -1);
 				else
@@ -67,11 +78,6 @@ public class Balloon extends Entity {
 				
 				if (player.getY() + player.getHitbox().getHeight() >= getHitbox().getY())
 					player.setySpeed(0.5 * Math.abs(player.getySpeed()));
-				
-				/* WRONG PLACE: this is when the player's balloon is popped.
-				// Remove one balloon
-				pBalloons.setBalloonsAmount(pBalloons.getBalloonsAmount() - 1);				
-				*/
 			}
 			
 			// Adjust a little horizontal offset for when the enemy is facing right
@@ -129,6 +135,10 @@ public class Balloon extends Entity {
 		return balloonsAmount;
 	}
 
+	public boolean isInvincible() {
+		return invincible;
+	}
+	
 	/**
 	 * @param balloonsAmount the balloonsAmount to set
 	 */
@@ -148,6 +158,10 @@ public class Balloon extends Entity {
 	 */
 	public void setBalloonColor(BalloonColor balloonColor) {
 		this.balloonColor = balloonColor;
+	}
+	
+	public void setInvincible(boolean invincible) {
+		this.invincible = invincible;
 	}
 
 }
