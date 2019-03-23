@@ -38,8 +38,9 @@ public class Enemy extends Entity {
 			// Check for collision with player's balloons
 			if (getHitbox().intersects(pBalloons.getHitbox())) {
 				// Remove one balloon
-				if (!pBalloons.isInvincible())
+				if (!pBalloons.isInvincible()) {
 					pBalloons.setBalloonsAmount(pBalloons.getBalloonsAmount() - 1);
+				}
 				
 				// Make the enemy bounce a little
 				double hitboxCenterX = getHitbox().getX() + getHitbox().getWidth() / 2,
@@ -56,7 +57,12 @@ public class Enemy extends Entity {
 				}
 				
 				setySpeed(0.5 * Math.abs(getySpeed()));
-				game.getPlayer().setySpeed(-5);
+
+				if (pBalloons.getBalloonsAmount() > 0)
+					game.getPlayer().setySpeed(-5);
+				else
+					game.getPlayer().setySpeed(10);
+				
 				pBalloons.setInvincible(true);
 			}
 			

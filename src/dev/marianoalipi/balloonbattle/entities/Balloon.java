@@ -64,22 +64,27 @@ public class Balloon extends Entity {
 			
 			// Check for collision with player
 			Player player = game.getPlayer(); 
-			if (getHitbox().intersects(player.getHitbox())) {
-				// Remove one balloon
-				setBalloonsAmount(getBalloonsAmount() - 1);
-				
-				// Make the player bounce a little
-				double hitboxCenterX = getHitbox().getX() + getHitbox().getWidth() / 2,
-					   playerCenterX = player.getHitbox().getX() + player.getHitbox().getWidth() / 2;
-				if (playerCenterX <= hitboxCenterX)
-					player.setxSpeed(Math.abs(player.getxSpeed()) * -1);
-				else
-					player.setxSpeed(Math.abs(player.getxSpeed()));
-				
-				if (player.getY() + player.getHitbox().getHeight() >= getHitbox().getY())
-					player.setySpeed(0.5 * Math.abs(player.getySpeed()));
+			if (player.getBalloons().getBalloonsAmount() > 0) {
+				if (getHitbox().intersects(player.getHitbox())) {
+					// Remove one balloon
+					setBalloonsAmount(getBalloonsAmount() - 1);
+					
+					// Make the player bounce a little
+					double hitboxCenterX = getHitbox().getX() + getHitbox().getWidth() / 2,
+						   playerCenterX = player.getHitbox().getX() + player.getHitbox().getWidth() / 2;
+					if (playerCenterX <= hitboxCenterX)
+						player.setxSpeed(Math.abs(player.getxSpeed()) * -1);
+					else
+						player.setxSpeed(Math.abs(player.getxSpeed()));
+					
+					if (player.getY() + player.getHitbox().getHeight() >= getHitbox().getY())
+						player.setySpeed(0.5 * Math.abs(player.getySpeed()));
+					
+					if (getBalloonsAmount() <= 0)
+						owner.setySpeed(10);
+				}
 			}
-			
+
 			// Adjust a little horizontal offset for when the enemy is facing right
 			if (owner.getDirection() == Direction.RIGHT)
 				setX(owner.getX() + 2);
