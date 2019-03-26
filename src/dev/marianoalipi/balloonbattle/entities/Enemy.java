@@ -13,6 +13,7 @@ public class Enemy extends Entity {
 	private EnemyColor color;
 	private Balloon balloons;
 	protected static Animation flapLeftAnim, flapRightAnim, fallingAnim;
+	private int framesCounter;
 	
 	public Enemy() {
 		super();
@@ -22,6 +23,7 @@ public class Enemy extends Entity {
 		super(x, y, width, height, game);
 		this.color = color;
 		this.hitbox = new Rectangle(x, y, (int)(getWidth() * 0.9), getHeight());
+		this.framesCounter = 0;
 		
 		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), 1, Balloon.BalloonColor.PINK, game, this);
 		flapLeftAnim = new Animation(Assets.enemyFlapLeft, 80);
@@ -76,14 +78,23 @@ public class Enemy extends Entity {
 				setSprite(getDirection() == Direction.LEFT ? Assets.enemyFlapLeft[0] : Assets.enemyFlapRight[0]);
 			}
 		} else {
+			// No balloons
 			if (!isGrounded()) {
-				// No balloons: enemy is falling.
+				// Enemy is falling.
 				setAnimation(fallingAnim);
 				setySpeed(-3);
 				setxSpeed(Math.floor(Math.random() * 2 - 1) * Math.random() + 0.3);
 			} else {
 				setAnimation(null);
 				setSprite(Assets.enemyIdle[getDirection() == Direction.LEFT ? 0 : 1]);
+				balloons.setParachute(false);
+				// If two seconds have passed on the ground, inflate a balloon.
+				if (++framesCounter > 120) {
+					balloons.setBalloonsAmount(1);
+					setySpeed(5);
+					setY(getY() - getHeight() / 2);
+					framesCounter = 0;
+				}
 			}
 		}
 		
