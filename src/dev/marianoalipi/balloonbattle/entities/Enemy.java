@@ -79,7 +79,8 @@ public class Enemy extends Entity {
 			if (!isGrounded()) {
 				// No balloons: enemy is falling.
 				setAnimation(fallingAnim);
-				setxSpeed(0);
+				setySpeed(-3);
+				setxSpeed(Math.floor(Math.random() * 2 - 1) * Math.random() + 0.3);
 			} else {
 				setAnimation(null);
 				setSprite(Assets.enemyIdle[getDirection() == Direction.LEFT ? 0 : 1]);

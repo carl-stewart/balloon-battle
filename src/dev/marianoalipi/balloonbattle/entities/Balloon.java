@@ -13,7 +13,7 @@ public class Balloon extends Entity {
 	public enum BalloonColor {RED, PINK, GREEN, YELLOW};
 	private BalloonColor balloonColor;
 	private Animation balloonsTwoAnim, balloonsOneAnim;
-	private boolean invincible;
+	private boolean invincible, parachute;
 	private byte invincibleFrames;
 	
 	public Balloon () {
@@ -31,6 +31,7 @@ public class Balloon extends Entity {
 		this.direction = Direction.LEFT;
 		this.balloonsAmount = balloonsAmount;
 		this.invincible = false;
+		this.setParachute(false);
 		this.invincibleFrames = 30;
 	}
 	
@@ -80,8 +81,10 @@ public class Balloon extends Entity {
 					if (player.getY() + player.getHitbox().getHeight() >= getHitbox().getY())
 						player.setySpeed(0.5 * Math.abs(player.getySpeed()));
 					
-					if (getBalloonsAmount() <= 0)
+					if (getBalloonsAmount() <= 0) {
+						setParachute(true);
 						owner.setySpeed(10);
+					}
 				}
 			}
 
@@ -119,7 +122,10 @@ public class Balloon extends Entity {
 				setSprite(getAnimation().getFrames()[0]);
 			else
 				setSprite(null);
+			if (isParachute())
+				setSprite(Assets.parachute);
 		}
+		
 		
 		setAnimation(getBalloonsAmount() == 2 ? balloonsTwoAnim : (getBalloonsAmount() == 1 ? balloonsOneAnim : null));
 	}
@@ -167,6 +173,20 @@ public class Balloon extends Entity {
 	
 	public void setInvincible(boolean invincible) {
 		this.invincible = invincible;
+	}
+
+	/**
+	 * @return the parachute
+	 */
+	public boolean isParachute() {
+		return parachute;
+	}
+
+	/**
+	 * @param parachute the parachute to set
+	 */
+	public void setParachute(boolean parachute) {
+		this.parachute = parachute;
 	}
 
 }

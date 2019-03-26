@@ -14,7 +14,7 @@ public class Assets {
 
 	public static Font gameFont, gameFont25, gameFont25B, gameFont35, gameFont35B;
 	
-	public static BufferedImage background, splash, title, github, balloon;
+	public static BufferedImage background, splash, title, github, balloon, parachute;
 	
 	private static SpriteSheet mainMenuOptionsSS, balloonsSS, playerFlySS, playerIdleSS, playerWalkSS, playerFallingSS, enemyFlySS, enemyIdleSS, enemyFallingSS;
 	public static BufferedImage[] mainMenuOptions,
@@ -137,5 +137,8 @@ public class Assets {
         enemyFalling = new BufferedImage[4];
         for (int i = 0; i < enemyFalling.length; i++)
         	enemyFalling[i] = enemyFallingSS.crop(i * 16, 0, 16, 12);
+        
+        // Parachute
+        parachute = ImageLoader.loadImage("assets/images/parachute.png");
     }
 }
