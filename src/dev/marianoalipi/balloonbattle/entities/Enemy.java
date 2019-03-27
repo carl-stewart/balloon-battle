@@ -82,7 +82,7 @@ public class Enemy extends Entity {
 			if (!isGrounded()) {
 				// Enemy is falling.
 				setAnimation(fallingAnim);
-				setySpeed(-3);
+				setySpeed(-2);
 				setxSpeed(Math.floor(Math.random() * 2 - 1) * Math.random() + 0.3);
 			} else {
 				setAnimation(null);
