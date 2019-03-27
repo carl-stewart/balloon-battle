@@ -7,6 +7,7 @@ import dev.marianoalipi.balloonbattle.Animation;
 import dev.marianoalipi.balloonbattle.Assets;
 import dev.marianoalipi.balloonbattle.Game;
 import dev.marianoalipi.balloonbattle.InputHandler;
+import dev.marianoalipi.balloonbattle.Sound;
 
 public class Player extends Entity {
 
@@ -50,6 +51,8 @@ public class Player extends Entity {
 				setAnimation(null);
 				setSpriteAuto(State.FLY, true);
 	
+				Sound.flap.play();
+				
 				if (inputHandler.left.down)
 					setxSpeed(getxSpeed() - 2);
 				if (inputHandler.right.down)
@@ -71,7 +74,8 @@ public class Player extends Entity {
 				if (framesCounter > framesBetweenFlaps) {
 					setySpeed(getySpeed() + 5);
 					framesCounter = 0;
-					//setSpriteAuto(State.FLY, true);
+					
+					Sound.flap.play();
 	
 					if (inputHandler.left.down)
 						setxSpeed(getxSpeed() - 3);
