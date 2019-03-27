@@ -12,8 +12,9 @@ public class Enemy extends Entity {
 	public static enum EnemyColor {PINK, GREEN, YELLOW};
 	private EnemyColor color;
 	private Balloon balloons;
-	protected static Animation flapLeftAnim, flapRightAnim, fallingAnim;
+	protected static Animation flapLeftAnim, flapRightAnim, fallingAnim, inflateLeftAnim, inflateRightAnim;
 	private int framesCounter;
+	private boolean inflating;
 	
 	public Enemy() {
 		super();
@@ -24,11 +25,14 @@ public class Enemy extends Entity {
 		this.color = color;
 		this.hitbox = new Rectangle(x, y, (int)(getWidth() * 0.9), getHeight());
 		this.framesCounter = 0;
+		this.setInflating(false);
 		
 		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), 1, Balloon.BalloonColor.PINK, game, this);
 		flapLeftAnim = new Animation(Assets.enemyFlapLeft, 80);
 		flapRightAnim = new Animation(Assets.enemyFlapRight, 80);
 		fallingAnim = new Animation(Assets.enemyFalling, 50);
+		inflateLeftAnim = new Animation(Assets.enemyInflateLeft, 120);
+		inflateRightAnim = new Animation(Assets.enemyInflateRight, 120);
 	}
 	
 	@Override
@@ -85,15 +89,22 @@ public class Enemy extends Entity {
 				setySpeed(-2);
 				setxSpeed(Math.floor(Math.random() * 2 - 1) * Math.random() + 0.3);
 			} else {
-				setAnimation(null);
-				setSprite(Assets.enemyIdle[getDirection() == Direction.LEFT ? 0 : 1]);
 				balloons.setParachute(false);
-				// If two seconds have passed on the ground, inflate a balloon.
-				if (++framesCounter > 120) {
+				// If two seconds have passed on the ground, start inflating a balloon.
+				if (++framesCounter < 120 && !isInflating()) {
+					setAnimation(null);
+					setSprite(Assets.enemyIdle[getDirection() == Direction.LEFT ? 0 : 1]);
+				} else if (++framesCounter > 120 && !isInflating()) {
+					framesCounter = 0;
+					setInflating(true);
+					setAnimation(getDirection() == Direction.LEFT ? inflateLeftAnim : inflateRightAnim);
+				} else if (framesCounter > 240 && isInflating()) {
+					// Inflate a balloon and then start flying again.
 					balloons.setBalloonsAmount(1);
 					setySpeed(0.5);
 					setY(getY() - getHeight() / 8);
 					framesCounter = 0;
+					setInflating(false);
 				}
 			}
 		}
@@ -183,6 +194,20 @@ public class Enemy extends Entity {
 	 */
 	public void setColor(EnemyColor color) {
 		this.color = color;
+	}
+
+	/**
+	 * @return the inflating
+	 */
+	public boolean isInflating() {
+		return inflating;
+	}
+
+	/**
+	 * @param inflating the inflating to set
+	 */
+	public void setInflating(boolean inflating) {
+		this.inflating = inflating;
 	}
 
 }
