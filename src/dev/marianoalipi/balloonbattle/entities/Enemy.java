@@ -74,7 +74,7 @@ public class Enemy extends Entity {
 			
 			// Make the enemy flap towards the middle of the screen.
 			if (getY() > game.getHeight() * 0.4) {
-				setySpeed(getySpeed() + 5);
+				setySpeed(getySpeed() + 1);
 				setAnimation( getDirection() == Direction.LEFT ? flapLeftAnim : flapRightAnim );
 			} else if (getY() < game.getHeight() * 0.33) {
 				setSprite(getDirection() == Direction.LEFT ? Assets.enemyFlapLeft[0] : Assets.enemyFlapRight[0]);
