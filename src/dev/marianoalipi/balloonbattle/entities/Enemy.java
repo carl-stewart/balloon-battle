@@ -91,8 +91,8 @@ public class Enemy extends Entity {
 				// If two seconds have passed on the ground, inflate a balloon.
 				if (++framesCounter > 120) {
 					balloons.setBalloonsAmount(1);
-					setySpeed(5);
-					setY(getY() - getHeight() / 2);
+					setySpeed(0.5);
+					setY(getY() - getHeight() / 8);
 					framesCounter = 0;
 				}
 			}
