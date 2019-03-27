@@ -31,8 +31,8 @@ public class Enemy extends Entity {
 		flapLeftAnim = new Animation(Assets.enemyFlapLeft, 80);
 		flapRightAnim = new Animation(Assets.enemyFlapRight, 80);
 		fallingAnim = new Animation(Assets.enemyFalling, 50);
-		inflateLeftAnim = new Animation(Assets.enemyInflateLeft, 120);
-		inflateRightAnim = new Animation(Assets.enemyInflateRight, 120);
+		inflateLeftAnim = new Animation(Assets.enemyInflateLeft, 160);
+		inflateRightAnim = new Animation(Assets.enemyInflateRight, 160);
 	}
 	
 	@Override
@@ -94,7 +94,7 @@ public class Enemy extends Entity {
 				if (++framesCounter < 120 && !isInflating()) {
 					setAnimation(null);
 					setSprite(Assets.enemyIdle[getDirection() == Direction.LEFT ? 0 : 1]);
-				} else if (++framesCounter > 120 && !isInflating()) {
+				} else if (framesCounter > 120 && !isInflating()) {
 					framesCounter = 0;
 					setInflating(true);
 					setAnimation(getDirection() == Direction.LEFT ? inflateLeftAnim : inflateRightAnim);
