@@ -25,13 +25,11 @@ public class MainMenu extends Menu {
 	public void tick() {
 		
 		if (inputHandler.enter.clicked || inputHandler.z.clicked) {
-			//inputHandler.enter.clicked = false;
-			//inputHandler.z.clicked = false;
 			switch (selected) {
 				case 0:
+					game.setMenu(null);
 					game.setGameState(Game.GameState.GAME);
 					game.getPlayer().setVisible(true);
-					game.setMenu(null);
 					break;
 				case 1:					
 					game.setMenu(new CreditsMenu(game, game.getInputHandler()));
@@ -43,13 +41,9 @@ public class MainMenu extends Menu {
 		
 		if (inputHandler.up.clicked) {
 			selected--;
-			//inputHandler.up.clicked = false;
-			//intervalCounter = 0;
 		}
 		if (inputHandler.down.clicked) {
 			selected++;
-			//inputHandler.down.clicked = false;
-			//intervalCounter = 0;
 		}
 		
 		if (selected < 0)

@@ -13,8 +13,9 @@ public class Player extends Entity {
 
 	private InputHandler inputHandler;
 	private boolean flapKeyReleased;
-	private int framesBetweenFlaps = 8, framesCounter = 8;
+	private int framesBetweenFlaps = 8, framesCounter = 8, initialDelayCounter = 0;
 	private Balloon balloons;
+	private boolean initialDelayDone;
 	protected static Animation walkLeftAnim, walkRightAnim, fallingAnim, flapLeftAnim, flapRightAnim;
 
 	private enum State {IDLE, FLY, WALK};
@@ -31,6 +32,7 @@ public class Player extends Entity {
 		this.sprite = Assets.playerFly[0];
 		this.direction = Direction.LEFT;
 		this.hitbox = new Rectangle(x, y, (int)(getWidth() * 0.8), getHeight());
+		this.initialDelayDone = false;
 
 		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), 2, Balloon.BalloonColor.RED, game, this);
 		walkLeftAnim = new Animation(Assets.playerWalkLeft, 100);
@@ -42,6 +44,18 @@ public class Player extends Entity {
 
 	@Override
 	public void tick() {
+		
+		// Ignore input for some frames at the start of the game.
+		if (!initialDelayDone) {
+			inputHandler.z.down = false;
+			inputHandler.x.down = false;
+			inputHandler.left.down = false;
+			inputHandler.right.down = false;
+			if (++initialDelayCounter > 5) {
+				initialDelayDone = true;
+			}
+		}
+			
 
 		if (balloons.getBalloonsAmount() > 0) {
 			// Check for a single flap (Z key = A button)

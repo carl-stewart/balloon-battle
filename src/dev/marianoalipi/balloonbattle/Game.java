@@ -70,9 +70,8 @@ public class Game implements Runnable {
         Assets.init();
         
         player = new Player(getWidth() / 2 - 20, getHeight() / 2 - 20, (int)(SCALE * 16), (int)(SCALE * 12), this, getInputHandler());
-        player.setY(getHeight() - player.getHeight());
         player.setVisible(false);
-        player.setSprite(Assets.balloon);
+        player.setY(getHeight() - player.getHeight());
         
         enemies = new ArrayList<Enemy>();
         enemies.add(new Enemy((int)(getWidth() * 0.8), getHeight() / 2, (int)(SCALE * 16), (int)(SCALE *12), this, Enemy.EnemyColor.PINK));

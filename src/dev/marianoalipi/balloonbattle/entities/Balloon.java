@@ -23,7 +23,7 @@ public class Balloon extends Entity {
 	public Balloon (int x, int y, int width, int height, int balloonsAmount, BalloonColor balloonColor, Game game, Entity owner) {
 		super(x, y, width, height, game);
 		this.owner = owner;
-		this.sprite = Assets.balloon;
+		this.sprite = null;
 		this.setBalloonColor(balloonColor);
 		this.balloonsTwoAnim = new Animation(Assets.balloonsTwo.get(getBalloonColor().toString()), 400);
 		this.balloonsOneAnim = new Animation(Assets.balloonsOne.get(getBalloonColor().toString()), 400);
