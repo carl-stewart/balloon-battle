@@ -18,8 +18,6 @@ public class Player extends Entity {
 	private boolean initialDelayDone;
 	protected static Animation walkLeftAnim, walkRightAnim, fallingAnim, flapLeftAnim, flapRightAnim;
 
-	private enum State {IDLE, FLY, WALK};
-
 	public Player() {
 		super();
 	}
@@ -63,7 +61,7 @@ public class Player extends Entity {
 				setySpeed(getySpeed() + 5);
 				setFlapKeyReleased(false);
 				setAnimation(null);
-				setSpriteAuto(State.FLY, true);
+				setSprite(getDirection() == Direction.LEFT ? Assets.playerFlapLeft[1] : Assets.playerFlapRight[1]);
 	
 				Sound.flap.play();
 				
@@ -78,7 +76,7 @@ public class Player extends Entity {
 				setFlapKeyReleased(true);
 				if (!isGrounded())
 					setAnimation(null);
-				setSpriteAuto(State.FLY, false);
+				setSprite(getDirection() == Direction.LEFT ? Assets.playerFlapLeft[0] : Assets.playerFlapRight[0]);
 			}
 	
 			// Check for constant flapping (X key = B button)
@@ -102,9 +100,6 @@ public class Player extends Entity {
 				// No balloons: player is falling.
 				setAnimation(fallingAnim);
 				setxSpeed(0);
-			} else {
-				setAnimation(null);
-				setSprite(Assets.playerIdle[getDirection() == Direction.LEFT ? 0 : 1]);
 			}
 		}
 
@@ -147,7 +142,7 @@ public class Player extends Entity {
 
 		// Idle animation
 		if (isGrounded() && getxSpeed() == 0 && getySpeed() == 0) {
-			setSpriteAuto(State.IDLE, false);
+			setSprite( Assets.playerIdle[(getDirection() == Direction.LEFT ? 0 : 1)]);
 			setAnimation(null);
 		}
 
@@ -217,50 +212,6 @@ public class Player extends Entity {
 	 */
 	public void setFlapKeyReleased(boolean flapKeyReleased) {
 		this.flapKeyReleased = flapKeyReleased;
-	}
-
-	/**
-	 * This method sets the sprite of the player according to its state (flying, idle, walking). It detects if it's facing left or right and sets its sprite to not-flapping or flapping, depending on the <code>flap</code> parameter.
-	 */
-	private void setSpriteAuto(State state, boolean flap) {
-		switch (getDirection()) {
-		case LEFT:
-			switch (state) {
-			case FLY:
-				if (flap)
-					setSprite(Assets.playerFly[1]);
-				else
-					setSprite(Assets.playerFly[0]);
-				break;
-			case IDLE:
-				setSprite(Assets.playerIdle[0]);
-				break;
-			case WALK:
-				setSprite(Assets.playerIdle[0]);
-				break;
-			default:
-				break;
-			}
-			break;
-
-		case RIGHT:
-			switch (state) {
-			case FLY:
-				if (flap)
-					setSprite(Assets.playerFly[3]);
-				else
-					setSprite(Assets.playerFly[2]);
-				break;
-			case IDLE:
-				setSprite(Assets.playerIdle[1]);
-				break;
-			case WALK:
-				setSprite(Assets.playerIdle[1]);
-				break;
-			default:
-				break;
-			}
-		}
 	}
 	
 	public Balloon getBalloons() {
