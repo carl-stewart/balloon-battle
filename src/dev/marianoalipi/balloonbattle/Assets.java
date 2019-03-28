@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class Assets {
 
-	public static Font gameFont, gameFont25, gameFont25B, gameFont35, gameFont35B;
+	public static Font gameFont, gameFont15, gameFont15B, gameFont25, gameFont25B, gameFont35, gameFont35B;
 	
 	public static BufferedImage background, splash, title, github, icon, balloon, parachute;
 	
@@ -41,6 +41,8 @@ public class Assets {
     	     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, Assets.class.getClassLoader().getResourceAsStream("dev/marianoalipi/balloonbattle/assets/fonts/RosesAreFF0000.ttf")));
     	     
     	     gameFont = new Font("Roses Are FF0000", Font.PLAIN, 25);
+    	     gameFont15 = gameFont.deriveFont(Font.PLAIN, 15);
+    	     gameFont15B = gameFont.deriveFont(Font.BOLD, 15);
     	     gameFont25 = gameFont.deriveFont(Font.PLAIN, 25);
     	     gameFont25B = gameFont.deriveFont(Font.BOLD, 25);
     	     gameFont35 = gameFont.deriveFont(Font.PLAIN, 35);
@@ -49,6 +51,8 @@ public class Assets {
     		e.printStackTrace();
     		System.out.println("Using Arial font instead.");
     		gameFont = new Font("Arial", Font.PLAIN, 25);
+    		gameFont15 = gameFont.deriveFont(Font.PLAIN, 15);
+    		gameFont15B = gameFont.deriveFont(Font.BOLD, 15);
 			gameFont25 = gameFont.deriveFont(Font.PLAIN, 25);
 			gameFont25B = gameFont.deriveFont(Font.BOLD, 25);
 			gameFont35 = gameFont.deriveFont(Font.PLAIN, 35);
