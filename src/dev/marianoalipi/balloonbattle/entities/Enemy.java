@@ -85,10 +85,22 @@ public class Enemy extends Entity {
 			// No balloons
 			if (!isGrounded()) {
 				// Enemy is falling.
-				setAnimation(fallingAnim);
-				setySpeed(-2);
-				setxSpeed(Math.floor(Math.random() * 2 - 1) * Math.random() + 0.3);
+				if (balloons.isParachute()) {
+					// Falling with parachute
+					setAnimation(fallingAnim);
+					setySpeed(-2);
+					setxSpeed(Math.floor(Math.random() * 2 - 1) * Math.random() + 0.3);
+				} else {
+					// Falling without a parachute
+					if (getY() >= game.getHeight()) {
+						this.visible = false;
+						for (Enemy enemy : game.getEnemies())
+							if (enemy == this)
+								game.getEnemies().remove(this);
+					}
+				}
 			} else {
+				// If on the ground
 				balloons.setParachute(false);
 				// If two seconds have passed on the ground, start inflating a balloon.
 				if (++framesCounter < 120 && !isInflating()) {

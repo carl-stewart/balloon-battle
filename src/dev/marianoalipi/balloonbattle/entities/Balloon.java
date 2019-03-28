@@ -32,7 +32,7 @@ public class Balloon extends Entity {
 		this.balloonsAmount = balloonsAmount;
 		this.invincible = false;
 		this.setParachute(false);
-		this.invincibleFrames = 30;
+		this.invincibleFrames = (owner.getClass() == Player.class ? (byte)30 : (byte)10);
 	}
 	
 	@Override
@@ -63,12 +63,25 @@ public class Balloon extends Entity {
 			
 		} else if (owner instanceof Enemy) {
 			
-			// Check for collision with player
-			Player player = game.getPlayer(); 
-			if (player.getBalloons().getBalloonsAmount() > 0) {
+			if (!isInvincible()) {
+				// Check for collision with player
+				Player player = game.getPlayer(); 
 				if (getHitbox().intersects(player.getHitbox())) {
 					// Remove one balloon
-					setBalloonsAmount(getBalloonsAmount() - 1);
+					if (getBalloonsAmount() > 0) {
+						setBalloonsAmount(getBalloonsAmount() - 1);
+						setInvincible(true);
+						
+						if (getBalloonsAmount() <= 0) {
+							setParachute(true);
+							setInvincible(true);
+						}	
+					} else {
+						if (isParachute()) {
+							setParachute(false);
+							owner.setySpeed(5);
+						}
+					}
 					
 					// Make the player bounce a little
 					double hitboxCenterX = getHitbox().getX() + getHitbox().getWidth() / 2,
@@ -80,14 +93,16 @@ public class Balloon extends Entity {
 					
 					if (player.getY() + player.getHitbox().getHeight() >= getHitbox().getY())
 						player.setySpeed(0.5 * Math.abs(player.getySpeed()));
-					
-					if (getBalloonsAmount() <= 0) {
-						setParachute(true);
-						owner.setySpeed(10);
-					}
 				}
 			}
 
+			// Remove invincibility frames
+			if (isInvincible())
+				if (--invincibleFrames <= 0) {
+					setInvincible(false);
+					invincibleFrames = 30;
+				}
+			
 			// Adjust a little horizontal offset for when the enemy is facing right
 			if (owner.getDirection() == Direction.RIGHT)
 				setX(owner.getX() + 2);
@@ -104,6 +119,9 @@ public class Balloon extends Entity {
 		} else if (getBalloonsAmount() == 1) {
 			getHitbox().setLocation(getX() + (int)(Game.SCALE * 4), getY());
 			getHitbox().setSize((int)(Game.SCALE * 8), (int)(Game.SCALE * 12));
+		} else if (isParachute()) {
+			getHitbox().setLocation(getX(), getY());
+			getHitbox().setSize((int)(Game.SCALE * 16), (int)(Game.SCALE * 12));
 		} else {
 			getHitbox().setLocation(owner.getX() + (int)(owner.getWidth() / 2), owner.getY() + (int)(owner.getHeight() / 2));
 			getHitbox().setSize(0, 0);
@@ -120,10 +138,10 @@ public class Balloon extends Entity {
 		} else {
 			if (getAnimation() != null)
 				setSprite(getAnimation().getFrames()[0]);
+			else if (isParachute())
+				setSprite(Assets.parachute);
 			else
 				setSprite(null);
-			if (isParachute())
-				setSprite(Assets.parachute);
 		}
 		
 		

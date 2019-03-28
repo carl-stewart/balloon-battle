@@ -298,6 +298,14 @@ public class Game implements Runnable {
 		return player;
 	}
 	
+	/**
+	 * 
+	 * @return enemies
+	 */
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
+	}
+	
 	public void setInputHandler(InputHandler inputHandler) {
 		this.inputHandler = inputHandler;
 	}
