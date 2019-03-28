@@ -3,6 +3,7 @@ package dev.marianoalipi.balloonbattle;
 import java.awt.Canvas;
 import javax.swing.JFrame;
 import java.awt.Dimension;
+import java.awt.Image;
 
 /**
  *
@@ -30,6 +31,7 @@ public class Display {
 	     jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	     jframe.setResizable(false);
 	     jframe.setLocationRelativeTo(null);
+	     jframe.setIconImage((Image)Assets.icon);
 	     jframe.setVisible(true);
 	     
 	     //create the canvas to paint and setting size

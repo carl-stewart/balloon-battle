@@ -14,7 +14,7 @@ public class Assets {
 
 	public static Font gameFont, gameFont25, gameFont25B, gameFont35, gameFont35B;
 	
-	public static BufferedImage background, splash, title, github, balloon, parachute;
+	public static BufferedImage background, splash, title, github, icon, balloon, parachute;
 	
 	private static SpriteSheet mainMenuOptionsSS, balloonsSS, 
 								  playerFlySS,
@@ -59,6 +59,7 @@ public class Assets {
         splash = ImageLoader.loadImage("assets/images/splash.png");
         title = ImageLoader.loadImage("assets/images/title_pixel.png");
         github = ImageLoader.loadImage("assets/images/github.png");
+        icon = ImageLoader.loadImage("assets/images/icon.png");
         balloon = ImageLoader.loadImage("assets/images/balloon.png");
         
         // Main menu options

@@ -65,9 +65,10 @@ public class Game implements Runnable {
     }
     
     private void init() {
-        display = new Display(title, getWidth(), getHeight());
+    	Assets.init();
+
+    	display = new Display(title, getWidth(), getHeight());
         display.getJframe().pack();
-        Assets.init();
         
         player = new Player(getWidth() / 2 - 20, getHeight() / 2 - 20, (int)(SCALE * 16), (int)(SCALE * 12), this, getInputHandler());
         player.setVisible(false);
