@@ -90,14 +90,6 @@ public class Enemy extends Entity {
 					setAnimation(fallingAnim);
 					setySpeed(-2);
 					setxSpeed(Math.floor(Math.random() * 2 - 1) * Math.random() + 0.3);
-				} else {
-					// Falling without a parachute
-					if (getY() >= game.getHeight()) {
-						this.visible = false;
-						for (Enemy enemy : game.getEnemies())
-							if (enemy == this)
-								game.getEnemies().remove(this);
-					}
 				}
 			} else {
 				// If on the ground
@@ -183,10 +175,12 @@ public class Enemy extends Entity {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
+		if (isVisible()) {
+			g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
 		
-		// Render balloons
-		balloons.render(g);
+			// Render balloons
+			balloons.render(g);
+		}
 		
 		// Draw hitbox (for debugging)
 		//g.setColor(Color.red);

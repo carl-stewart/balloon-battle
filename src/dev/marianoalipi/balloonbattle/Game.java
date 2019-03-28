@@ -41,7 +41,7 @@ public class Game implements Runnable {
 	
 	// Game entities
 	private Player player;
-	private ArrayList<Enemy> enemies;
+	private ArrayList<Enemy> enemies, toRemove;
     
     // Specialized single-use variables
 	private int splashCounter = 0; // for splash effects
@@ -75,7 +75,8 @@ public class Game implements Runnable {
         
         enemies = new ArrayList<Enemy>();
         enemies.add(new Enemy((int)(getWidth() * 0.8), getHeight() / 2, (int)(SCALE * 16), (int)(SCALE *12), this, Enemy.EnemyColor.PINK));
-
+        toRemove = new ArrayList<Enemy>();
+        
         //starts to listen the keyboard input
         display.getJframe().addKeyListener(inputHandler);
     }
@@ -115,6 +116,13 @@ public class Game implements Runnable {
     			player.tick();
     			for (Enemy enemy : enemies) {
     				enemy.tick();
+    				if (enemy.isDying() && enemy.isGrounded()) {
+    					toRemove.add(enemy);
+    				}
+    			}
+    			if (toRemove.size() != 0) {
+    				enemies.removeAll(toRemove);
+    				toRemove.clear();
     			}
     			break;
     		default:

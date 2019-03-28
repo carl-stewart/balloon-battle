@@ -80,6 +80,7 @@ public class Balloon extends Entity {
 						if (isParachute()) {
 							setParachute(false);
 							owner.setySpeed(5);
+							owner.setDying(true);
 						}
 					}
 					

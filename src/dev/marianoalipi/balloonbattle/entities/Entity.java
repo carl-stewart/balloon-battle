@@ -17,7 +17,7 @@ public abstract class Entity {
 	protected Game game;
 	//protected static final int abc;
 	protected static final double GRAVITY = 0.3, MAX_SPEED = 7;
-	protected boolean grounded, visible, spawned;
+	protected boolean grounded, visible, spawned, dying;
 	
 	public enum Direction {LEFT, RIGHT};
 	protected Direction direction;
@@ -35,6 +35,7 @@ public abstract class Entity {
 		this.direction = null;
 		this.grounded = false;
 		this.visible = false;
+		this.dying = false;
 	}
 	
 	public Entity(int x, int y, int width, int height, Game game) {
@@ -49,6 +50,7 @@ public abstract class Entity {
 		this.direction = Direction.LEFT;
 		this.grounded = false;
 		this.visible = true;
+		this.dying = false;
 	}
 
 	public abstract void tick();
@@ -101,6 +103,10 @@ public abstract class Entity {
 	
 	public boolean isSpawned() {
 		return spawned;
+	}
+	
+	public boolean isDying() {
+		return dying;
 	}
 	
 	public Direction getDirection() {
@@ -170,6 +176,10 @@ public abstract class Entity {
 	
 	public void setSpawned(boolean spawned) {
 		this.spawned = spawned;
+	}
+	
+	public void setDying(boolean dying) {
+		this.dying = dying;
 	}
 	
 	public void setDirection(Direction direction) {
