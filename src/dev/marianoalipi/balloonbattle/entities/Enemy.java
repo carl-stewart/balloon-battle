@@ -110,6 +110,14 @@ public class Enemy extends Entity {
 					framesCounter = 0;
 					setInflating(false);
 				}
+				
+				// If the player hits the enemy on the ground
+				if (getHitbox().intersects(game.getPlayer().getHitbox())) {
+					setySpeed(5);
+					setY(getY() - getHeight() / 2);
+					setAnimation(fallingAnim);
+					setDying(true);
+				}
 			}
 		}
 		
