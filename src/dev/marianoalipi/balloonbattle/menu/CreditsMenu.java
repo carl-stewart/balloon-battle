@@ -36,11 +36,22 @@ public class CreditsMenu extends Menu {
         g.drawImage(Assets.github, 179, game.getHeight() - 50, 443, 31, null);
         
         g.setColor(Color.white);
-        g.setFont(Assets.gameFont25B);
-        g.drawString("Fonts:", 130, game.getHeight() / 8);
-        g.setFont(Assets.gameFont25);
-        g.drawString("\"Roses Are FF0000\" by AJ Paglia", 130, game.getHeight() / 7 + 30);
-        g.drawString("www.ajpaglia.com", 130, game.getHeight() / 7 + 60);
+        g.setFont(Assets.gameFont15B);
+        g.drawString("Fonts:", 60, game.getHeight() / 10);
+        g.setFont(Assets.gameFont15);
+        g.drawString("\"Roses Are FF0000\" by AJ Paglia", 60, game.getHeight() / 10 + 20);
+        g.drawString("www.ajpaglia.com", 60, game.getHeight() / 10 + 40);
+        
+        g.drawString("\"Bubble Butt\" by Iconian Fonts - Daniel Zadorozny", 60, game.getHeight() / 10 + 80);
+        g.drawString("www.iconian.com", 60, game.getHeight() / 10 + 100);
+        
+        g.setFont(Assets.gameFont15B);
+        g.drawString("Sounds:", 60, game.getHeight() / 2);
+        g.setFont(Assets.gameFont15);
+        g.drawString("\"Retro 8-bit game, pickup or collect object 00\"", 60, game.getHeight() / 2 + 30);
+        g.drawString("by Little Robot Sound Factory", 60, game.getHeight() / 2 + 50);
+        g.drawString("Under CC Attribution 4.0 License", 60, game.getHeight() / 2 + 70);
+        g.drawString("https://creativecommons.org/licenses/by/4.0/", 60, game.getHeight() / 2 + 90);
         
         int index = 2;
         g.drawImage(Assets.mainMenuOptions[index], 350, game.getHeight() - 80 - Assets.textScale * Assets.mainMenuOptions[index].getHeight(), Assets.textScale * Assets.mainMenuOptions[index].getWidth(), Assets.textScale * Assets.mainMenuOptions[index].getHeight(),  null);
