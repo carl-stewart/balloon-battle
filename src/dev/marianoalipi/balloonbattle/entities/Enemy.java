@@ -68,10 +68,12 @@ public class Enemy extends Entity {
 				
 				setySpeed(0.5 * Math.abs(getySpeed()));
 
-				if (pBalloons.getBalloonsAmount() > 0)
+				if (pBalloons.getBalloonsAmount() > 0) {
 					game.getPlayer().setySpeed(-5);
-				else
+				} else {
 					game.getPlayer().setySpeed(10);
+					game.getPlayer().setDying(true);
+				}
 				
 				pBalloons.setInvincible(true);
 			}

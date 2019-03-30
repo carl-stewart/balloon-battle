@@ -53,8 +53,7 @@ public class Player extends Entity {
 				initialDelayDone = true;
 			}
 		}
-			
-
+		
 		if (balloons.getBalloonsAmount() > 0) {
 			// Check for a single flap (Z key = A button)
 			if (inputHandler.z.down && isFlapKeyReleased()) {
@@ -180,7 +179,13 @@ public class Player extends Entity {
 		}
 
 		// Relocate hitbox
-		getHitbox().setLocation(getX() + (int)(Game.SCALE * 3), getY());
+		if (isDying()) {
+			getHitbox().setSize(0, 0);
+			getHitbox().setLocation(getX() + (int)(Game.SCALE * (getWidth() / 2)), getY() + (int)(Game.SCALE * (getHeight() / 2)));
+		} else {
+			getHitbox().setLocation(getX() + (int)(Game.SCALE * 3), getY());
+		}
+			
 
 		// Tick balloons
 		balloons.tick();
