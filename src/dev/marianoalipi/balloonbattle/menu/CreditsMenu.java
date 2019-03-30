@@ -49,9 +49,10 @@ public class CreditsMenu extends Menu {
         g.drawString("Sounds:", 60, game.getHeight() / 2);
         g.setFont(Assets.gameFont15);
         g.drawString("\"Retro 8-bit game, pickup or collect object 00\"", 60, game.getHeight() / 2 + 30);
-        g.drawString("by Little Robot Sound Factory", 60, game.getHeight() / 2 + 50);
-        g.drawString("Under CC Attribution 4.0 License", 60, game.getHeight() / 2 + 70);
-        g.drawString("https://creativecommons.org/licenses/by/4.0/", 60, game.getHeight() / 2 + 90);
+        g.drawString("\"Retro 8-bit game, hit 02\"", 60, game.getHeight() / 2 + 50);
+        g.drawString("by Little Robot Sound Factory", 60, game.getHeight() / 2 + 70);
+        g.drawString("Under CC Attribution 4.0 License", 60, game.getHeight() / 2 + 90);
+        g.drawString("https://creativecommons.org/licenses/by/4.0/", 60, game.getHeight() / 2 + 110);
         
         int index = 2;
         g.drawImage(Assets.mainMenuOptions[index], 350, game.getHeight() - 80 - Assets.textScale * Assets.mainMenuOptions[index].getHeight(), Assets.textScale * Assets.mainMenuOptions[index].getWidth(), Assets.textScale * Assets.mainMenuOptions[index].getHeight(),  null);

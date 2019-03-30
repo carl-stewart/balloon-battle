@@ -66,7 +66,7 @@ public class Game implements Runnable {
     
     private void init() {
     	Assets.init();
-
+    	
     	display = new Display(title, getWidth(), getHeight());
         display.getJframe().pack();
         

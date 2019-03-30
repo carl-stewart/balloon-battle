@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import dev.marianoalipi.balloonbattle.Animation;
 import dev.marianoalipi.balloonbattle.Assets;
 import dev.marianoalipi.balloonbattle.Game;
+import dev.marianoalipi.balloonbattle.Sound;
 
 public class Balloon extends Entity {
 
@@ -67,6 +68,10 @@ public class Balloon extends Entity {
 				// Check for collision with player
 				Player player = game.getPlayer(); 
 				if (getHitbox().intersects(player.getHitbox())) {
+					
+					// Play sound
+					Sound.hit.play();
+					
 					// Remove one balloon
 					if (getBalloonsAmount() > 0) {
 						setBalloonsAmount(getBalloonsAmount() - 1);

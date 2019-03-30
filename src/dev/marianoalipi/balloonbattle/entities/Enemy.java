@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import dev.marianoalipi.balloonbattle.Animation;
 import dev.marianoalipi.balloonbattle.Assets;
 import dev.marianoalipi.balloonbattle.Game;
+import dev.marianoalipi.balloonbattle.Sound;
 
 public class Enemy extends Entity {
 
@@ -46,6 +47,9 @@ public class Enemy extends Entity {
 				// Remove one balloon
 				if (!pBalloons.isInvincible()) {
 					pBalloons.setBalloonsAmount(pBalloons.getBalloonsAmount() - 1);
+					
+					// Play a sound
+					Sound.hit.play();
 				}
 				
 				// Make the enemy bounce a little
@@ -113,6 +117,9 @@ public class Enemy extends Entity {
 				
 				// If the player hits the enemy on the ground
 				if (getHitbox().intersects(game.getPlayer().getHitbox())) {
+					// Play sound
+					Sound.hit.play();
+					
 					setySpeed(5);
 					setY(getY() - getHeight() / 2);
 					setAnimation(fallingAnim);

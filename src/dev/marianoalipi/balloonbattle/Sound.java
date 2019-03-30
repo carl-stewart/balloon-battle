@@ -6,7 +6,8 @@ import java.applet.AudioClip;
 @SuppressWarnings("deprecation")
 public class Sound {
 	
-	public static final Sound flap = new Sound("assets/sounds/flap.wav");
+	public static final Sound flap = new Sound("assets/sounds/flap.wav"),
+							  hit  = new Sound("assets/sounds/hit.wav");
 
 	private AudioClip clip;
 
