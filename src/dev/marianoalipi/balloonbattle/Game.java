@@ -114,16 +114,23 @@ public class Game implements Runnable {
         
     	switch (getGameState()) {
     		case GAME:
-    			player.tick();
-    			for (Enemy enemy : enemies) {
-    				enemy.tick();
-    				if (enemy.isDying() && enemy.isGrounded()) {
-    					toRemove.add(enemy);
-    				}
+    			
+    			if (inputHandler.enter.clicked) {
+    				setPaused(!isPaused());
     			}
-    			if (toRemove.size() != 0) {
-    				enemies.removeAll(toRemove);
-    				toRemove.clear();
+    			
+    			if (!isPaused()) {
+	    			player.tick();
+	    			for (Enemy enemy : enemies) {
+	    				enemy.tick();
+	    				if (enemy.isDying() && enemy.isGrounded()) {
+	    					toRemove.add(enemy);
+	    				}
+	    			}
+	    			if (toRemove.size() != 0) {
+	    				enemies.removeAll(toRemove);
+	    				toRemove.clear();
+	    			}
     			}
     			break;
     		default:
