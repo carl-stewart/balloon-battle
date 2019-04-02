@@ -68,6 +68,8 @@ public class Player extends Entity {
 					setxSpeed(getxSpeed() - 2);
 				if (inputHandler.right.down)
 					setxSpeed(getxSpeed() + 2);
+				
+				inputHandler.x.down = false;
 			}
 	
 			// To check if Z key has been released.
@@ -92,6 +94,8 @@ public class Player extends Entity {
 						setxSpeed(getxSpeed() - 3);
 					if (inputHandler.right.down)
 						setxSpeed(getxSpeed() + 3);
+					
+					inputHandler.z.down = false;
 				}
 			}
 		} else {
