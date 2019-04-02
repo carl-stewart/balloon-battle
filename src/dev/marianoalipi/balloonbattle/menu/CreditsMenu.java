@@ -33,7 +33,10 @@ public class CreditsMenu extends Menu {
 		g.setColor(Color.black);
         g.fillRect(0, 0, game.getWidth(), game.getHeight());
 
-        g.drawImage(Assets.github, 179, game.getHeight() - 50, 443, 31, null);
+        g.drawImage(Assets.githubLogo, 181, game.getHeight() - 49, 29, 29, null);
+        g.setColor(Color.white);
+        g.setFont(Assets.gameFont28);
+        g.drawString("github.com/marianoalipi", 225, game.getHeight() - 19);
         
         g.setColor(Color.white);
         g.setFont(Assets.gameFont15B);

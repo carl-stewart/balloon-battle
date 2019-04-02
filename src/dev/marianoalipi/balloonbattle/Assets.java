@@ -12,9 +12,11 @@ import java.util.HashMap;
  */
 public class Assets {
 
-	public static Font gameFont, gameFont15, gameFont15B, gameFont25, gameFont25B, gameFont35, gameFont35B;
+	public static Font gameFont, gameFont15, gameFont15B, gameFont25, gameFont25B,
+								 gameFont28, gameFont28B,
+								 gameFont30, gameFont30B, gameFont35, gameFont35B;
 	
-	public static BufferedImage background, splash, title, github, icon, balloon, parachute;
+	public static BufferedImage background, splash, title, github, githubLogo, icon, balloon, parachute;
 	
 	private static SpriteSheet mainMenuOptionsSS, balloonsSS, 
 								  playerFlySS,
@@ -39,32 +41,32 @@ public class Assets {
     	try {
     	     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
     	     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, Assets.class.getClassLoader().getResourceAsStream("dev/marianoalipi/balloonbattle/assets/fonts/RosesAreFF0000.ttf")));
-    	     
     	     gameFont = new Font("Roses Are FF0000", Font.PLAIN, 25);
-    	     gameFont15 = gameFont.deriveFont(Font.PLAIN, 15);
-    	     gameFont15B = gameFont.deriveFont(Font.BOLD, 15);
-    	     gameFont25 = gameFont.deriveFont(Font.PLAIN, 25);
-    	     gameFont25B = gameFont.deriveFont(Font.BOLD, 25);
-    	     gameFont35 = gameFont.deriveFont(Font.PLAIN, 35);
-    	     gameFont35B = gameFont.deriveFont(Font.BOLD, 35);
     	} catch (Exception e) {
     		e.printStackTrace();
     		System.out.println("Using Arial font instead.");
     		gameFont = new Font("Arial", Font.PLAIN, 25);
-    		gameFont15 = gameFont.deriveFont(Font.PLAIN, 15);
-    		gameFont15B = gameFont.deriveFont(Font.BOLD, 15);
-			gameFont25 = gameFont.deriveFont(Font.PLAIN, 25);
-			gameFont25B = gameFont.deriveFont(Font.BOLD, 25);
-			gameFont35 = gameFont.deriveFont(Font.PLAIN, 35);
-			gameFont35B = gameFont.deriveFont(Font.BOLD, 35);
     	}
+		
+    	// Make derived fonts.
+    	gameFont15	= gameFont.deriveFont(Font.PLAIN, 15);
+		gameFont15B	= gameFont.deriveFont(Font.BOLD, 15);
+		gameFont25	= gameFont.deriveFont(Font.PLAIN, 25);
+		gameFont25B	= gameFont.deriveFont(Font.BOLD, 25);
+		gameFont28	= gameFont.deriveFont(Font.PLAIN, 28);
+		gameFont28B	= gameFont.deriveFont(Font.BOLD, 28);
+		gameFont30	= gameFont.deriveFont(Font.PLAIN, 30);
+		gameFont30B	= gameFont.deriveFont(Font.BOLD, 30);
+		gameFont35	= gameFont.deriveFont(Font.PLAIN, 35);
+		gameFont35B = gameFont.deriveFont(Font.BOLD, 35);
     	
-        background = ImageLoader.loadImage("assets/images/background.png");
-        splash = ImageLoader.loadImage("assets/images/splash.png");
-        title = ImageLoader.loadImage("assets/images/title_pixel.png");
-        github = ImageLoader.loadImage("assets/images/github.png");
-        icon = ImageLoader.loadImage("assets/images/icon.png");
-        balloon = ImageLoader.loadImage("assets/images/balloon.png");
+        background	= ImageLoader.loadImage("assets/images/background.png");
+        splash		= ImageLoader.loadImage("assets/images/splash.png");
+        title		= ImageLoader.loadImage("assets/images/title_pixel.png");
+        github		= ImageLoader.loadImage("assets/images/github.png");
+        githubLogo	= ImageLoader.loadImage("assets/images/githubLogo.png");
+        icon		= ImageLoader.loadImage("assets/images/icon.png");
+        balloon		= ImageLoader.loadImage("assets/images/balloon.png");
         
         // Main menu options
         mainMenuOptionsSS = new SpriteSheet(ImageLoader.loadImage("assets/images/menu_options.png"));

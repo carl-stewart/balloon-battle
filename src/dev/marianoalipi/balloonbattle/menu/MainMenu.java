@@ -62,12 +62,14 @@ public class MainMenu extends Menu {
         g.fillRect(0, 0, game.getWidth(), game.getHeight());
 
         g.drawImage(Assets.title, 100, 20, 600, 250, null);
-        g.drawImage(Assets.github, 179, game.getHeight() - 50, 443, 31, null);
+        
+        g.drawImage(Assets.githubLogo, 181, game.getHeight() - 49, 29, 29, null);
+        g.setColor(Color.white);
+        g.setFont(Assets.gameFont28);
+        g.drawString("github.com/marianoalipi", 225, game.getHeight() - 19);
         
         // Draw the menu options
-        g.setColor(Color.white);
         for (int i = 0; i < options.size(); i++) {
-        	//g.drawString(options.get(i), 350, 350 + i * 20);
         	g.drawImage(Assets.mainMenuOptions[i], 350, 320 + i * 10 + i * Assets.textScale * Assets.mainMenuOptions[i].getHeight(), Assets.textScale * Assets.mainMenuOptions[i].getWidth(), Assets.textScale * Assets.mainMenuOptions[i].getHeight(),  null);
         }
         
