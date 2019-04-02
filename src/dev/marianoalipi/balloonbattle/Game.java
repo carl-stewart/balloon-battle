@@ -70,6 +70,9 @@ public class Game implements Runnable {
     	display = new Display(title, getWidth(), getHeight());
         display.getJframe().pack();
         
+        // Play a silent sound to prevent freezing.
+        Sound.silence.play();
+        
         player = new Player(getWidth() / 2 - 20, getHeight() / 2 - 20, (int)(SCALE * 16), (int)(SCALE * 12), this, getInputHandler());
         player.setVisible(false);
         player.setY(getHeight() - player.getHeight());
