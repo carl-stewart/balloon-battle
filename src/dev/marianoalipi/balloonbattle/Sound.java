@@ -7,7 +7,8 @@ import java.applet.AudioClip;
 public class Sound {
 	
 	public static final Sound flap = new Sound("assets/sounds/flap.wav"),
-							  hit  = new Sound("assets/sounds/hit.wav");
+							  hit  = new Sound("assets/sounds/hit.wav"),
+							  navigate = new Sound("assets/sounds/menuNavigate.wav");
 
 	private AudioClip clip;
 

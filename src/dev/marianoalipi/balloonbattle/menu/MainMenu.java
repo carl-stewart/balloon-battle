@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import dev.marianoalipi.balloonbattle.Assets;
 import dev.marianoalipi.balloonbattle.Game;
 import dev.marianoalipi.balloonbattle.InputHandler;
+import dev.marianoalipi.balloonbattle.Sound;
 
 public class MainMenu extends Menu {
 
@@ -41,9 +42,11 @@ public class MainMenu extends Menu {
 		
 		if (inputHandler.up.clicked) {
 			selected--;
+			Sound.navigate.play();
 		}
 		if (inputHandler.down.clicked) {
 			selected++;
+			Sound.navigate.play();
 		}
 		
 		if (selected < 0)
