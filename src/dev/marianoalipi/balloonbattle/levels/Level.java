@@ -1,5 +1,6 @@
 package dev.marianoalipi.balloonbattle.levels;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class Level {
@@ -15,6 +16,12 @@ public class Level {
 	public Level(byte id) {
 		this.id = id;
 		this.platforms = new ArrayList<Platform>();
+	}
+	
+	public void render(Graphics g) {
+		for (Platform platform : platforms) {
+			platform.render(g);
+		}
 	}
 	
 	public byte getId() {

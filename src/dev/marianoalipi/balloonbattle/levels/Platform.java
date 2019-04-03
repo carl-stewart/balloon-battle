@@ -1,5 +1,7 @@
 package dev.marianoalipi.balloonbattle.levels;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
@@ -25,6 +27,14 @@ public class Platform {
 		this.height = height;
 		this.hitbox = new Rectangle(x, y, width, height);
 		this.sprite = null;
+	}
+	
+	public void render(Graphics g) {
+		//g.drawImage(getSprite(), getX(), getY(), getWidth(), getHeight(), null);
+
+		// Placeholder renderer
+		g.setColor(Color.green);
+		g.drawRect(getX(), getY(), getWidth(), getHeight());
 	}
 	
 	public int getX() {
