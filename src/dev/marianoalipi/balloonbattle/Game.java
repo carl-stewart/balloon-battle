@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 import dev.marianoalipi.balloonbattle.entities.Enemy;
 import dev.marianoalipi.balloonbattle.entities.Player;
+import dev.marianoalipi.balloonbattle.levels.Level;
+import dev.marianoalipi.balloonbattle.levels.Platform;
 import dev.marianoalipi.balloonbattle.menu.MainMenu;
 import dev.marianoalipi.balloonbattle.menu.Menu;
 
@@ -35,6 +37,8 @@ public class Game implements Runnable {
     private boolean showSplash = true;		// whether or not to show the splash screen
     private boolean paused;         		// to pause the game
     private Menu menu;						// to set the current menu or no menu
+    private ArrayList<Level> levels;		// ArrayList with all the levels
+    private Level currentLevel;				// the current level
     public enum GameState {MENU, GAME, WON, LOST};
     private GameState gameState;
 	private InputHandler inputHandler;
@@ -52,11 +56,11 @@ public class Game implements Runnable {
         this.title = title;
         this.width = width;
         this.height = height;
-        setRunning(false);
-        splashScreenDisplayed = false;
-        setPaused(false);
-        setGameState(GameState.MENU);
-        inputHandler = new InputHandler();
+        this.running = false;
+        this.splashScreenDisplayed = false;
+        this.paused = false;
+        this.gameState = GameState.MENU;
+        this.inputHandler = new InputHandler();
         if (!showSplash) {
         	splashScreenDisplayed = true;
         	setMenu(new MainMenu(this, getInputHandler()));
@@ -73,13 +77,21 @@ public class Game implements Runnable {
         // Play a silent sound to prevent freezing.
         Sound.silence.play();
         
+        // Create player.
         player = new Player(getWidth() / 2 - 20, getHeight() / 2 - 20, (int)(SCALE * 16), (int)(SCALE * 12), this, getInputHandler());
         player.setVisible(false);
         player.setY(getHeight() - player.getHeight());
         
+        // Create enemies.
         enemies = new ArrayList<Enemy>();
         enemies.add(new Enemy((int)(getWidth() * 0.8), getHeight() / 2, (int)(SCALE * 16), (int)(SCALE *12), this, Enemy.EnemyColor.PINK));
         toRemove = new ArrayList<Enemy>();
+        
+        // Create levels.
+        levels = new ArrayList<Level>();
+        levels.add(new Level((byte)1));
+        levels.get(0).getPlatforms().add(new Platform(0, getHeight() - 20, getWidth(), 20));
+        currentLevel = levels.get(0);
         
         //starts to listen the keyboard input
         display.getJframe().addKeyListener(inputHandler);
@@ -220,9 +232,11 @@ public class Game implements Runnable {
     			// Splash screen already displayed
         		switch (getGameState()) {
         			case GAME:
-        			
+        				
         				g.setColor(Color.black);
         				g.fillRect(0, 0, getWidth(), getHeight());
+        				
+        				currentLevel.render(g);
         				
         				for (Enemy enemy : enemies) {
         					enemy.render(g);

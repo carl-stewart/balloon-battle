@@ -34,7 +34,7 @@ public class Platform {
 
 		// Placeholder renderer
 		g.setColor(Color.green);
-		g.drawRect(getX(), getY(), getWidth(), getHeight());
+		g.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 	
 	public int getX() {
