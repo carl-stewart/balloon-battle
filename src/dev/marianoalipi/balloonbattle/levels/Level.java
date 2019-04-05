@@ -18,6 +18,11 @@ public class Level {
 		this.platforms = new ArrayList<Platform>();
 	}
 	
+	public void tick() {
+		for (Platform platform : platforms)
+			platform.tick();
+	}
+	
 	public void render(Graphics g) {
 		for (Platform platform : platforms) {
 			platform.render(g);

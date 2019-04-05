@@ -34,7 +34,7 @@ public class Game implements Runnable {
     private Thread thread;
     private boolean running;        		// sets up the game
     private boolean splashScreenDisplayed;  // whether the splash screen has been displayed
-    private boolean showSplash = true;		// whether or not to show the splash screen
+    private boolean showSplash = false;		// whether or not to show the splash screen
     private boolean paused;         		// to pause the game
     private Menu menu;						// to set the current menu or no menu
     private ArrayList<Level> levels;		// ArrayList with all the levels
@@ -90,7 +90,7 @@ public class Game implements Runnable {
         // Create levels.
         levels = new ArrayList<Level>();
         levels.add(new Level((byte)1));
-        levels.get(0).getPlatforms().add(new Platform(0, getHeight() - 20, getWidth(), 20));
+        levels.get(0).getPlatforms().add(new Platform(0, getHeight() - 20, getWidth(), 20, this));
         currentLevel = levels.get(0);
         
         //starts to listen the keyboard input
@@ -146,6 +146,8 @@ public class Game implements Runnable {
 	    				enemies.removeAll(toRemove);
 	    				toRemove.clear();
 	    			}
+	    			
+	    			currentLevel.tick();
     			}
     			break;
     		default:
