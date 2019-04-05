@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.GenericArrayType;
 
 import dev.marianoalipi.balloonbattle.Game;
 import dev.marianoalipi.balloonbattle.entities.Player;
