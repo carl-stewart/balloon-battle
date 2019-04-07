@@ -91,6 +91,7 @@ public class Game implements Runnable {
         levels = new ArrayList<Level>();
         levels.add(new Level((byte)1));
         levels.get(0).getPlatforms().add(new Platform(0, getHeight() - 20, getWidth(), 20, this));
+        levels.get(0).getPlatforms().add(new Platform(getWidth() / 8, getHeight() / 2, getWidth() / 4, 20, this));
         currentLevel = levels.get(0);
         
         //starts to listen the keyboard input
