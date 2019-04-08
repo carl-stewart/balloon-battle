@@ -2,6 +2,8 @@ Enemies start with a pink balloon. If it's popped and they reach the ground, the
 one. If done again, a yellow one. Popping each color and taking out the enemies at different colors give 
 different points.
 
+Enemies also change color.
+
 flying -> popped -> inflates -> changes color -> flying
 
 | Color  | Popped | Beaten in the air | Beaten on-ground |
