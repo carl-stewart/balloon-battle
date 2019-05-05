@@ -1,5 +1,7 @@
 # Balloon Battle
-A Java recreation of the 1984 game Balloon Fight, originally developed by Satoru Iwata. This is meant as a tribute.
+A work-in-progress Java recreation of the 1984 game Balloon Fight, originally developed by Satoru Iwata. This is meant as a tribute.
+
+Contributions are welcome!
 
 ![Screenshot of the main menu](https://i.imgur.com/vLFwZrh.png)
 
