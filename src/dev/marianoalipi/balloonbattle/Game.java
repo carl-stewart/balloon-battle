@@ -80,7 +80,7 @@ public class Game implements Runnable {
         // Create player.
         player = new Player(getWidth() / 2 - 20, getHeight() / 2 - 20, (int)(SCALE * 16), (int)(SCALE * 12), this, getInputHandler());
         player.setVisible(false);
-        player.setY(getHeight() - player.getHeight());
+        player.setY(getHeight() - player.getHeight() - 50);
         
         // Create enemies.
         enemies = new ArrayList<Enemy>();
@@ -90,7 +90,7 @@ public class Game implements Runnable {
         // Create levels.
         levels = new ArrayList<Level>();
         levels.add(new Level((byte)1));
-        levels.get(0).getPlatforms().add(new Platform(0, getHeight() - 20, getWidth(), 20, this));
+        levels.get(0).getPlatforms().add(new Platform(-100, getHeight() - 20, getWidth() + 200, 20, this));
         levels.get(0).getPlatforms().add(new Platform(getWidth() / 8, getHeight() / 2, getWidth() / 4, 20, this));
         currentLevel = levels.get(0);
         
@@ -136,7 +136,11 @@ public class Game implements Runnable {
     			}
     			
     			if (!isPaused()) {
-	    			player.tick();
+    				if (!player.isDead())
+    					player.tick();
+    				else
+    					player = new Player(getWidth() / 2 - 20, getHeight() / 2 - 20, (int)(SCALE * 16), (int)(SCALE * 12), this, getInputHandler());
+    					
 	    			for (Enemy enemy : enemies) {
 	    				enemy.tick();
 	    				if (enemy.isDying() && enemy.isGrounded()) {
@@ -374,5 +378,12 @@ public class Game implements Runnable {
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
 	}
-    
+	
+	/**
+	 * 
+	 * @param player
+	 */
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 }
