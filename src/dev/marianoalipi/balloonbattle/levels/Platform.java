@@ -66,12 +66,12 @@ public class Platform {
 					}
 				}
 				// Touching from right side
-				if (player.getX() > getX() + getWidth() - 15) {
+				if (player.getX() > getX() + getWidth() - 20) {
 					if (player.getxSpeed() < 0)
 						player.setxSpeed(player.getxSpeed() * -1);
 					player.setX(player.getX() + 5);
 				// Touching from left side
-				} else if (player.getX() < getX() + 15) {
+				} else if (player.getX() < getX() + 20) {
 					if (player.getxSpeed() > 0)
 						player.setxSpeed(player.getxSpeed() * -1);
 					player.setX(player.getX() - 5);
