@@ -15,7 +15,7 @@ public class Player extends Entity {
 	private boolean flapKeyReleased;
 	private int framesBetweenFlaps = 8, framesCounter = 8, initialDelayCounter = 0;
 	private Balloon balloons;
-	private boolean initialDelayDone;
+	private boolean initialDelayDone, dead;
 	protected static Animation walkLeftAnim, walkRightAnim, fallingAnim, flapLeftAnim, flapRightAnim;
 
 	public Player() {
@@ -29,8 +29,9 @@ public class Player extends Entity {
 		this.framesCounter = 0;
 		this.sprite = Assets.playerFly[0];
 		this.direction = Direction.LEFT;
-		this.hitbox = new Rectangle(x, y, (int)(getWidth() * 0.8), getHeight());
+		this.hitbox = new Rectangle(x, y, (int)(getWidth() * 0.65), getHeight());
 		this.initialDelayDone = false;
+		this.dead = false;
 
 		this.balloons = new Balloon(getX(), (int)(getY() - Game.SCALE * 12), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), 2, Balloon.BalloonColor.RED, game, this);
 		walkLeftAnim = new Animation(Assets.playerWalkLeft, 100);
@@ -54,6 +55,7 @@ public class Player extends Entity {
 			}
 		}
 		
+		// If the player has balloons...
 		if (balloons.getBalloonsAmount() > 0) {
 			// Check for a single flap (Z key = A button)
 			if (inputHandler.z.down && isFlapKeyReleased()) {
@@ -75,8 +77,7 @@ public class Player extends Entity {
 			// To check if Z key has been released.
 			if (!inputHandler.z.down) {
 				setFlapKeyReleased(true);
-				if (!isGrounded())
-					setAnimation(null);
+				setAnimation(null);
 				setSprite(getDirection() == Direction.LEFT ? Assets.playerFlapLeft[0] : Assets.playerFlapRight[0]);
 			}
 	
@@ -98,6 +99,7 @@ public class Player extends Entity {
 					inputHandler.z.down = false;
 				}
 			}
+		// If no balloons...
 		} else {
 			if (!isGrounded()) {
 				// No balloons: player is falling.
@@ -106,6 +108,7 @@ public class Player extends Entity {
 			}
 		}
 
+		// Move left on the ground
 		if (inputHandler.left.down) {
 			setDirection(Direction.LEFT);
 			if (isGrounded()) {
@@ -114,6 +117,7 @@ public class Player extends Entity {
 			}
 		}
 
+		// Move right on the ground
 		if (inputHandler.right.down) {
 			setDirection(Direction.RIGHT);
 			if (isGrounded()) {
@@ -122,20 +126,16 @@ public class Player extends Entity {
 			}
 		}
 
-		// Tick animation and get sprite to render.
-		if (getAnimation() != null) {
-			getAnimation().tick();
-			setSprite(getAnimation().getCurrentFrame());
-		}
-
 		// Gravity pull and friction.
 		if (!isGrounded()) {
 			setySpeed(getySpeed() - GRAVITY);
+			// Air friction
 			if (getxSpeed() > 0.3 || getxSpeed() < -0.3)
 				setxSpeed((getxSpeed() > 0 ? 1 : -1) * (Math.abs(getxSpeed()) - 0.0025));
 			else
 				setxSpeed(0);
 		} else {
+			// Ground friction
 			if (getxSpeed() > 0.3 || getxSpeed() < -0.3)
 				setxSpeed((getxSpeed() > 0 ? 1 : -1) * (Math.abs(getxSpeed()) - 0.25));
 			else {
@@ -144,16 +144,22 @@ public class Player extends Entity {
 		}
 
 		// Idle animation
-		if (isGrounded() && getxSpeed() == 0 && getySpeed() == 0) {
+		if (isGrounded() && getxSpeed() == 0) {
 			setSprite( Assets.playerIdle[(getDirection() == Direction.LEFT ? 0 : 1)]);
 			setAnimation(null);
 		}
 
+		// Tick animation and get sprite to render.
+		if (getAnimation() != null) {
+			getAnimation().tick();
+			setSprite(getAnimation().getCurrentFrame());
+		}
+		
 		// Move the player
 		setX((int)Math.floor(getX() + getxSpeed()));
 		setY((int)Math.floor(getY() - getySpeed()));
 
-		System.out.println("xSpeed = " + getxSpeed() + ", ySpeed = " + getySpeed());
+		System.out.println("xSpeed = " + getxSpeed() + ", ySpeed = " + getySpeed() + ", grounded = " + isGrounded());
 
 		// Go to the other side if the limit is crossed
 		if (getX() <= -1 * getWidth() / 2) {
@@ -171,6 +177,11 @@ public class Player extends Entity {
 			// Ground
 			setY(game.getHeight() - getHeight());
 			setySpeed(0);
+			setGrounded(true);
+			if (isDying()) {
+				setDead(true);
+				setDying(false);
+			}
 		} else {
 			// Mid-air
 			setGrounded(false);
@@ -189,7 +200,6 @@ public class Player extends Entity {
 		} else {
 			getHitbox().setLocation(getX() + (int)(Game.SCALE * 3), getY());
 		}
-			
 
 		// Tick balloons
 		balloons.tick();
@@ -225,5 +235,13 @@ public class Player extends Entity {
 	
 	public Balloon getBalloons() {
 		return balloons;
+	}
+	
+	public boolean isDead() {
+		return dead;
+	}
+	
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
 }

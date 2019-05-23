@@ -56,11 +56,14 @@ public class Balloon extends Entity {
 				setY(owner.getY() - getHeight());
 			
 			// Remove invincibility frames
-			if (isInvincible())
+			if (isInvincible()) {
 				if (--invincibleFrames <= 0) {
 					setInvincible(false);
 					invincibleFrames = 30;
 				}
+			}
+			
+			System.out.println("BALLOONS: " + owner.isGrounded());
 			
 		} else if (owner instanceof Enemy) {
 			
@@ -111,7 +114,7 @@ public class Balloon extends Entity {
 			
 			// Adjust a little horizontal offset for when the enemy is facing right
 			if (owner.getDirection() == Direction.RIGHT)
-				setX(owner.getX() + 2);
+				setX(owner.getX());
 			else
 				setX(owner.getX());
 			
