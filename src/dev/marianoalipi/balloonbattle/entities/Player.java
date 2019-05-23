@@ -200,7 +200,6 @@ public class Player extends Entity {
 		} else {
 			getHitbox().setLocation(getX() + (int)(Game.SCALE * 3), getY());
 		}
-			
 
 		// Tick balloons
 		balloons.tick();
