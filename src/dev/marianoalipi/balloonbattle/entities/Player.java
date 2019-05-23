@@ -29,7 +29,7 @@ public class Player extends Entity {
 		this.framesCounter = 0;
 		this.sprite = Assets.playerFly[0];
 		this.direction = Direction.LEFT;
-		this.hitbox = new Rectangle(x, y, (int)(getWidth() * 0.8), getHeight());
+		this.hitbox = new Rectangle(x, y, (int)(getWidth() * 0.65), getHeight());
 		this.initialDelayDone = false;
 		this.dead = false;
 
