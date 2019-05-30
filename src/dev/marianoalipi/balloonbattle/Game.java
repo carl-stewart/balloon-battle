@@ -140,7 +140,8 @@ public class Game implements Runnable {
     					player.tick();
     				else
     					player = new Player(getWidth() / 2 - 20, getHeight() / 2 - 20, (int)(SCALE * 16), (int)(SCALE * 12), this, getInputHandler());
-	    			for (Enemy enemy : enemies) {
+	    			
+    				for (Enemy enemy : enemies) {
 	    				enemy.tick();
 	    				if (enemy.isDying() && enemy.isGrounded()) {
 	    					toRemove.add(enemy);

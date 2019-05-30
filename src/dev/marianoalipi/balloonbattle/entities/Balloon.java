@@ -63,8 +63,6 @@ public class Balloon extends Entity {
 				}
 			}
 			
-			System.out.println("BALLOONS: " + owner.isGrounded());
-			
 		} else if (owner instanceof Enemy) {
 			
 			if (!isInvincible()) {
