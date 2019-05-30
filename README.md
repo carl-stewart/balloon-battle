@@ -7,6 +7,6 @@ Contributions are welcome!
 
 ![Screenshot of the main menu](https://i.imgur.com/vLFwZrh.png)
 
-![Screenshot of the player and an enemy](https://i.imgur.com/iCfHa3Z.png)
+![Screenshot of the player and an enemy](https://i.imgur.com/5kqO7co.png)
 
 ![Screenshot of the player and an enemy parachute landing](https://i.imgur.com/yTqR0nq.png)
