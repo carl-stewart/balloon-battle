@@ -11,6 +11,7 @@ import dev.marianoalipi.balloonbattle.entities.Player;
 public class Platform {
 
 	private int x, y, width, height;
+	private byte level;
 	private Rectangle hitbox;
 	private BufferedImage sprite;
 	private boolean touching; 
@@ -22,6 +23,7 @@ public class Platform {
 		this.y = 0;
 		this.width = 0;
 		this.height = 0;
+		this.level = -1;
 		this.hitbox = new Rectangle(x, y, width, height);
 		this.sprite = null;
 		this.touching = false;
@@ -29,11 +31,12 @@ public class Platform {
 		this.player = null;
 	}
 
-	public Platform(int x, int y, int width, int height, Game game) {
+	public Platform(int x, int y, int width, int height, byte level, Game game) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.level = level;
 		this.hitbox = new Rectangle(x, y, width, height);
 		this.sprite = null;
 		this.touching = false;
@@ -50,6 +53,9 @@ public class Platform {
 			if (player.getY() + player.getHeight() < getY() + getHeight() / 2) {
 				player.setY(getY() - player.getHeight() + 1);
 				player.setGrounded(true);
+				//player.setOnPlatform(true);
+				game.getLevels().get(level).setPlayerOnPlatform(true);
+				
 			}
 			if (!touching) {
 				touching = true;
@@ -80,6 +86,8 @@ public class Platform {
 			}
 		} else {
 			touching = false;
+			//player.setOnPlatform(false);
+			
 		}
 	}
 

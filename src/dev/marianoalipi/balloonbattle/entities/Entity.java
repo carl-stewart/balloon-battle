@@ -17,7 +17,7 @@ public abstract class Entity {
 	protected Game game;
 	//protected static final int abc;
 	protected static final double GRAVITY = 0.3, MAX_SPEED = 7;
-	protected boolean grounded, visible, spawned, dying;
+	protected boolean grounded, onPlatform, visible, spawned, dying;
 	
 	public enum Direction {LEFT, RIGHT};
 	protected Direction direction;
@@ -34,6 +34,7 @@ public abstract class Entity {
 		this.hitbox = new Rectangle(x, y, width, height);
 		this.direction = null;
 		this.grounded = false;
+		this.onPlatform = false;
 		this.visible = false;
 		this.dying = false;
 	}
@@ -49,6 +50,7 @@ public abstract class Entity {
 		this.hitbox = new Rectangle(x, y, width, height);
 		this.direction = Direction.LEFT;
 		this.grounded = false;
+		this.onPlatform = false;
 		this.visible = true;
 		this.dying = false;
 	}
@@ -96,6 +98,9 @@ public abstract class Entity {
 		return grounded;
 	}
 
+	public boolean isOnPlatform() {
+		return onPlatform;
+	}
 	
 	public boolean isVisible() {
 		return visible;
@@ -168,6 +173,10 @@ public abstract class Entity {
 
 	public void setGrounded(boolean grounded) {
 		this.grounded = grounded;
+	}
+	
+	public void setOnPlatform(boolean onPlatform) {
+		this.onPlatform = onPlatform;
 	}
 	
 	public void setVisible(boolean visible) {

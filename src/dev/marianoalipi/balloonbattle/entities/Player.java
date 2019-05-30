@@ -184,7 +184,10 @@ public class Player extends Entity {
 			}
 		} else {
 			// Mid-air
-			setGrounded(false);
+			if (isOnPlatform())
+				setGrounded(true);
+			else
+				setGrounded(false);
 
 			// If the player is just above the ground limit, mark it as grounded and set ySpeed = 0.
 			if (getY() >= game.getHeight() - getHeight()) {
