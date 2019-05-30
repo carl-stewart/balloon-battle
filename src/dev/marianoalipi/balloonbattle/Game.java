@@ -89,9 +89,9 @@ public class Game implements Runnable {
         
         // Create levels.
         levels = new ArrayList<Level>();
-        levels.add(new Level((byte)1));
-        levels.get(0).getPlatforms().add(new Platform(-100, getHeight() - 20, getWidth() + 200, 20, this));
-        levels.get(0).getPlatforms().add(new Platform(getWidth() / 8, getHeight() / 2, getWidth() / 4, 20, this));
+        levels.add(new Level((byte)0, this));
+        levels.get(0).getPlatforms().add(new Platform(-100, getHeight() - 20, getWidth() + 200, 20, (byte)0, this));
+        levels.get(0).getPlatforms().add(new Platform(getWidth() / 8, getHeight() / 2, getWidth() / 4, 20, (byte)0, this));
         currentLevel = levels.get(0);
         
         //starts to listen the keyboard input
@@ -344,6 +344,10 @@ public class Game implements Runnable {
 	 */
 	public ArrayList<Enemy> getEnemies() {
 		return enemies;
+	}
+	
+	public ArrayList<Level> getLevels() {
+		return levels;
 	}
 	
 	public void setInputHandler(InputHandler inputHandler) {
