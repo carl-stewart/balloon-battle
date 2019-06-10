@@ -17,7 +17,7 @@ public abstract class Entity {
 	protected Game game;
 	//protected static final int abc;
 	protected static final double GRAVITY = 0.3, MAX_SPEED = 7;
-	protected boolean grounded, onPlatform, visible, spawned, dying;
+	protected boolean grounded, onPlatform, visible, spawned, dying, dead;
 	
 	public enum Direction {LEFT, RIGHT};
 	protected Direction direction;
@@ -114,6 +114,10 @@ public abstract class Entity {
 		return dying;
 	}
 	
+	public boolean isDead() {
+		return dead;
+	}
+	
 	public Direction getDirection() {
 		return direction;
 	}
@@ -189,6 +193,10 @@ public abstract class Entity {
 	
 	public void setDying(boolean dying) {
 		this.dying = dying;
+	}
+	
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
 	
 	public void setDirection(Direction direction) {

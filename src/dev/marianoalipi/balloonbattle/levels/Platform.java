@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import dev.marianoalipi.balloonbattle.Game;
+import dev.marianoalipi.balloonbattle.entities.Enemy;
 import dev.marianoalipi.balloonbattle.entities.Player;
 
 public class Platform {
@@ -17,6 +19,7 @@ public class Platform {
 	private boolean touching; 
 	private Game game;
 	private Player player;
+	private ArrayList<Enemy> enemies;
 
 	public Platform() {
 		this.x = 0;
@@ -29,6 +32,7 @@ public class Platform {
 		this.touching = false;
 		this.game = null;
 		this.player = null;
+		this.enemies = null;
 	}
 
 	public Platform(int x, int y, int width, int height, byte level, Game game) {
@@ -42,12 +46,15 @@ public class Platform {
 		this.touching = false;
 		this.game = game;
 		this.player = game.getPlayer();
+		this.enemies = game.getEnemies();
 	}
 
 	public void tick() {
 
 		this.player = game.getPlayer();
+		this.enemies = game.getEnemies();
 
+		// Check player collision.
 		if (getHitbox().intersects(player.getHitbox()) || getHitbox().intersects(player.getBalloons().getHitbox())) {
 			// Touching from above
 			if (player.getY() + player.getHeight() < getY() + getHeight() / 2) {
@@ -88,6 +95,46 @@ public class Platform {
 			touching = false;
 			//player.setOnPlatform(false);
 			
+		}
+		
+		// Check collision for each enemy.
+		for (Enemy enemy : enemies) {
+			if (getHitbox().intersects(enemy.getHitbox())) {
+				
+				// Touching from above
+				if (enemy.getY() + enemy.getHeight() < getY() + getHeight() / 2) {
+					enemy.setY(getY() - enemy.getHeight() + 1);
+					enemy.setGrounded(true);
+					
+				}
+				if (!touching) {
+					enemy.setySpeed(0);
+				}
+				
+				// Other cases
+				if (!enemy.isGrounded()) {
+					// Touching the enemy's balloons (probably from below).
+					if (getHitbox().intersects(enemy.getBalloons().getHitbox())) {
+						if (enemy.getBalloons().getY() > getY() + getHeight() / 2) {
+							enemy.setY(getY() + getHeight() + enemy.getBalloons().getHeight() + 1);
+							enemy.setySpeed(Math.abs(enemy.getySpeed()) * -0.5);
+						}
+					}
+					// Touching from right side
+					if (enemy.getX() > getX() + getWidth() - 20) {
+						if (enemy.getxSpeed() < 0)
+							enemy.setxSpeed(enemy.getxSpeed() * -1);
+						enemy.setX(enemy.getX() + 5);
+					// Touching from left side
+					} else if (enemy.getX() < getX() + 20) {
+						if (enemy.getxSpeed() > 0)
+							enemy.setxSpeed(enemy.getxSpeed() * -1);
+						enemy.setX(enemy.getX() - 5);
+					}
+					
+				}
+				
+			}
 		}
 	}
 

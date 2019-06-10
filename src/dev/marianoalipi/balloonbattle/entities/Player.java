@@ -15,7 +15,7 @@ public class Player extends Entity {
 	private boolean flapKeyReleased;
 	private int framesBetweenFlaps = 8, framesCounter = 8, initialDelayCounter = 0;
 	private Balloon balloons;
-	private boolean initialDelayDone, dead;
+	private boolean initialDelayDone;
 	protected static Animation walkLeftAnim, walkRightAnim, fallingAnim, flapLeftAnim, flapRightAnim;
 
 	public Player() {
@@ -238,13 +238,5 @@ public class Player extends Entity {
 	
 	public Balloon getBalloons() {
 		return balloons;
-	}
-	
-	public boolean isDead() {
-		return dead;
-	}
-	
-	public void setDead(boolean dead) {
-		this.dead = dead;
 	}
 }

@@ -142,10 +142,15 @@ public class Game implements Runnable {
     					player = new Player(getWidth() / 2 - 20, getHeight() / 2 - 20, (int)(SCALE * 16), (int)(SCALE * 12), this, getInputHandler());
 	    			
     				for (Enemy enemy : enemies) {
-	    				enemy.tick();
+    					if (!enemy.isDead())
+    						enemy.tick();
+    					else
+    						toRemove.add(enemy);
+    					/*
 	    				if (enemy.isDying() && enemy.isGrounded()) {
 	    					toRemove.add(enemy);
 	    				}
+	    				*/
 	    			}
 	    			if (toRemove.size() != 0) {
 	    				enemies.removeAll(toRemove);

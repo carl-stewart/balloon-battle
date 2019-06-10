@@ -157,10 +157,14 @@ public class Enemy extends Entity {
 			// Ceiling
 			setY(-1 * getHeight() / 3);
 			setySpeed(getySpeed() * -0.3);
-		} else if (getY() > game.getHeight() - getHeight()) {
+		} else if (getY() > game.getHeight() - getHeight() - 20) {
 			// Ground
 			setY(game.getHeight() - getHeight());
 			setySpeed(0);
+			if (isDying()) {
+				setDead(true);
+				setDying(false);
+			}
 		} else {
 			// Mid-air
 			setGrounded(false);
@@ -213,17 +217,24 @@ public class Enemy extends Entity {
 	}
 
 	/**
-	 * @param color the color to set
+	 * @return the balloons
 	 */
-	public void setColor(EnemyColor color) {
-		this.color = color;
+	public Balloon getBalloons() {
+		return balloons;
 	}
-
+	
 	/**
 	 * @return the inflating
 	 */
 	public boolean isInflating() {
 		return inflating;
+	}
+
+	/**
+	 * @param color the color to set
+	 */
+	public void setColor(EnemyColor color) {
+		this.color = color;
 	}
 
 	/**
