@@ -99,7 +99,7 @@ public class Platform {
 		
 		// Check collision for each enemy.
 		for (Enemy enemy : enemies) {
-			if (getHitbox().intersects(enemy.getHitbox())) {
+			if (getHitbox().intersects(enemy.getHitbox()) && !enemy.isDying()) {
 				
 				// Touching from above
 				if (enemy.getY() + enemy.getHeight() < getY() + getHeight() / 2) {
