@@ -84,7 +84,7 @@ public class Game implements Runnable {
         
         // Create enemies.
         enemies = new ArrayList<Enemy>();
-        enemies.add(new Enemy((int)(getWidth() * 0.3), getHeight() / 2, (int)(SCALE * 16), (int)(SCALE *12), this, Enemy.EnemyColor.PINK));
+        enemies.add(new Enemy((int)(getWidth() * 0.3), (int)(getHeight() * 0.2), (int)(SCALE * 16), (int)(SCALE *12), this, Enemy.EnemyColor.PINK));
         toRemove = new ArrayList<Enemy>();
         
         // Create levels.

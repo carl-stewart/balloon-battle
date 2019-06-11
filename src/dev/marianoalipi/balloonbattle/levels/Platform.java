@@ -99,7 +99,13 @@ public class Platform {
 		
 		// Check collision for each enemy.
 		for (Enemy enemy : enemies) {
-			if (getHitbox().intersects(enemy.getHitbox()) && !enemy.isDying()) {
+			
+			// If just above the platform, make the enemy flap.
+			if (getY() - (enemy.getY() + enemy.getHeight()) <= 10 && (enemy.getX() > getX() && enemy.getX() < getX() + getWidth())) {
+				enemy.setySpeed(enemy.getySpeed() + 4);
+			}
+			
+			if (getHitbox().intersects(enemy.getHitbox()) && !enemy.isDying() && enemy.getBalloons().getBalloonsAmount() <= 0) {
 				
 				// Touching from above
 				if (enemy.getY() + enemy.getHeight() < getY() + getHeight() / 2) {
@@ -107,17 +113,18 @@ public class Platform {
 					enemy.setGrounded(true);
 					
 				}
-				if (!touching) {
-					enemy.setySpeed(0);
-				}
 				
+			
+			}
+			
+			if (getHitbox().intersects(enemy.getHitbox()) && !enemy.isDying()) {
 				// Other cases
 				if (!enemy.isGrounded()) {
 					// Touching the enemy's balloons (probably from below).
 					if (getHitbox().intersects(enemy.getBalloons().getHitbox())) {
 						if (enemy.getBalloons().getY() > getY() + getHeight() / 2) {
-							enemy.setY(getY() + getHeight() + enemy.getBalloons().getHeight() + 1);
-							enemy.setySpeed(Math.abs(enemy.getySpeed()) * -0.5);
+							enemy.setY(getY() + getHeight() + enemy.getBalloons().getHeight() + 15);
+							enemy.setySpeed(-3);
 						}
 					}
 					// Touching from right side
@@ -125,7 +132,7 @@ public class Platform {
 						if (enemy.getxSpeed() < 0)
 							enemy.setxSpeed(enemy.getxSpeed() * -1);
 						enemy.setX(enemy.getX() + 5);
-					// Touching from left side
+						// Touching from left side
 					} else if (enemy.getX() < getX() + 20) {
 						if (enemy.getxSpeed() > 0)
 							enemy.setxSpeed(enemy.getxSpeed() * -1);
@@ -134,7 +141,7 @@ public class Platform {
 					
 				}
 				
-			}
+			} 
 		}
 	}
 

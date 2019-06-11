@@ -77,7 +77,7 @@ public class Enemy extends Entity {
 				
 				pBalloons.setInvincible(true);
 			}
-			
+			/*
 			// Make the enemy flap towards the middle of the screen.
 			if (getY() > game.getHeight() * 0.4) {
 				setySpeed(getySpeed() + 1);
@@ -87,6 +87,32 @@ public class Enemy extends Entity {
 			} else {
 				setSprite(getDirection() == Direction.LEFT ? Assets.enemyFlapLeft[0] : Assets.enemyFlapRight[0]);
 			}
+			*/
+			
+			// Follow the player.
+			Player player = game.getPlayer();
+			if (player.getX() < getX()) {
+				setxSpeed(getxSpeed() - 0.05);
+				setDirection(Direction.LEFT);
+			} else if (player.getX() > getX()) {
+				setxSpeed(getxSpeed() + 0.05);
+				setDirection(Direction.RIGHT);
+			}
+			
+			if (player.getY() < getY()) {
+				setySpeed(getySpeed() + 0.1);
+				setAnimation(getDirection() == Direction.LEFT ? flapLeftAnim : flapRightAnim);
+			} else {
+				setAnimation(null);
+				setSprite(getDirection() == Direction.LEFT ? flapLeftAnim.getFrames()[0] : flapRightAnim.getFrames()[0]);
+			}
+			
+			if (isGrounded()) {
+				setY(getY() - 10);
+				setGrounded(false);
+				setxSpeed(1 * (getDirection() == Direction.LEFT ? -1 : 1));
+			}
+			
 		} else {
 			// No balloons
 			if (!isGrounded()) {
@@ -112,7 +138,7 @@ public class Enemy extends Entity {
 					// Inflate a balloon and then start flying again.
 					balloons.setBalloonsAmount(1);
 					setySpeed(0.5);
-					setY(getY() - getHeight() / 8);
+					setY(getY() - getHeight() - 20);
 					framesCounter = 0;
 					setInflating(false);
 				}
@@ -133,10 +159,11 @@ public class Enemy extends Entity {
 		// Gravity pull and friction.
 		if (!isGrounded()) {
 			setySpeed(getySpeed() - GRAVITY);
-			if (getxSpeed() > 0.3 || getxSpeed() < -0.3)
+			/*if (getxSpeed() > 0.3 || getxSpeed() < -0.3)
 				setxSpeed((getxSpeed() > 0 ? 1 : -1) * (Math.abs(getxSpeed()) - 0.0025));
 			else
 				setxSpeed(0);
+			 */
 		} else {
 			if (getxSpeed() > 0.3 || getxSpeed() < -0.3)
 				setxSpeed((getxSpeed() > 0 ? 1 : -1) * (Math.abs(getxSpeed()) - 0.1));
@@ -191,6 +218,8 @@ public class Enemy extends Entity {
 			getAnimation().tick();
 			setSprite(getAnimation().getCurrentFrame());
 		}
+	
+		System.out.println("E: xSpeed = " + getxSpeed() + ", ySpeed = " + getySpeed() + ", grounded = " + isGrounded());
 		
 	}
 
