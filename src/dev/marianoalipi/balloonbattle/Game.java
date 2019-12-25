@@ -74,7 +74,7 @@ public class Game implements Runnable {
     	display = new Display(title, getWidth(), getHeight());
         display.getJframe().pack();
         
-        // Play a silent sound to prevent freezing.
+        // Play a silent sound to prevent a delayed start of the following sounds.
         Sound.silence.play();
         
         // Create player.
@@ -85,6 +85,7 @@ public class Game implements Runnable {
         // Create enemies.
         enemies = new ArrayList<Enemy>();
         enemies.add(new Enemy((int)(getWidth() * 0.3), getHeight() / 2, (int)(SCALE * 16), (int)(SCALE *12), this, Enemy.EnemyColor.PINK));
+        enemies.add(new Enemy((int)(getWidth() * 0.6), getHeight() / 2, (int)(SCALE * 16), (int)(SCALE *12), this, Enemy.EnemyColor.PINK));
         toRemove = new ArrayList<Enemy>();
         
         // Create levels.
