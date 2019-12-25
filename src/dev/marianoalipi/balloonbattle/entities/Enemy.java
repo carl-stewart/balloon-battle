@@ -39,6 +39,9 @@ public class Enemy extends Entity {
 	@Override
 	public void tick() {
 		
+		if (isOnPlatform())
+			setGrounded(true);
+		
 		if (balloons.getBalloonsAmount() > 0) {
 			
 			Balloon pBalloons = game.getPlayer().getBalloons();
@@ -89,6 +92,7 @@ public class Enemy extends Entity {
 			}
 		} else {
 			// No balloons
+			
 			if (!isGrounded()) {
 				// Enemy is falling.
 				if (balloons.isParachute()) {
@@ -133,11 +137,13 @@ public class Enemy extends Entity {
 		// Gravity pull and friction.
 		if (!isGrounded()) {
 			setySpeed(getySpeed() - GRAVITY);
+			// Air friction
 			if (getxSpeed() > 0.3 || getxSpeed() < -0.3)
 				setxSpeed((getxSpeed() > 0 ? 1 : -1) * (Math.abs(getxSpeed()) - 0.0025));
 			else
 				setxSpeed(0);
 		} else {
+			// Ground friction
 			if (getxSpeed() > 0.3 || getxSpeed() < -0.3)
 				setxSpeed((getxSpeed() > 0 ? 1 : -1) * (Math.abs(getxSpeed()) - 0.1));
 			else {
@@ -167,7 +173,10 @@ public class Enemy extends Entity {
 			}
 		} else {
 			// Mid-air
-			setGrounded(false);
+			if (isOnPlatform())
+				setGrounded(true);
+			else
+				setGrounded(false);
 			
 			// If the enemy is just above the ground limit, mark it as grounded and set ySpeed = 0.
 			if (getY() >= game.getHeight() - getHeight()) {

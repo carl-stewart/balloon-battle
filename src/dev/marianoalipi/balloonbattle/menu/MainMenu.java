@@ -73,6 +73,8 @@ public class MainMenu extends Menu {
         	g.drawImage(Assets.mainMenuOptions[i], 350, 320 + i * 10 + i * Assets.textScale * Assets.mainMenuOptions[i].getHeight(), Assets.textScale * Assets.mainMenuOptions[i].getWidth(), Assets.textScale * Assets.mainMenuOptions[i].getHeight(),  null);
         }
         
+        // Draw the controls
+        g.drawImage(Assets.controls, game.getWidth() / 16, game.getHeight() / 2, Assets.textScale * 32, Assets.textScale * 40, null);
         
         // Draw a balloon to indicate the cursor
         g.drawImage(Assets.balloonsOne.get("RED")[0], 300, 320 + selected * 10 + selected * Assets.textScale * Assets.mainMenuOptions[selected].getHeight(), (int)(Game.SCALE * 16), (int)(Game.SCALE * 12), null);

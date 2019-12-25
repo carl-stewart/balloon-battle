@@ -16,7 +16,7 @@ public class Assets {
 								 gameFont28, gameFont28B,
 								 gameFont30, gameFont30B, gameFont35, gameFont35B;
 	
-	public static BufferedImage background, splash, title, github, githubLogo, icon, balloon, parachute;
+	public static BufferedImage background, splash, title, github, githubLogo, icon, balloon, parachute, controls;
 	
 	private static SpriteSheet mainMenuOptionsSS, balloonsSS, 
 								  playerFlySS,
@@ -161,5 +161,8 @@ public class Assets {
         
         // Parachute
         parachute = ImageLoader.loadImage("assets/images/parachute.png");
+        
+        // Controls (32 * 40)
+        controls = ImageLoader.loadImage("assets/images/controls.png");
     }
 }
