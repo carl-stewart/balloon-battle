@@ -1,9 +1,9 @@
 package dev.marianoalipi.balloonbattle;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
-@SuppressWarnings("deprecation")
 public class Sound {
 	
 	public static final Sound flap		= new Sound("assets/sounds/flap.wav"),
@@ -11,25 +11,26 @@ public class Sound {
 							  navigate	= new Sound("assets/sounds/menuNavigate.wav"),
 							  silence	= new Sound("assets/sounds/silence.wav");
 
-	private AudioClip clip;
+	private Clip clip;
 
-	private Sound(String file) {
+	private Sound(String path) {
 		try {
-			clip = Applet.newAudioClip(Sound.class.getResource(file));
+			
+			AudioInputStream sound = AudioSystem.getAudioInputStream(Sound.class.getResource(path));
+			clip = AudioSystem.getClip();
+			clip.open(sound);
+			
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void play() {
-		try {
-			new Thread() {
-				public void run() {
-					clip.play();
-				}
-			}.start(); // starts the thread
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		clip.setFramePosition(0);
+		clip.start();
+	}
+	
+	public void stop() {
+		clip.stop();
 	}
 }
