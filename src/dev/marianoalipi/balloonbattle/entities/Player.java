@@ -159,7 +159,7 @@ public class Player extends Entity {
 		setX((int)Math.floor(getX() + getxSpeed()));
 		setY((int)Math.floor(getY() - getySpeed()));
 
-		System.out.println("xSpeed = " + getxSpeed() + ", ySpeed = " + getySpeed() + ", grounded = " + isGrounded());
+		System.out.printf("xSpeed = %.3f, ySpeed = %.3f, grounded = %s%n", getxSpeed(), getySpeed(), isGrounded());
 
 		// Go to the other side if the limit is crossed
 		if (getX() <= -1 * getWidth() / 2) {
