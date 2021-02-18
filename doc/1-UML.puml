@@ -74,14 +74,13 @@ class Enemy {
 class Entity {}
 
 Entity +-- Direction
-Game ..> Enemy
-Game ..> Player
-Game ..> Graphics
-Game ..> Display
-Game ..> Level
-Game ...> Menu
-Game ..> InputHandler
-Game ..> Player
+Game ..* Enemy
+Game ..* Player
+Game ..* Graphics
+Game ..* Display
+Game ..* Level
+Game ...* Menu
+Game ..* InputHandler
 
 
 enum Direction {
