@@ -1,0 +1,98 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Animation {
+-frames : BufferedImage[]
+}
+
+class Assets {}
+
+class BallonBattle {
+{static}+main(Strings[])
+}
+
+class Display {}
+
+class Game {}
+Game ..|> Runnable
+
+interface Runnable {}
+
+class ImageLoader {}
+class InputHandler {
+}
+InputHandler +-- Key
+class Key {}
+
+InputHandler ..|> KeyListener
+interface KeyListener {}
+
+abstract class Item {
+	# x : int
+	# y : int
+	# width : int
+	# height : int
+   	# hitbox : Rectangle
+}
+
+
+class KeyManager {}
+class Sound {}
+class SpriteSheet {}
+
+package entities {
+
+class Ballon {
++tick()
+}
+Ballon --|> Entity
+Enemy --|> Entity
+Player --|> Entity
+Ballon ...* Animation
+Ballon ...* Assets
+Ballon ...* Game
+Ballon ...* Sound
+
+class Enemy {}
+class Entity {}
+
+Entity +-- Direction
+Game ..> Enemy
+Game ..> Player
+
+enum Direction {
+    LEFT
+    RIGHT
+}
+
+class Player {}
+}
+
+package levels {
+class Level {}
+class Platform {}
+
+}
+
+package menu {
+class CreditsMenu {}
+class MainMenu {}
+class Menu {}
+CreditsMenu --|> Menu
+}
+
+package java.awt {
+class Graphics
+class Rectangle
+class Font
+Assets ..> Font
+
+Item ..> Rectangle
+Item ..> Graphics
+package image {
+    class BufferedImage
+
+}
+}
+
+@enduml
