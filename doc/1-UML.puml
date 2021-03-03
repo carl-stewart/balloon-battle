@@ -5,6 +5,8 @@ class Animation {
 -frames : BufferedImage[]
 +Animation(BufferedImage[], int)
 +tick()
++getCurrentFrame() : BufferedImage
++getFrames() : BufferedImage[]
 }
 
 class Assets {}
@@ -13,29 +15,55 @@ class BallonBattle {
 {static}+main(Strings[])
 }
 
-class Display {}
+class Display {
+- jframe : JFrame
+- canvas : Canvas
+- width : int
+- height : int
+
++getJframe() : JFrame
++getCanvas() : Canvas
+
+}
 
 class Game {
 +init() : void
 +run() : void
 -tick() : void
 -render() : void
+-inputHandler : InputHandler
+-menu : Menu
+-thread : Thread
+-player : Player
+-enemies : Enemy
+-toRemove : Enemy
 }
-Game ..|> Runnable
+
+enum GameState {
+MENU
+GAME
+WON
+LOST
+}
 
 interface Runnable {}
 
 class ImageLoader {}
+
 class InputHandler {
 +tick() : void
+
 }
+
 InputHandler +-- Key
 class Key {
 +tick() : void
++keyPressed(KeyEvent ke) : void
++keyReleased(KeyEvent ke) : void
+-toggle(KeyEvent ke) : void
+
 }
 
-InputHandler ..|> KeyListener
-interface KeyListener {}
 
 abstract class Item {
 	# x : int
@@ -45,33 +73,113 @@ abstract class Item {
    	# hitbox : Rectangle
     {abstract} + tick() : void
     {abstract} + render(Graphics) : void
-
+}
+package java.awt {
+    interface KeyListener {}
 }
 
+InputHandler ..|> KeyListener
 
 class KeyManager {
 + tick() : void
 }
+
 class Sound {}
-class SpriteSheet {}
+
+class SpriteSheet {
+-sheet : BufferedImage
+}
+
 
 package entities {
 
-class Balloon {
-+tick()
-}
-Balloon --|> Entity
-Enemy --|> Entity
-Player --|> Entity
-Balloon ...* Animation
-Balloon ...* Assets
-Balloon ...* Game
-Balloon ...* Sound
+    class Balloon {
+    +tick()
+    }
 
-class Enemy {
-    - Balloon() :
+    enum BalloonColor {
+        RED
+        PINK
+        GREEN
+        YELLOW
+    }
+    Balloon +-- BalloonColor
+    Balloon --|> Entity
+
+    Enemy --|> Entity
+    Player --|> Entity
+    Balloon *...|> Animation
+    Balloon ...* Assets
+    Balloon ...* Game
+    Balloon ...* Sound
+
+    class Enemy {
+        - Balloon()
+        + tick() : void
+    }
+
+    enum EnemyColor {
+        PINK
+        GREEN
+        YELLOW
+    }
+    Enemy +-- EnemyColor
+
+    class Entity {}
+
+
+
+
+    enum Direction {
+        LEFT
+        RIGHT
+    }
+
+    class Player {
+        + tick() : void
+    }
+
+    package levels {
+        class Level {
+        + tick() : void
+        }
+        class Platform {}
+    }
+
+    package menu {
+        class CreditsMenu {}
+        class MainMenu {}
+        class Menu {
+        +tick() : void
+        }
+        CreditsMenu --|> Menu
+    }
+
+package java.awt {
+    class Canvas
+    class Color
+    class Font
+    class Graphics
+    class GraphicsEnvironment
+    class Rectangle
+    class Toolkit
+
+    class JFrame
+
+
+    package image {
+        class BufferedImage
+        class BufferStrategy
+    }
 }
-class Entity {}
+
+Display ..> JFrame
+Display ..> Canvas
+
+Assets ..> Font
+
+Item ..> Rectangle
+Item ..> Graphics
 
 Entity +-- Direction
 Game ..* Enemy
@@ -81,56 +189,13 @@ Game ..* Display
 Game ..* Level
 Game ...* Menu
 Game ..* InputHandler
+Game +... GameState
+Game ..|> Runnable
+Game ..> BufferStrategy
 
 
-enum Direction {
-    LEFT
-    RIGHT
-}
 
-class Player {}
-}
-
-package levels {
-class Level {}
-class Platform {}
-
-}
-
-package menu {
-class CreditsMenu {}
-class MainMenu {}
-class Menu {}
-CreditsMenu --|> Menu
-}
-
-package java.awt {
-class Canvas
-class Color
-class Font
-class Graphics
-class GraphicsEnvironment
-class Rectangle
-class Toolkit
-
-Assets ..> Font
-
-Item ..> Rectangle
-Item ..> Graphics
-
-package image {
-    class BufferedImage
-    class BufferStrategy
-    Animation ..> BufferedImage
-}
-
-}
-
-package javax.swing {
-class JFrame
-Display ..> JFrame
-Display ..> Canvas
-
-}
+Animation ..> BufferedImage
+SpriteSheet *...> BufferedImage
 
 @enduml
