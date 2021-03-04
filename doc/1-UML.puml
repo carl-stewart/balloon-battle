@@ -55,7 +55,6 @@ class InputHandler {
 
 }
 
-InputHandler +-- Key
 class Key {
 +tick() : void
 +keyPressed(KeyEvent ke) : void
@@ -74,11 +73,11 @@ abstract class Item {
     {abstract} + tick() : void
     {abstract} + render(Graphics) : void
 }
+
 package java.awt {
     interface KeyListener {}
 }
 
-InputHandler ..|> KeyListener
 
 class KeyManager {
 + tick() : void
@@ -103,15 +102,7 @@ package entities {
         GREEN
         YELLOW
     }
-    Balloon +-- BalloonColor
-    Balloon --|> Entity
 
-    Enemy --|> Entity
-    Player --|> Entity
-    Balloon *...|> Animation
-    Balloon ...* Assets
-    Balloon ...* Game
-    Balloon ...* Sound
 
     class Enemy {
         - Balloon()
@@ -123,7 +114,6 @@ package entities {
         GREEN
         YELLOW
     }
-    Enemy +-- EnemyColor
 
     class Entity {}
 
@@ -141,6 +131,10 @@ package entities {
 
     package levels {
         class Level {
+        + render() : void
+        + getPlatforms : ArrayList<Platform>
+        + isPlayerOnPlatform() : boolean
+        + setPlayerOnPlatform(boolean) : void
         + tick() : void
         }
         class Platform {}
@@ -152,7 +146,6 @@ package entities {
         class Menu {
         +tick() : void
         }
-        CreditsMenu --|> Menu
     }
 
 package java.awt {
@@ -173,6 +166,16 @@ package java.awt {
     }
 }
 
+Balloon +-- BalloonColor
+Balloon --|> Entity
+
+Enemy --|> Entity
+Player --|> Entity
+Balloon *...|> Animation
+Balloon ...* Assets
+Balloon ...* Game
+Balloon ...* Sound
+
 Display ..> JFrame
 Display ..> Canvas
 
@@ -180,19 +183,27 @@ Assets ..> Font
 
 Item ..> Rectangle
 Item ..> Graphics
+InputHandler +-- Key
 
 Entity +-- Direction
+    Enemy +-- EnemyColor
+
 Game ..* Enemy
 Game ..* Player
-Game ..* Graphics
 Game ..* Display
-Game ..* Level
 Game ...* Menu
 Game ..* InputHandler
 Game +... GameState
-Game ..|> Runnable
-Game ..> BufferStrategy
 
+
+Game *..> Level
+Level *..> Game
+Platform *..> Game
+Platform *..> Player
+Platform *..> Enemy
+
+InputHandler ..|> KeyListener
+        CreditsMenu --|> Menu
 
 
 Animation ..> BufferedImage
