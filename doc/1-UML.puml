@@ -27,8 +27,9 @@ class Display {
 }
 
 class Game {
-+init() : void
-+run() : void
++ init() : void
++ run() : void
++ start() : void
 -tick() : void
 -render() : void
 -inputHandler : InputHandler
@@ -165,7 +166,7 @@ package java.awt {
         class BufferStrategy
     }
 }
-
+BallonBattle ..|> Game
 Balloon +-- BalloonColor
 Balloon --|> Entity
 
