@@ -192,7 +192,10 @@ Item --> Graphics
 InputHandler +-- Key
 
 Entity +-- Direction
-    Enemy +-- EnemyColor
+Entity --|> Animation
+
+Enemy +-- EnemyColor
+
 
 Game -- Enemy
 Game -- Player
