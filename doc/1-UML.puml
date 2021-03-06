@@ -65,7 +65,7 @@ class Key {
 }
 
 
-abstract class Item {
+abstract Item {
 	# x : int
 	# y : int
 	# width : int
@@ -116,7 +116,7 @@ package entities {
         YELLOW
     }
 
-    class Entity {}
+    abstract Entity {}
 
 
 
@@ -206,11 +206,12 @@ Game +--- GameState
 
 
 Game -- Level
+Game <|-- Platform
+
 Level --> Platform
 
 Platform --> Player
 Platform --> Enemy
-
 
 CreditsMenu --|> Menu
 CreditsMenu --> Game
