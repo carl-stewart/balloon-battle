@@ -53,7 +53,7 @@ class ImageLoader {}
 
 class InputHandler {
 +tick() : void
-
+- toggle(KeyEvent, boolean) : void
 }
 
 class Key {
@@ -166,48 +166,60 @@ package java.awt {
         class BufferStrategy
     }
 }
-BallonBattle ..|> Game
+BallonBattle --|> Game
 Balloon +-- BalloonColor
 Balloon --|> Entity
 
 Enemy --|> Entity
+Enemy --|> Animation
+
 Player --|> Entity
-Balloon *...|> Animation
-Balloon ...* Assets
-Balloon ...* Game
-Balloon ...* Sound
+Player --|> Animation
 
-Display ..> JFrame
-Display ..> Canvas
+Balloon ---|> Animation
+Balloon --- Assets
+Balloon --- Game
+Balloon --- Sound
 
-Assets ..> Font
+Display --> JFrame
+Display --> Canvas
 
-Item ..> Rectangle
-Item ..> Graphics
+Assets --> Font
+Assets --> ImageLoader
+
+Item --> Rectangle
+Item --> Graphics
 InputHandler +-- Key
 
 Entity +-- Direction
     Enemy +-- EnemyColor
 
-Game ..* Enemy
-Game ..* Player
-Game ..* Display
-Game ...* Menu
-Game ..* InputHandler
-Game +... GameState
+Game -- Enemy
+Game -- Player
+Game -- Display
+Game --- Menu
+Game -- InputHandler
+Game +--- GameState
 
 
-Game *..> Level
-Level *..> Game
-Platform *..> Game
-Platform *..> Player
-Platform *..> Enemy
+Game -- Level
+Level --> Platform
+
+Platform --> Player
+Platform --> Enemy
+
+
+CreditsMenu --|> Menu
+CreditsMenu --> Game
 
 InputHandler ..|> KeyListener
-        CreditsMenu --|> Menu
 
+MainMenu --|> Menu
+MainMenu --> Game
 
-Animation ..> BufferedImage
-SpriteSheet *...> BufferedImage
+Menu --> InputHandler
+
+Animation --> BufferedImage
+SpriteSheet *---> BufferedImage
 
 @enduml
