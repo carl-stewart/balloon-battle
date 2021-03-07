@@ -6,19 +6,20 @@ package BallonBattleApp {
         +run() : void
         +stop() : void
         +isRunning() : boolean
-        #processInput() : void
-        #render() : void
-        #processGame() : void
+        #bindInputObservers() : void
+        #bindWorldObservers() : void
+
+        #renderFrame() : void
     }
 }
 
-package Observer {
+package Observers {
 
     interface InputObserver {
         + notify(KeyEvent) : void
     }
 
-    class KeyManager {
+    class InputManager {
         +addObserver(InputObserver) : void
         +removeObserver(InputObserver) : void
         +tick() : void
@@ -33,10 +34,88 @@ package Observer {
     }
 
 }
-KeyManager ---> InputObserver
-KeyManager --> KeyType
+
 
 package model {
+    class Balloon {
+        -isPopped : boolean
+
+    }
+
+    Balloon ..> CollisionDetection
+
+    package state {
+        class InAirState {
+            -player : Player
+            +InAirState(Player)
+            +onEnterState() : void
+            +Flap() : void
+            +MoveLeft() : void
+            +MoveRight() : void
+
+        }
+
+        class OnGroundState {
+            -player : Player
+            +OnGroundState(Player)
+            +onEnterState() : void
+            +Flap() : void
+            +MoveLeft() : void
+            +MoveRight() : void
+        }
+    }
+
+    interface BehaviourState {
+        +onEnterState() : void
+    }
+
+    class Player {
+        -state : BehaviourState
+        +Player()
+        +changeStateTo(State) : void
+    }
+
+    Player ---> BehaviourState
+    InAirState ..|> BehaviourState
+    OnGroundState ..|> BehaviourState
+    InAirState ---> Player
+    OnGroundState ---> Player
+
+    Player *--> Balloon
+    Player --|> CollisionDetection
+    HostileEntity --|> CollisionDetection
+
+    Enemy *--> Balloon
+
+
+
+    class Enemy {}
+
+    class HostileEntity {}
+
+    Enemy --> HostileEntity
+    HostileEntity ---> Entity
+
+
+    interface IMovable {
+        -moveLeft() : void
+        -moveRight() : void
+        -flap() : void
+    }
+
+    Player ...> IMovable
+
+    abstract Entity {
+        - state : State
+
+    }
+
+    enum Direction {
+        LEFT
+        RIGHT
+    }
+
+
     interface Command {
         +execute() : void
     }
@@ -53,9 +132,12 @@ package model {
             +execute() : void
     }
 
+    Entity --+ Direction
+
     Flap ..|> Command
     MoveLeft ..|> Command
     MoveRight ..|> Command
+
 
 
     enum GameState {
@@ -91,139 +173,52 @@ package model {
         - player : Player
         - enemies : List<Enemy>
     }
+
+    class CollisionDetection {
+
+    }
 }
 
 package view {
-    class Display {
+
+    interface IDisplay {}
+
+    class GamePlay {
         - jframe : JFrame
         - canvas : Canvas
-        - width : int
-        - height : int
-        +getJframe() : JFrame
-        +getCanvas() : Canvas
     }
+
+    class Menu {
+        - jframe : JFrame
+        - canvas : Canvas
+    }
+
+    abstract IDisplay {
+        - jFrame : JFrame
+        - canvas : Canvas
+    }
+
 }
 
 package controller {
-    class GameController {
-
+    class PlayerController {
+        -player : IPlayer
+        +PlayerController(IDisplay, IWorld) : void
+        -bindListeners(IDisplay) : void
+        -Flap(Command) : void
+        -MoveLeft(Command) : void
+        -MoveRight(Command) : void
     }
+
 }
 
+package Assets {
 
-class Animation {
--frames : BufferedImage[]
-+Animation(BufferedImage[], int)
-+tick()
-+getCurrentFrame() : BufferedImage
-+getFrames() : BufferedImage[]
 }
 
-class Assets {}
+Player ---> Entity
 
 
-
-
-class Game {
-+ init() : void
-+ run() : void
-+ start() : void
--tick() : void
--render() : void
--inputHandler : InputHandler
--menu : Menu
--thread : Thread
--player : Player
--enemies : Enemy
--toRemove : Enemy
-}
-
-
-interface Runnable {}
-
-class ImageLoader {}
-
-
-
-package java.awt {
-    interface KeyListener {}
-}
-
-
-
-class Sound {}
-
-class SpriteSheet {
--sheet : BufferedImage
-}
-
-
-package entities {
-
-    class Balloon {
-    +tick()
-    }
-
-    enum BalloonColor {
-        RED
-        PINK
-        GREEN
-        YELLOW
-    }
-
-
-    class Enemy {
-        - Balloon()
-        + tick() : void
-    }
-
-    enum EnemyColor {
-        PINK
-        GREEN
-        YELLOW
-    }
-
-    abstract Entity {}
-
-
-
-
-    enum Direction {
-        LEFT
-        RIGHT
-    }
-
-    class Player {
-        + tick() : void
-    }
-
-
-
-    package menu {
-        class CreditsMenu {}
-        class MainMenu {}
-        class Menu {
-        +tick() : void
-        }
-    }
-
-package java.awt {
-    class Canvas
-    class Color
-    class Font
-    class Graphics
-    class GraphicsEnvironment
-    class Rectangle
-    class Toolkit
-
-    class JFrame
-
-
-    package image {
-        class BufferedImage
-        class BufferStrategy
-    }
-}
-
+PlayerController ..> Command
 
 @enduml
