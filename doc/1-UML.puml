@@ -171,15 +171,14 @@ Balloon +-- BalloonColor
 Balloon --|> Entity
 
 Enemy --|> Entity
-Enemy --|> Animation
 
 Player --|> Entity
-Player --|> Animation
+Player --> Animation
 
-Balloon ---|> Animation
 Balloon --- Assets
 Balloon --- Game
 Balloon --- Sound
+Balloon --> Animation
 
 Display --> JFrame
 Display --> Canvas
@@ -192,9 +191,10 @@ Item --> Graphics
 InputHandler +-- Key
 
 Entity +-- Direction
-Entity --|> Animation
+Entity --> Animation
 
 Enemy +-- EnemyColor
+Enemy --> Animation
 
 
 Game -- Enemy
