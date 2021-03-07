@@ -153,28 +153,6 @@ package model {
     }
 
 
-    interface Command {
-        +execute() : void
-    }
-
-    class Flap{
-        -p : Player
-        +execute() : void
-    }
-
-    class MoveLeft {
-        -p : Player
-        +execute() : void
-    }
-
-    class MoveRight {
-        -p : Player
-        +execute() : void
-    }
-
-
-
-
     enum GameState {
         MENU
         GAME
@@ -216,11 +194,8 @@ package model {
 
 
 BalloonBattleApp ---> PlayerController
-BalloonBattleApp ---> Player1
-BalloonBattleApp ---> Enemy
 
-PlayerController ...> Player
-PlayerController ...> Command
+PlayerController --> Player
 
 Entity --+ Direction
 
@@ -228,7 +203,6 @@ Flap ..|> Command
 MoveLeft ..|> Command
 MoveRight ..|> Command
 
-Player1 ---> PlayerState
 
 InAirState ---> Player
 OnGroundState ---> Player
@@ -238,7 +212,6 @@ Player --|> CollisionDetection
 HostileEntity --|> CollisionDetection
 
 Enemy *--> Balloon
-
 
 Player ---> Entity
 PlayerState <-- Player
