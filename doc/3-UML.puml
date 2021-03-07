@@ -1,17 +1,48 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-package BallonBattleApp {
-    abstract GameLoop {
-        +run() : void
-        +stop() : void
-        +isRunning() : boolean
-        #bindInputObservers() : void
-        #bindWorldObservers() : void
+package controller {
+    class PlayerController {
+        -player : IPlayer
+        -command : Command
+        +PlayerController(IDisplay, IWorld) : void
+        +setCommand(Command) : void
+        -bindListeners(IDisplay) : void
 
-        #renderFrame() : void
+        -Flap() : void
+        -MoveLeft() : void
+        -MoveRight() : void
     }
+
 }
+
+package Assets {
+
+}
+
+
+package view {
+
+    interface IDisplay {}
+
+    class PlayView {
+        - jframe : JFrame
+        - canvas : Canvas
+    }
+
+    class MenuView {
+        - jframe : JFrame
+        - canvas : Canvas
+    }
+
+    abstract IDisplay {
+        - jFrame : JFrame
+        - canvas : Canvas
+    }
+
+}
+
+
 
 package Observers {
 
@@ -26,8 +57,23 @@ package Observers {
         +button_right(KeyEvent) : void
     }
 
+
 }
 
+package BalloonBattleApp {
+    abstract GameLoop {
+        +controller : PlayerController
+        +player : Player1
+        +Enemies : List<Enemy>
+        +run() : void
+        +stop() : void
+        +isRunning() : boolean
+        #bindInputObservers() : void
+        #bindWorldObservers() : void
+
+        #renderFrame() : void
+    }
+}
 
 package model {
     class Balloon {
@@ -35,9 +81,7 @@ package model {
 
     }
 
-    Balloon ..> CollisionDetection
-
-    package state {
+    package player {
         class InAirState {
             -player : Player
             +InAirState(Player)
@@ -56,39 +100,39 @@ package model {
             +MoveLeft() : void
             +MoveRight() : void
         }
+
+        interface PlayerState {
+            +Flap() : void
+            +MoveLeft() : void
+            +MoveRight() : void
+
+            +onEnterState() : void
+        }
+
+        class Player {
+            -state : State
+            +Player()
+            +changeStateTo(State) : void
+            +Flap() : void
+            +MoveLeft() : void
+            +MoveRight() : void
+        }
+
     }
 
-    interface BehaviourState {
-        +onEnterState() : void
+
+    class Player1 {
+        -state : PlayerState
     }
 
-    class Player {
-        -state : BehaviourState
-        +Player()
-        +changeStateTo(State) : void
+    package enemies {
+
+        abstract Enemy {}
+
+        class HostileEntity {}
+
+
     }
-
-    Player ---> BehaviourState
-    InAirState ..|> BehaviourState
-    OnGroundState ..|> BehaviourState
-    InAirState ---> Player
-    OnGroundState ---> Player
-
-    Player *--> Balloon
-    Player --|> CollisionDetection
-    HostileEntity --|> CollisionDetection
-
-    Enemy *--> Balloon
-
-
-
-    class Enemy {}
-
-    class HostileEntity {}
-
-    Enemy --> HostileEntity
-    HostileEntity ---> Entity
-
 
     interface IMovable {
         -moveLeft() : void
@@ -114,22 +158,20 @@ package model {
     }
 
     class Flap{
+        -p : Player
         +execute() : void
     }
 
     class MoveLeft {
+        -p : Player
         +execute() : void
     }
 
     class MoveRight {
-            +execute() : void
+        -p : Player
+        +execute() : void
     }
 
-    Entity --+ Direction
-
-    Flap ..|> Command
-    MoveLeft ..|> Command
-    MoveRight ..|> Command
 
 
 
@@ -172,46 +214,43 @@ package model {
     }
 }
 
-package view {
 
-    interface IDisplay {}
+BalloonBattleApp ---> PlayerController
+BalloonBattleApp ---> Player1
+BalloonBattleApp ---> Enemy
 
-    class GamePlay {
-        - jframe : JFrame
-        - canvas : Canvas
-    }
+PlayerController ...> Player
+PlayerController ...> Command
 
-    class Menu {
-        - jframe : JFrame
-        - canvas : Canvas
-    }
+Entity --+ Direction
 
-    abstract IDisplay {
-        - jFrame : JFrame
-        - canvas : Canvas
-    }
+Flap ..|> Command
+MoveLeft ..|> Command
+MoveRight ..|> Command
 
-}
+Player1 ---> PlayerState
 
-package controller {
-    class PlayerController {
-        -player : IPlayer
-        +PlayerController(IDisplay, IWorld) : void
-        -bindListeners(IDisplay) : void
-        -Flap(Command) : void
-        -MoveLeft(Command) : void
-        -MoveRight(Command) : void
-    }
+InAirState ---> Player
+OnGroundState ---> Player
 
-}
+Player *--> Balloon
+Player --|> CollisionDetection
+HostileEntity --|> CollisionDetection
 
-package Assets {
+Enemy *--> Balloon
 
-}
 
 Player ---> Entity
+PlayerState <-- Player
+
+KeyListener <--- Player
+
+PlayerState <... InAirState
+PlayerState <... OnGroundState
+
+Enemy --> HostileEntity
+HostileEntity ---> Entity
 
 
-PlayerController ..> Command
 
 @enduml
