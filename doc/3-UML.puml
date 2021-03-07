@@ -15,22 +15,15 @@ package BallonBattleApp {
 
 package Observers {
 
-    interface InputObserver {
-        + notify(KeyEvent) : void
+    interface ActionListener {
+        + actionPerformed(KeyEvent) : void
     }
 
-    class InputManager {
-        +addObserver(InputObserver) : void
-        +removeObserver(InputObserver) : void
-        +tick() : void
-        #notifyObservers() : void
-    }
-
-    enum KeyType {
-        button_a : KeyEvent
-        button_b : KeyEvent
-        button_left : KeyEvent
-        button_right : KeyEvent
+    interface KeyListener {
+        +button_a(KeyEvent) : void
+        +button_b(keyEvent) : void
+        +button_left(KeyEvent) : void
+        +button_right(KeyEvent) : void
     }
 
 }
