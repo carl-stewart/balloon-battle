@@ -1,0 +1,229 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package BallonBattleApp {
+    abstract GameLoop {
+        +run() : void
+        +stop() : void
+        +isRunning() : boolean
+        #processInput() : void
+        #render() : void
+        #processGame() : void
+    }
+}
+
+package Observer {
+
+    interface InputObserver {
+        + notify(KeyEvent) : void
+    }
+
+    class KeyManager {
+        +addObserver(InputObserver) : void
+        +removeObserver(InputObserver) : void
+        +tick() : void
+        #notifyObservers() : void
+    }
+
+    enum KeyType {
+        button_a : KeyEvent
+        button_b : KeyEvent
+        button_left : KeyEvent
+        button_right : KeyEvent
+    }
+
+}
+KeyManager ---> InputObserver
+KeyManager --> KeyType
+
+package model {
+    interface Command {
+        +execute() : void
+    }
+
+    class Flap{
+        +execute() : void
+    }
+
+    class MoveLeft {
+        +execute() : void
+    }
+
+    class MoveRight {
+            +execute() : void
+    }
+
+    Flap ..|> Command
+    MoveLeft ..|> Command
+    MoveRight ..|> Command
+
+
+    enum GameState {
+        MENU
+        GAME
+        WON
+        LOST
+    }
+
+    package levels {
+        class Level {
+        + render() : void
+        + getPlatforms : ArrayList<Platform>
+        + isPlayerOnPlatform() : boolean
+        + setPlayerOnPlatform(boolean) : void
+        + tick() : void
+        }
+            class Platform {}
+    }
+
+    abstract Item {
+        # x : int
+        # y : int
+        # width : int
+        # height : int
+        # hitbox : Rectangle
+        {abstract} + tick() : void
+        {abstract} + render(Graphics) : void
+    }
+
+    class Game {
+        - levels : List<Level>
+        - player : Player
+        - enemies : List<Enemy>
+    }
+}
+
+package view {
+    class Display {
+        - jframe : JFrame
+        - canvas : Canvas
+        - width : int
+        - height : int
+        +getJframe() : JFrame
+        +getCanvas() : Canvas
+    }
+}
+
+package controller {
+    class GameController {
+
+    }
+}
+
+
+class Animation {
+-frames : BufferedImage[]
++Animation(BufferedImage[], int)
++tick()
++getCurrentFrame() : BufferedImage
++getFrames() : BufferedImage[]
+}
+
+class Assets {}
+
+
+
+
+class Game {
++ init() : void
++ run() : void
++ start() : void
+-tick() : void
+-render() : void
+-inputHandler : InputHandler
+-menu : Menu
+-thread : Thread
+-player : Player
+-enemies : Enemy
+-toRemove : Enemy
+}
+
+
+interface Runnable {}
+
+class ImageLoader {}
+
+
+
+package java.awt {
+    interface KeyListener {}
+}
+
+
+
+class Sound {}
+
+class SpriteSheet {
+-sheet : BufferedImage
+}
+
+
+package entities {
+
+    class Balloon {
+    +tick()
+    }
+
+    enum BalloonColor {
+        RED
+        PINK
+        GREEN
+        YELLOW
+    }
+
+
+    class Enemy {
+        - Balloon()
+        + tick() : void
+    }
+
+    enum EnemyColor {
+        PINK
+        GREEN
+        YELLOW
+    }
+
+    abstract Entity {}
+
+
+
+
+    enum Direction {
+        LEFT
+        RIGHT
+    }
+
+    class Player {
+        + tick() : void
+    }
+
+
+
+    package menu {
+        class CreditsMenu {}
+        class MainMenu {}
+        class Menu {
+        +tick() : void
+        }
+    }
+
+package java.awt {
+    class Canvas
+    class Color
+    class Font
+    class Graphics
+    class GraphicsEnvironment
+    class Rectangle
+    class Toolkit
+
+    class JFrame
+
+
+    package image {
+        class BufferedImage
+        class BufferStrategy
+    }
+}
+
+
+@enduml
