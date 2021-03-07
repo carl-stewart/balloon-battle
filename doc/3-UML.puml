@@ -17,6 +17,8 @@ package controller {
 }
 
 package Assets {
+    class PixelArt {}
+    class Sound {}
 
 }
 
@@ -67,26 +69,37 @@ package view {
 
 
 package Observers {
+    class KeyPress {
+        +attach(KeyObserver) : void
+        +detach(KeyObserver) : void
+        +notify() : void
+     }
 
-    interface ActionListener {
-        + actionPerformed(KeyEvent) : void
+    interface ObserveKey {
+        +attach(KeyObserver) : void
+        +detach(KeyObserver) : void
+        +notify() : void
     }
 
-    interface KeyListener {
-        +button_a(KeyEvent) : void
-        +button_b(keyEvent) : void
-        +button_left(KeyEvent) : void
-        +button_right(KeyEvent) : void
+
+    interface KeyObserver {
+        +buttonEvent(KeyEvent) : void
+
+    }
+
+    interface ICollisionObserver {
+        onBump(Entity) : void
     }
 
 
 }
 
 package BalloonBattleApp {
-    abstract GameLoop {
+    class GameLoop {
         +controller : PlayerController
-        +player : Player1
+        +player : Player
         +Enemies : List<Enemy>
+        -gameState : GameState
         +run() : void
         +stop() : void
         +isRunning() : boolean
@@ -94,6 +107,13 @@ package BalloonBattleApp {
         #bindWorldObservers() : void
 
         #renderFrame() : void
+    }
+
+    enum GameState {
+        MENU
+        GAME
+        WON
+        LOST
     }
 }
 
@@ -171,12 +191,7 @@ package model {
     }
 
 
-    enum GameState {
-        MENU
-        GAME
-        WON
-        LOST
-    }
+
 
     package levels {
         class Level {
@@ -204,32 +219,30 @@ package model {
         - player : Player
         - enemies : List<Enemy>
     }
+    package CollisionDetection {
+        class Collision{
 
-    class CollisionDetection {
-
+        }
     }
 }
 
 
-BalloonBattleApp ---> PlayerController
+GameLoop --|> PlayerController
 
 PlayerController --> Player
 
+GameLoop --+ GameState
 Entity --+ Direction
 
 InAirState ---> Player
 OnGroundState ---> Player
 
 Player *--> Balloon
-Player --|> CollisionDetection
-HostileEntity --|> CollisionDetection
 
 Enemy *--> Balloon
 
 Player ---> Entity
 PlayerState <-- Player
-
-KeyListener <|... Player
 
 PlayerState <... InAirState
 PlayerState <... OnGroundState
@@ -244,9 +257,10 @@ IDisplayState <.. stateInGame
 stateInGame --> Display
 stateCredits --> Display
 stateMenu --> Display
-stateMenu ..-|> KeyListener
-stateCredits ...|> KeyListener
-stateInGame ...|> KeyListener
+stateMenu ..-|> KeyObserver
+stateCredits ...|> KeyObserver
+stateInGame ...|> KeyObserver
 
-
+ObserveKey <... KeyPress
+KeyObserver <... KeyEvent
 @enduml
