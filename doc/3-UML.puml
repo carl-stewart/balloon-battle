@@ -23,21 +23,43 @@ package Assets {
 
 package view {
 
-    interface IDisplay {}
+    interface IDisplayState {
+        onEnterState(displayState) : void
 
-    class PlayView {
+    }
+
+    class stateMenu {
+        onEnterState(displayState) : void
+        + render(Graphics) : void
+    }
+
+    class stateInGame {
+        onEnterState(displayState) : void
+        + render(Graphics) : void
+
+    }
+
+    class stateCredits {
+        onEnterState(displayState) : void
+        + render(Graphics) : void
+
+    }
+
+    abstract Display {
         - jframe : JFrame
         - canvas : Canvas
+        + render(Graphics) : void
+    }
+
+    class PlayView {
+
     }
 
     class MenuView {
-        - jframe : JFrame
-        - canvas : Canvas
     }
 
-    abstract IDisplay {
-        - jFrame : JFrame
-        - canvas : Canvas
+    class CreditsView {
+
     }
 
 }
@@ -121,10 +143,6 @@ package model {
     }
 
 
-    class Player1 {
-        -state : PlayerState
-    }
-
     package enemies {
 
         abstract Enemy {}
@@ -199,11 +217,6 @@ PlayerController --> Player
 
 Entity --+ Direction
 
-Flap ..|> Command
-MoveLeft ..|> Command
-MoveRight ..|> Command
-
-
 InAirState ---> Player
 OnGroundState ---> Player
 
@@ -216,7 +229,7 @@ Enemy *--> Balloon
 Player ---> Entity
 PlayerState <-- Player
 
-KeyListener <--- Player
+KeyListener <|... Player
 
 PlayerState <... InAirState
 PlayerState <... OnGroundState
@@ -224,6 +237,16 @@ PlayerState <... OnGroundState
 Enemy --> HostileEntity
 HostileEntity ---> Entity
 
+IDisplayState <--- Display
+IDisplayState <.. stateMenu
+IDisplayState <.. stateCredits
+IDisplayState <.. stateInGame
+stateInGame --> Display
+stateCredits --> Display
+stateMenu --> Display
+stateMenu ..-|> KeyListener
+stateCredits ...|> KeyListener
+stateInGame ...|> KeyListener
 
 
 @enduml
