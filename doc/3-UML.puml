@@ -19,6 +19,7 @@ package controller {
 package Assets {
     class PixelArt {}
     class Sound {}
+    class Animation {}
 
 }
 
@@ -53,14 +54,15 @@ package view {
         + render(Graphics) : void
     }
 
-    class PlayView {
+    interface PlayView {
 
     }
 
-    class MenuView {
+    interface MenuView {
+
     }
 
-    class CreditsView {
+    interface CreditsView {
 
     }
 
@@ -95,7 +97,7 @@ package Observers {
 }
 
 package BalloonBattleApp {
-    class GameLoop {
+    class Game {
         +controller : PlayerController
         +player : Player
         +Enemies : List<Enemy>
@@ -124,6 +126,12 @@ package model {
     }
 
     package player {
+        interface IPlayable {
+            +flap() : void
+            +moveLeft : void
+            +
+        }
+
         class InAirState {
             -player : Player
             +InAirState(Player)
@@ -227,11 +235,11 @@ package model {
 }
 
 
-GameLoop --|> PlayerController
+Game --|> PlayerController
 
 PlayerController --> Player
 
-GameLoop --+ GameState
+Game --+ GameState
 Entity --+ Direction
 
 InAirState ---> Player
@@ -263,4 +271,6 @@ stateInGame ...|> KeyObserver
 
 ObserveKey <... KeyPress
 KeyObserver <... KeyEvent
+
+stateInGame ..> PlayView
 @enduml
