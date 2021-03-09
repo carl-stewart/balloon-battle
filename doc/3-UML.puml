@@ -54,17 +54,6 @@ package view {
         + render(Graphics) : void
     }
 
-    interface PlayView {
-
-    }
-
-    interface MenuView {
-
-    }
-
-    interface CreditsView {
-
-    }
 
 }
 
@@ -126,14 +115,7 @@ package model {
     }
 
     package player {
-        interface IPlayable {
-            +flap() : void
-            +moveLeft : void
-            +
-        }
-
         class InAirState {
-            -player : Player
             +InAirState(Player)
             +onEnterState() : void
             +Flap() : void
@@ -143,7 +125,6 @@ package model {
         }
 
         class OnGroundState {
-            -player : Player
             +OnGroundState(Player)
             +onEnterState() : void
             +Flap() : void
@@ -151,7 +132,7 @@ package model {
             +MoveRight() : void
         }
 
-        interface PlayerState {
+        interface IPlayerState {
             +Flap() : void
             +MoveLeft() : void
             +MoveRight() : void
@@ -159,9 +140,8 @@ package model {
             +onEnterState() : void
         }
 
-        class Player {
-            -state : State
-            +Player()
+        abstract Player {
+            -state : PlayerState
             +changeStateTo(State) : void
             +Flap() : void
             +MoveLeft() : void
@@ -185,8 +165,6 @@ package model {
         -moveRight() : void
         -flap() : void
     }
-
-    Player ...> IMovable
 
     abstract Entity {
         - state : State
@@ -237,40 +215,28 @@ package model {
 
 Game --|> PlayerController
 
-PlayerController --> Player
 
 Game --+ GameState
 Entity --+ Direction
 
-InAirState ---> Player
-OnGroundState ---> Player
 
-Player *--> Balloon
-
+Player --> IPlayerState
 Enemy *--> Balloon
 
-Player ---> Entity
-PlayerState <-- Player
 
-PlayerState <... InAirState
-PlayerState <... OnGroundState
+IPlayerState <|... InAirState
+IPlayerState <|... OnGroundState
 
 Enemy --> HostileEntity
 HostileEntity ---> Entity
 
-IDisplayState <--- Display
-IDisplayState <.. stateMenu
-IDisplayState <.. stateCredits
-IDisplayState <.. stateInGame
-stateInGame --> Display
-stateCredits --> Display
-stateMenu --> Display
-stateMenu ..-|> KeyObserver
-stateCredits ...|> KeyObserver
-stateInGame ...|> KeyObserver
+Display --> IDisplayState
+IDisplayState <|.. stateMenu
+IDisplayState <|.. stateCredits
+IDisplayState <|.. stateInGame
+
 
 ObserveKey <... KeyPress
 KeyObserver <... KeyEvent
 
-stateInGame ..> PlayView
 @enduml

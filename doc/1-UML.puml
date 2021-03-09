@@ -97,12 +97,7 @@ package entities {
     +tick()
     }
 
-    enum BalloonColor {
-        RED
-        PINK
-        GREEN
-        YELLOW
-    }
+
 
 
     class Enemy {
@@ -110,21 +105,13 @@ package entities {
         + tick() : void
     }
 
-    enum EnemyColor {
-        PINK
-        GREEN
-        YELLOW
-    }
+
 
     abstract Entity {}
 
 
 
 
-    enum Direction {
-        LEFT
-        RIGHT
-    }
 
     class Player {
         + tick() : void
@@ -167,10 +154,10 @@ package java.awt {
     }
 }
 BallonBattle --|> Game
-Balloon +-- BalloonColor
 Balloon --|> Entity
 
 Enemy --|> Entity
+Game --|> Runnable
 
 Player --|> Entity
 Player --> Animation
@@ -190,10 +177,8 @@ Item --> Rectangle
 Item --> Graphics
 InputHandler +-- Key
 
-Entity +-- Direction
 Entity --> Animation
 
-Enemy +-- EnemyColor
 Enemy --> Animation
 
 
@@ -206,7 +191,7 @@ Game +--- GameState
 
 
 Game -- Level
-Game <|-- Platform
+Game <-- Platform
 
 Level --> Platform
 
